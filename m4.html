@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M4 Personas · ORBIS Italia × Ribrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#F2F5FA;--surface:#FFF;--surface2:#EBF0F8;--border:#D8E0EE;
+  --blue:#0050A0;--blue-mid:#1A72C8;--blue-light:#E8F1FB;
+  --energy:#D9730D;--energy-light:#FDF0E4;
+  --green:#1A9462;--green-light:#E4F5EE;
+  --ink:#0A1628;--ink2:#2E4060;--ink3:#5A7090;--ink4:#8FA4BC;
+  /* persona colors */
+  --pa:#0050A0;--pa-l:#E8F1FB; /* Alessandro */
+  --pb:#D9730D;--pb-l:#FDF0E4; /* Marco */
+  --pc:#1A9462;--pc-l:#E4F5EE; /* Lorenzo */
+}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden;padding-bottom:48px;cursor:none}
+@media(hover:none){body{cursor:auto}#cur{display:none}}
+#cur{position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:800;height:52px;background:rgba(242,245,250,.96);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border)}
+.tb-l{display:flex;align-items:center;gap:.85rem}
+.tb-logo{height:22px;object-fit:contain}
+.tb-sep{width:1px;height:16px;background:var(--border)}
+.tb-rlogo{height:11px;opacity:.3}
+.tb-r{display:flex;align-items:center;gap:.75rem}
+.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(217,115,13,.25);color:var(--energy);padding:3px 9px;border-radius:4px;background:var(--energy-light)}
+.tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
+.rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
+.rb-ham .h1{width:20px}.rb-ham .h2{width:14px}.rb-ham .h3{width:20px}
+.rb-ham.open .h1{width:20px;transform:translateY(6.5px) rotate(-45deg)}
+.rb-ham.open .h2{opacity:0;width:0}
+.rb-ham.open .h3{width:20px;transform:translateY(-6.5px) rotate(45deg)}
+#progress{position:fixed;top:52px;left:0;right:0;z-index:801;height:2px;background:var(--border)}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--pa),var(--pb),var(--pc));width:0%;transition:width .1s linear}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100svh;background:var(--surface);border-bottom:1px solid var(--border);padding:calc(52px + 3rem) 1.5rem 3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,80,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,80,160,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-top{position:relative;z-index:1}
+.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--energy);display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.hero-eyebrow::before{content:"";width:32px;height:1px;background:var(--energy)}
+.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:.92;letter-spacing:-.04em;color:var(--ink);margin-bottom:.75rem}
+.hero-title em{font-style:italic;font-weight:300;color:var(--energy)}
+.hero-sub{font-size:14px;color:var(--ink3);line-height:1.7;max-width:520px;margin-bottom:2.5rem}
+/* THREE PERSONA PREVIEW CARDS */
+.persona-previews{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;position:relative;z-index:1}
+@media(max-width:640px){.persona-previews{grid-template-columns:1fr}}
+.pp-card{padding:1.5rem;border-radius:16px;border:1px solid var(--ppc-border,var(--border));background:var(--ppc-bg,var(--surface));position:relative;overflow:hidden;cursor:default;transition:transform .25s,box-shadow .25s}
+.pp-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.pp-card-accent{position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0}
+.pp-num{font-family:"Afacad Flux",sans-serif;font-size:.85rem;font-weight:300;color:var(--ppc-c,var(--ink4));margin-bottom:.5rem;letter-spacing:.08em}
+.pp-name{font-family:"Afacad Flux",sans-serif;font-size:1.5rem;font-weight:400;line-height:1.05;color:var(--ink);margin-bottom:.2rem}
+.pp-role{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ppc-c,var(--ink4));margin-bottom:.85rem}
+.pp-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.pp-tag{font-size:9px;letter-spacing:.06em;padding:2px 7px;border-radius:4px;background:var(--ppc-bg-tag,var(--surface2));color:var(--ppc-c,var(--ink3))}
+.pp-age{position:absolute;bottom:1rem;right:1rem;font-family:"Afacad Flux",sans-serif;font-size:2.5rem;font-weight:300;line-height:1;color:rgba(0,0,0,.06);letter-spacing:-.04em}
+
+/* ═══ PERSONA CHAPTER ═══ */
+.persona-chapter{border-top:1px solid var(--border)}
+
+/* CITAZIONE FULL BLEED */
+.citation-block{padding:4.5rem 1.5rem;position:relative;overflow:hidden}
+.cb-bg-num{position:absolute;right:-3%;top:-10%;font-family:"Afacad Flux",sans-serif;font-size:clamp(14rem,45vw,44rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.05);pointer-events:none;user-select:none}
+.cb-inner{position:relative;z-index:1;max-width:900px}
+.cb-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem}
+.cb-tag::before{content:"";width:20px;height:1px;background:rgba(255,255,255,.3)}
+.cb-quote{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.3rem,3.5vw,2.6rem);font-weight:300;line-height:1.25;letter-spacing:-.015em;color:rgba(255,255,255,.85)}
+.cb-quote em{font-style:italic;font-weight:300}
+.cb-pills{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.75rem}
+.cb-pill{font-size:10px;letter-spacing:.08em;padding:.3rem .85rem;border-radius:99px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);font-family:"DM Sans",sans-serif}
+
+/* PERSONA BODY */
+.persona-body{padding:3.5rem 1.5rem;background:var(--surface)}
+.pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem 4rem;align-items:start}
+@media(max-width:700px){.pb-grid{grid-template-columns:1fr}}
+
+/* PAIN POINTS */
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.pain-card{padding:.85rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--bg);display:flex;gap:.6rem;align-items:flex-start;transition:border-color .2s}
+.pain-card:hover{border-color:var(--pc-c,var(--energy))}
+.pain-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem}
+.pain-text{font-size:12px;color:var(--ink2);line-height:1.55}
+.pain-text strong{font-weight:500;color:var(--ink)}
+
+/* TIMING VISUAL */
+.timing-block{background:var(--surface2);border-radius:12px;padding:1.25rem}
+.timing-title{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:1rem}
+.day-arc{display:flex;align-items:flex-end;gap:3px;height:48px;margin-bottom:.75rem}
+.da-bar{flex:1;border-radius:3px 3px 0 0;background:var(--surface);transition:height .8s cubic-bezier(0.16,1,0.3,1),background .3s}
+.da-bar.active{background:var(--pc-active,var(--blue))}
+.da-hours{display:flex;justify-content:space-between}
+.da-h{font-size:8px;color:var(--ink4);letter-spacing:.04em}
+.timing-windows{display:flex;flex-direction:column;gap:.4rem;margin-top:.85rem}
+.tw-row{display:flex;align-items:center;gap:.6rem}
+.tw-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.tw-text{font-size:12px;color:var(--ink3);line-height:1.4}
+
+/* CHANNEL CARD */
+.channel-grid{display:flex;flex-direction:column;gap:.5rem}
+.ch-card{padding:.75rem 1rem;border:1px solid var(--border);border-radius:10px;display:grid;grid-template-columns:80px 1fr auto;gap:.5rem;align-items:center;background:var(--surface)}
+.ch-name{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.ch-bar-wrap{flex:1}
+.ch-bar-track{height:4px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.ch-bar-fill{height:100%;border-radius:99px;width:0;transition:width 1.1s cubic-bezier(0.16,1,0.3,1)}
+.ch-level{font-size:10px;color:var(--ink4);font-family:"Afacad Flux",sans-serif;font-size:.85rem}
+
+/* REACH BOX */
+.reach-box{padding:1.25rem;border-radius:12px;border:2px dashed var(--pc-c,var(--blue))}
+.rb-title{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--pc-c,var(--blue));margin-bottom:.5rem}
+.rb-text{font-size:13px;color:var(--ink2);line-height:1.7}
+.rb-text strong{font-weight:500;color:var(--ink)}
+
+/* FRASE TIPICA */
+.frase-block{margin-top:1.5rem;padding:1.25rem;border-left:4px solid var(--pc-c,var(--energy));background:var(--bg);border-radius:0 10px 10px 0}
+.fb-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--pc-c,var(--energy));margin-bottom:.4rem}
+.fb-text{font-size:13px;color:var(--ink2);font-style:italic;line-height:1.7}
+
+/* ═══ FILIERA FINALE ═══ */
+.filiera-section{padding:4rem 1.5rem;background:var(--ink);border-top:1px solid var(--border);position:relative;overflow:hidden}
+.fs-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,80,160,.1) 0%,transparent 50%,rgba(217,115,13,.05) 100%);pointer-events:none}
+.fs-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
+.fs-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.5rem}
+.fs-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,4rem);font-weight:300;line-height:1.05;letter-spacing:-.03em;color:#fff;margin-bottom:.75rem}
+.fs-sub{font-size:14px;color:rgba(255,255,255,.4);line-height:1.75;max-width:560px;margin-bottom:2.5rem}
+.filiera-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.75rem;align-items:center}
+@media(max-width:600px){.filiera-flow{grid-template-columns:1fr;gap:1rem}}
+.ff-node{padding:1.25rem;border:1px solid var(--ff-color,rgba(255,255,255,.1));border-radius:14px;background:rgba(255,255,255,.04)}
+.ff-num{font-family:"Afacad Flux",sans-serif;font-size:2rem;font-weight:300;line-height:1;color:var(--ff-color,rgba(255,255,255,.2));letter-spacing:-.04em;margin-bottom:.4rem}
+.ff-name{font-size:13.5px;font-weight:500;color:rgba(255,255,255,.8);margin-bottom:.35rem}
+.ff-action{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+.ff-arrow{font-size:1.5rem;color:rgba(255,255,255,.2);text-align:center}
+@media(max-width:600px){.ff-arrow{transform:rotate(90deg)}}
+.filiera-insight{margin-top:2rem;padding:1.25rem;background:rgba(217,115,13,.08);border:1px solid rgba(217,115,13,.2);border-radius:12px}
+.fi-text{font-size:13.5px;color:rgba(255,255,255,.65);line-height:1.75}
+.fi-text strong{color:rgba(255,255,255,.9);font-weight:500}
+
+/* NAV */
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);gap:1rem;flex-wrap:wrap}
+.mnav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:color .2s}
+.mnav-back:hover{color:var(--blue)}
+.mnav-next{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;padding:.7rem 1.6rem;border-radius:99px;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,transform .15s}
+.mnav-next:hover{background:#0062C4;transform:translateY(-1px)}
+.mnav-next span{transition:transform .2s}
+.mnav-next:hover span{transform:translateX(3px)}
+
+/* GOOGLE QUERY BLOCK */
+.gq-block{padding:1rem 1.25rem;background:#F8F9FA;border:1px solid #E0E0E0;border-radius:10px;font-family:monospace;font-size:12.5px;color:#333;line-height:1.5;position:relative;overflow:hidden}
+.gq-block::before{content:"🔍";position:absolute;right:.85rem;top:.85rem;font-size:.9rem;opacity:.5}
+.gq-label{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<header class="topbar">
+  <div class="tb-l">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis" class="tb-logo">
+    <div class="tb-sep"></div>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <div class="tb-r">
+    <span class="tb-badge">04 · Personas</span>
+    <span class="tb-date">Maggio 2026</span>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-top">
+    <div class="hero-eyebrow" id="hE">Cruscotto Strategico · ORBIS Italia · Modulo 04</div>
+    <h1 class="hero-title" id="hT">Tre persone.<br><em>Tre modi</em><br>di comprare.</h1>
+    <p class="hero-sub" id="hS">Il grossista che vuole la rotazione a scaffale. L'installatore che teme la telefonata domenicale. Il proprietario che arriva dall'elettricista con il brand già scelto. Tre target, tre grammatiche comunicative, un solo ecosistema.</p>
+  </div>
+  <div class="persona-previews" id="ppCards">
+    <div class="pp-card" style="--ppc-c:var(--pa);--ppc-border:rgba(0,80,160,.2);--ppc-bg:rgba(232,241,251,.5);--ppc-bg-tag:rgba(232,241,251,1)">
+      <div class="pp-card-accent" style="background:var(--pa)"></div>
+      <div class="pp-num">01 — Il Grossista</div>
+      <div class="pp-name">Alessandro<br>Rinaldi</div>
+      <div class="pp-role">Resp. Acquisti · Nord Italia</div>
+      <div class="pp-tags">
+        <span class="pp-tag">48 anni</span>
+        <span class="pp-tag">B2B primario</span>
+        <span class="pp-tag">LinkedIn lurker</span>
+        <span class="pp-tag">TCO first</span>
+      </div>
+      <div class="pp-age">48</div>
+    </div>
+    <div class="pp-card" style="--ppc-c:var(--pb);--ppc-border:rgba(217,115,13,.2);--ppc-bg:rgba(253,240,228,.5);--ppc-bg-tag:rgba(253,240,228,1)">
+      <div class="pp-card-accent" style="background:var(--pb)"></div>
+      <div class="pp-num">02 — L'Installatore</div>
+      <div class="pp-name">Marco<br>Fabbris</div>
+      <div class="pp-role">Titolare PMI · Centro-Nord</div>
+      <div class="pp-tags">
+        <span class="pp-tag">42 anni</span>
+        <span class="pp-tag">B2B secondario</span>
+        <span class="pp-tag">YouTube first</span>
+        <span class="pp-tag">No call domenica</span>
+      </div>
+      <div class="pp-age">42</div>
+    </div>
+    <div class="pp-card" style="--ppc-c:var(--pc);--ppc-border:rgba(26,148,98,.2);--ppc-bg:rgba(228,245,238,.5);--ppc-bg-tag:rgba(228,245,238,1)">
+      <div class="pp-card-accent" style="background:var(--pc)"></div>
+      <div class="pp-num">03 — Early Adopter</div>
+      <div class="pp-name">Lorenzo<br>Altieri</div>
+      <div class="pp-role">Proprietario · 52 anni</div>
+      <div class="pp-tags">
+        <span class="pp-tag">52 anni</span>
+        <span class="pp-tag">B2C selettivo</span>
+        <span class="pp-tag">Google heavy</span>
+        <span class="pp-tag">ROI ossessivo</span>
+      </div>
+      <div class="pp-age">52</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     PERSONA 01: ALESSANDRO
+════════════════════════════ -->
+<div class="persona-chapter" id="pA">
+  <!-- Citazione -->
+  <div class="citation-block" style="background:#0A1628" id="cbA">
+    <div class="cb-bg-num" aria-hidden="true">01</div>
+    <div class="cb-inner">
+      <div class="cb-tag">Persona 01 — Alessandro Rinaldi · Il Grossista</div>
+      <p class="cb-quote">
+        "Il prezzo mi garantisce una poltrona al tavolo delle trattative. Ma sono
+        <em>l'indice di rotazione a magazzino, il supporto massiccio al sell-out</em>
+        e l'affidabilità logistica millimetrica che mi convincono
+        a blindare un brand a scaffale — e a difenderlo dalla concorrenza."
+      </p>
+      <div class="cb-pills">
+        <span class="cb-pill" style="border-color:rgba(0,80,160,.4);color:rgba(100,160,220,.8)">48 anni</span>
+        <span class="cb-pill" style="border-color:rgba(0,80,160,.4);color:rgba(100,160,220,.8)">Resp. Acquisti</span>
+        <span class="cb-pill" style="border-color:rgba(0,80,160,.4);color:rgba(100,160,220,.8)">Nord Italia</span>
+        <span class="cb-pill" style="border-color:rgba(0,80,160,.4);color:rgba(100,160,220,.8)">Fatturato €20–60M</span>
+        <span class="cb-pill" style="border-color:rgba(0,80,160,.4);color:rgba(100,160,220,.8)">Ing. Gestionale o Economia</span>
+      </div>
+    </div>
+  </div>
+  <!-- Body -->
+  <div class="persona-body" id="pbA">
+    <div class="pb-grid">
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">I suoi pain point principali</div>
+        <div class="pain-grid" id="painA">
+          <div class="pain-card" style="--pc-c:var(--pa)">
+            <div class="pain-icon">📉</div>
+            <div class="pain-text"><strong>Margini sotto pressione</strong> tra listini che salgono e sconti degli installatori che crescono.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pa)">
+            <div class="pain-icon">📦</div>
+            <div class="pain-text"><strong>Spazio scaffale</strong> da ottimizzare. Ogni nuova linea elimina qualcosa che già ruota.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pa)">
+            <div class="pain-icon">🔄</div>
+            <div class="pain-text"><strong>Tasso di reso</strong> (RMA) alto su device complessi. Costo amministrativo occulto devastante.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pa)">
+            <div class="pain-icon">📋</div>
+            <div class="pain-text"><strong>Cataloghi digitali</strong> non aggiornati. Manca BIM, mancano EAN, il portale B2B è lento.</div>
+          </div>
+        </div>
+        <div class="frase-block" style="--pc-c:var(--pa)">
+          <div class="fb-label">Frase tipica in trattativa</div>
+          <div class="fb-text">"Il prodotto tecnicamente è valido, i valori di ecosostenibilità ci sono. Ma se vi dedico due metri lineari di scaffale e immobilizzo capitale, voglio garanzie sulla rotazione: che supporto marketing reale mi offrite per far sì che gli installatori lo chiedano al banco?"</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">Quando trovarlo online</div>
+        <div class="timing-block" style="background:var(--pa-l)">
+          <div class="timing-title" style="color:var(--pa)">Finestre di attenzione digitale</div>
+          <div class="day-arc" id="dayArcA" style="--pc-active:var(--pa)">
+            <!-- bars for hours 8-18 generated by JS -->
+          </div>
+          <div class="da-hours" style="font-size:8px;color:var(--ink4)">
+            <span>08</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span>
+          </div>
+          <div class="timing-windows">
+            <div class="tw-row"><div class="tw-dot" style="background:var(--pa)"></div><div class="tw-text"><strong>10:00–12:00</strong> · LinkedIn martedì-giovedì (lurking analytics di settore)</div></div>
+            <div class="tw-row"><div class="tw-dot" style="background:var(--pa)"></div><div class="tw-text"><strong>14:30</strong> · LinkedIn primo pomeriggio (aggiornamenti normativi)</div></div>
+            <div class="tw-row"><div class="tw-dot" style="background:rgba(0,80,160,.3)"></div><div class="tw-text"><strong>08:00–10:00</strong> · ERP + email operativa (non raggiungibile)</div></div>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem">Canali per raggiungerlo</div>
+          <div class="channel-grid" id="chA">
+            <div class="ch-card">
+              <div class="ch-name">LinkedIn</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="95" style="background:var(--pa)"></div></div></div>
+              <div class="ch-level">★★★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">WhatsApp B.</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="70" style="background:var(--pa)"></div></div></div>
+              <div class="ch-level">★★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">Email</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="60" style="background:rgba(0,80,160,.4)"></div></div></div>
+              <div class="ch-level">★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">Facebook / IG</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="15" style="background:var(--border)"></div></div></div>
+              <div class="ch-level" style="color:var(--ink4)">★</div>
+            </div>
+          </div>
+        </div>
+        <div class="reach-box" style="--pc-c:var(--pa);margin-top:1rem;border-color:var(--pa)">
+          <div class="rb-title" style="color:var(--pa)">Come Orbis lo convince</div>
+          <div class="rb-text">Report dati mercato (SVETIM, Motus-E) su LinkedIn. <strong>Case study di sell-out reale</strong> con altri grossisti partner. Pacchetto: formazione banconisti + espositore VIARIS + incentivo trimestrale. Zero sorprese sul listino.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     PERSONA 02: MARCO
+════════════════════════════ -->
+<div class="persona-chapter" id="pM">
+  <div class="citation-block" style="background:#1A0D06" id="cbM">
+    <div class="cb-bg-num" aria-hidden="true">02</div>
+    <div class="cb-inner">
+      <div class="cb-tag">Persona 02 — Marco Fabbris · L'Installatore</div>
+      <p class="cb-quote">
+        "Non mi interessa minimamente quanto un prodotto sia <em>rivoluzionario sulla brochure</em>
+        commerciale. Se mi fa perdere mezza giornata in cantiere per configurare l'app
+        o se il cliente mi chiama di domenica mattina perché è saltata la corrente in tutta la casa —
+        io quel marchio <em>non lo monto mai più.</em>"
+      </p>
+      <div class="cb-pills">
+        <span class="cb-pill" style="border-color:rgba(217,115,13,.4);color:rgba(240,160,80,.8)">42 anni</span>
+        <span class="cb-pill" style="border-color:rgba(217,115,13,.4);color:rgba(240,160,80,.8)">2–10 dipendenti</span>
+        <span class="cb-pill" style="border-color:rgba(217,115,13,.4);color:rgba(240,160,80,.8)">Centro-Nord Italia</span>
+        <span class="cb-pill" style="border-color:rgba(217,115,13,.4);color:rgba(240,160,80,.8)">Diploma perito elettrico</span>
+      </div>
+    </div>
+  </div>
+  <div class="persona-body" id="pbM">
+    <div class="pb-grid">
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">I suoi pain point principali</div>
+        <div class="pain-grid" id="painM">
+          <div class="pain-card" style="--pc-c:var(--pb)">
+            <div class="pain-icon">⏱️</div>
+            <div class="pain-text"><strong>Perdita di tempo = perdita di margine.</strong> Una prima installazione fallita vale 2–3 interventi non pagati.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pb)">
+            <div class="pain-icon">📞</div>
+            <div class="pain-text"><strong>Assistenza irraggiungibile.</strong> Call center estero che non conosce il prodotto. Lui torna in cantiere gratis.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pb)">
+            <div class="pain-icon">⚡</div>
+            <div class="pain-text"><strong>Distacco del contatore.</strong> Wallbox senza modulazione = il cliente chiama la domenica urlando.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pb)">
+            <div class="pain-icon">📑</div>
+            <div class="pain-text"><strong>Burocrazia incentivi.</strong> Asseverazioni, dichiarazioni di conformità, rendicontazione PNRR: ore non fatturabili.</div>
+          </div>
+        </div>
+        <div class="frase-block" style="--pc-c:var(--pb)">
+          <div class="fb-label">Frase tipica con il cliente finale</div>
+          <div class="fb-text">"Signor Rossi, le installo questa wallbox Orbis perché dialoga con i suoi pannelli solari. Fa tutto da sola in automatico. Le garantisco che, anche se sua moglie accende il forno e la pompa di calore, <strong>non rimarrete mai al buio.</strong> Monto e garantisco solo cose che non mi faranno squillare il telefono la domenica."</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">Quando trovarlo online</div>
+        <div class="timing-block" style="background:var(--pb-l)">
+          <div class="timing-title" style="color:var(--pb)">Finestre di attenzione digitale</div>
+          <div class="day-arc" id="dayArcM" style="--pc-active:var(--pb)"></div>
+          <div class="da-hours" style="font-size:8px;color:var(--ink4)">
+            <span>08</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span>
+          </div>
+          <div class="timing-windows">
+            <div class="tw-row"><div class="tw-dot" style="background:var(--pb)"></div><div class="tw-text"><strong>12:30–13:30</strong> · Pausa pranzo in furgone (YouTube tutorial, reel Instagram)</div></div>
+            <div class="tw-row"><div class="tw-dot" style="background:var(--pb)"></div><div class="tw-text"><strong>18:00–20:00</strong> · In magazzino o a casa (YouTube approfondimenti, gruppi Facebook)</div></div>
+            <div class="tw-row"><div class="tw-dot" style="background:rgba(217,115,13,.3)"></div><div class="tw-text"><strong>La sera prima</strong> di una prima installazione nuova (YouTube "come si installa")</div></div>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem">Canali per raggiungerlo</div>
+          <div class="channel-grid" id="chM">
+            <div class="ch-card">
+              <div class="ch-name">YouTube</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="100" style="background:var(--pb)"></div></div></div>
+              <div class="ch-level">★★★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">Facebook / Gr.</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="80" style="background:var(--pb)"></div></div></div>
+              <div class="ch-level">★★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">Instagram</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="60" style="background:rgba(217,115,13,.5)"></div></div></div>
+              <div class="ch-level">★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">LinkedIn</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="20" style="background:var(--border)"></div></div></div>
+              <div class="ch-level" style="color:var(--ink4)">★</div>
+            </div>
+          </div>
+        </div>
+        <div class="reach-box" style="--pc-c:var(--pb);margin-top:1rem;border-color:var(--pb)">
+          <div class="rb-title" style="color:var(--pb)">Come Orbis lo convince</div>
+          <div class="rb-text"><strong>Video verticale 30 secondi:</strong> problema di cantiere → VIARIS Solar lo risolve. Zero configurazioni complicate dimostrate live. <strong>Numero verde tecnico italiano diretto.</strong> Tutorial YouTube installazione passo-passo. CTA: "Scarica lo schema elettrico unifilar."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     PERSONA 03: LORENZO
+════════════════════════════ -->
+<div class="persona-chapter" id="pL">
+  <div class="citation-block" style="background:#06150F" id="cbL">
+    <div class="cb-bg-num" aria-hidden="true">03</div>
+    <div class="cb-inner">
+      <div class="cb-tag">Persona 03 — Lorenzo Altieri · Early Adopter Green</div>
+      <p class="cb-quote">
+        "Per me non si tratta solamente di tagliare drasticamente la bolletta.
+        Voglio <em>ottimizzare scientificamente ogni singolo chilowattora</em>
+        che il mio tetto produce. Un ecosistema che gestisca i flussi in modo
+        intelligente e autonomo — e che mi lasci il controllo totale
+        <em>dal mio telefono, ovunque mi trovi.</em>"
+      </p>
+      <div class="cb-pills">
+        <span class="cb-pill" style="border-color:rgba(26,148,98,.4);color:rgba(80,200,140,.8)">52 anni</span>
+        <span class="cb-pill" style="border-color:rgba(26,148,98,.4);color:rgba(80,200,140,.8)">Villetta bifamiliare</span>
+        <span class="cb-pill" style="border-color:rgba(26,148,98,.4);color:rgba(80,200,140,.8)">Auto elettrica</span>
+        <span class="cb-pill" style="border-color:rgba(26,148,98,.4);color:rgba(80,200,140,.8)">Reddito medio-alto</span>
+        <span class="cb-pill" style="border-color:rgba(26,148,98,.4);color:rgba(80,200,140,.8)">Nord-Centro Italia</span>
+      </div>
+    </div>
+  </div>
+  <div class="persona-body" id="pbL">
+    <div class="pb-grid">
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">I suoi pain point principali</div>
+        <div class="pain-grid" id="painL">
+          <div class="pain-card" style="--pc-c:var(--pc)">
+            <div class="pain-icon">📜</div>
+            <div class="pain-text"><strong>Complessità normativa.</strong> Teme un errore nella documentazione che gli faccia perdere il Bonus Colonnine 80%.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pc)">
+            <div class="pain-icon">🔌</div>
+            <div class="pain-text"><strong>Distacco contatore</strong> di notte. La wallbox senza modulazione + lavatrice = blackout domestico alle 23:00.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pc)">
+            <div class="pain-icon">🏚️</div>
+            <div class="pain-text"><strong>Installatore non specializzato.</strong> Teme che gli proponga il prodotto con il margine più alto, non il migliore.</div>
+          </div>
+          <div class="pain-card" style="--pc-c:var(--pc)">
+            <div class="pain-icon">⏳</div>
+            <div class="pain-text"><strong>Obsolescenza tecnologica.</strong> Non vuole un sistema chiuso che tra 3 anni non parli con i nuovi standard smart home.</div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem">
+          <div class="gq-label">La sua query Google tipica (alle 23:00)</div>
+          <div class="gq-block">"Migliore wallbox trifase con gestione dinamica dei carichi e reale integrazione inverter fotovoltaico app in italiano"</div>
+        </div>
+        <div class="frase-block" style="--pc-c:var(--pc);margin-top:1rem">
+          <div class="fb-label">Frase tipica all'installatore (non chiede: dirige)</div>
+          <div class="fb-text">"Ho già valutato la serie VIARIS per via del bilanciamento dei carichi solari. Lei è in grado di installarmi questo specifico dispositivo e garantirmi la configurazione con l'app? Voglio vedere le modalità <strong>Green, Hybrid e Full</strong> funzionare tutte e tre prima di firmare."</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">Quando trovarlo online</div>
+        <div class="timing-block" style="background:var(--pc-l)">
+          <div class="timing-title" style="color:var(--pc)">Finestre di attenzione digitale</div>
+          <div class="day-arc" id="dayArcL" style="--pc-active:var(--pc)"></div>
+          <div class="da-hours" style="font-size:8px;color:var(--ink4)">
+            <span>08</span><span>12</span><span>15</span><span>18</span><span>21</span><span>23</span>
+          </div>
+          <div class="timing-windows">
+            <div class="tw-row"><div class="tw-dot" style="background:var(--pc)"></div><div class="tw-text"><strong>21:00–23:00</strong> · Divano + Smart TV (YouTube recensioni EV e FV, confronti wallbox)</div></div>
+            <div class="tw-row"><div class="tw-dot" style="background:var(--pc)"></div><div class="tw-text"><strong>Sabato/Domenica mattina</strong> · Forum FibraClick, Reddit r/ItalyMotori, gruppi Facebook FV</div></div>
+            <div class="tw-row"><div class="tw-dot" style="background:rgba(26,148,98,.3)"></div><div class="tw-text"><strong>Periodo pre-acquisto</strong> (settimane) · Google deep dive, calcoli Excel ROI, datasheet tecnici</div></div>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem">Canali per raggiungerlo</div>
+          <div class="channel-grid" id="chL">
+            <div class="ch-card">
+              <div class="ch-name">YouTube</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="95" style="background:var(--pc)"></div></div></div>
+              <div class="ch-level">★★★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">Google / SEO</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="90" style="background:var(--pc)"></div></div></div>
+              <div class="ch-level">★★★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">Facebook Gr.</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="65" style="background:rgba(26,148,98,.5)"></div></div></div>
+              <div class="ch-level">★★★</div>
+            </div>
+            <div class="ch-card">
+              <div class="ch-name">Instagram</div>
+              <div class="ch-bar-wrap"><div class="ch-bar-track"><div class="ch-bar-fill" data-w="40" style="background:rgba(26,148,98,.3)"></div></div></div>
+              <div class="ch-level">★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="reach-box" style="--pc-c:var(--pc);margin-top:1rem;border-color:var(--pc)">
+          <div class="rb-title" style="color:var(--pc)">Come Orbis lo convince</div>
+          <div class="rb-text">Carosello Instagram: <strong>"Calcola quanto risparmi con VIARIS Solar in 12 mesi."</strong> YouTube pre-roll su video test EV. Google Search su query tecniche a coda lunga. CTA mai emotiva: sempre una <strong>guida pratica agli incentivi 2026</strong> o un calcolatore ROI scaricabile.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LA FILIERA ═══ -->
+<section class="filiera-section" id="sFiliera">
+  <div class="fs-bg" aria-hidden="true"></div>
+  <div class="fs-inner">
+    <div class="fs-tag">La connessione tra i tre</div>
+    <h2 class="fs-title">Non tre target separati.<br>Un'unica filiera.</h2>
+    <p class="fs-sub">Il successo della comunicazione Orbis dipende dall'attivazione sequenziale e sincronizzata di tutti e tre i nodi. Saltarne uno rompe la catena.</p>
+    <div class="filiera-flow" id="filiFlow">
+      <div class="ff-node" style="--ff-color:rgba(0,80,160,.5)">
+        <div class="ff-num" style="color:rgba(0,80,160,.4)">01</div>
+        <div class="ff-name" style="color:rgba(100,160,220,.9)">Alessandro<br>il Grossista</div>
+        <div class="ff-action">Mette VIARIS a catalogo. Lo difende dalla concorrenza. Forma i banconisti.</div>
+      </div>
+      <div class="ff-arrow" id="fa1">→</div>
+      <div class="ff-node" style="--ff-color:rgba(217,115,13,.5)">
+        <div class="ff-num" style="color:rgba(217,115,13,.4)">02</div>
+        <div class="ff-name" style="color:rgba(240,160,80,.9)">Marco<br>l'Installatore</div>
+        <div class="ff-action">Compra dal grossista. Installa. Garantisce. Consiglia attivamente al cliente.</div>
+      </div>
+      <div class="ff-arrow" id="fa2">→</div>
+      <div class="ff-node" style="--ff-color:rgba(26,148,98,.5)">
+        <div class="ff-num" style="color:rgba(26,148,98,.4)">03</div>
+        <div class="ff-name" style="color:rgba(80,200,140,.9)">Lorenzo<br>Early Adopter</div>
+        <div class="ff-action">Arriva già con VIARIS in testa. Chiede esplicitamente il brand. Paga premium.</div>
+      </div>
+    </div>
+    <div class="filiera-insight" id="fInsight">
+      <p class="fi-text">Lorenzo cerca su Google e arriva dall'installatore già convinto. <strong>L'installatore va dal grossista e chiede VIARIS.</strong> Il grossista lo tiene a stock perché ruota velocemente. La domanda nasce dal basso e risale la filiera. <strong>La comunicazione digitale di Orbis deve alimentare tutti e tre i nodi contemporaneamente</strong> — ma con linguaggi e formati completamente diversi per ciascuno.</p>
+    </div>
+  </div>
+</section>
+
+<nav class="mod-nav">
+  <a href="m3.html" class="mnav-back">← M3 Social Audit</a>
+  <a href="m5.html" class="mnav-next">M5 Architettura Editoriale <span>→</span></a>
+</nav>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+var cur=document.getElementById("cur");
+document.addEventListener("mousemove",function(e){gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.1,ease:"none"});});
+document.querySelectorAll("a,button").forEach(function(el){
+  el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#D9730D",duration:.15});});
+  el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#0050A0",duration:.15});});
+});
+ScrollTrigger.create({trigger:"body",start:"top top",end:"bottom bottom",onUpdate:function(self){document.getElementById("progress-fill").style.width=(self.progress*100)+"%";}});
+
+/* hero */
+gsap.fromTo("#hE",{opacity:0,y:10},{opacity:1,y:0,duration:.7,delay:.2,ease:"power3.out"});
+gsap.fromTo("#hT",{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.35,ease:"power3.out"});
+gsap.fromTo("#hS",{opacity:0,y:18},{opacity:1,y:0,duration:.8,delay:.6,ease:"power3.out"});
+gsap.fromTo("#ppCards .pp-card",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.15,delay:.9,ease:"power3.out"});
+
+/* day arc builder */
+function buildDayArc(id,activeHours,color){
+  var el=document.getElementById(id);if(!el)return;
+  var hours=10;
+  for(var i=0;i<hours;i++){
+    var d=document.createElement("div");
+    d.className="da-bar";
+    var active=activeHours.indexOf(i)>-1;
+    if(active)d.classList.add("active");
+    d.style.height="4px";
+    el.appendChild(d);
+    (function(bar,a,col){
+      ScrollTrigger.create({trigger:el,start:"top 80%",once:true,onEnter:function(){
+        gsap.to(bar,{height:(a?Math.random()*28+12:Math.random()*8+2)+"px",duration:.6,delay:.3+Math.random()*.4,ease:"power2.out"});
+        if(a)bar.style.background=col;
+      }});
+    })(d,active,color||"var(--blue)");
+  }
+}
+buildDayArc("dayArcA",[2,3,6],"#0050A0");    /* 10:00, 11:00, 14:00 */
+buildDayArc("dayArcM",[4,5,9,10],"#D9730D");  /* 12:30, 13:30, 18:00, 19:00 */
+buildDayArc("dayArcL",[9,10,0],"#1A9462");    /* 21:00+, weekend AM */
+
+/* citation blocks */
+["#cbA","#cbM","#cbL"].forEach(function(sel){
+  var el=document.querySelector(sel);if(!el)return;
+  gsap.fromTo(el.querySelector(".cb-inner"),{opacity:0,y:28},{opacity:1,y:0,duration:.85,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 78%",once:true}});
+});
+
+/* persona bodies */
+["#pbA","#pbM","#pbL"].forEach(function(sel){
+  var el=document.querySelector(sel);if(!el)return;
+  ScrollTrigger.create({trigger:el,start:"top 75%",once:true,onEnter:function(){
+    gsap.fromTo(el.querySelectorAll(".pain-card"),{opacity:0,y:12},{opacity:1,y:0,duration:.5,stagger:.08,ease:"power3.out"});
+    gsap.fromTo(el.querySelectorAll(".frase-block, .gq-block, .reach-box, .timing-block"),{opacity:0,y:12},{opacity:1,y:0,duration:.6,stagger:.1,delay:.2,ease:"power3.out"});
+    /* channel bars */
+    el.querySelectorAll(".ch-bar-fill").forEach(function(f,i){
+      gsap.fromTo(f,{width:"0%"},{width:f.getAttribute("data-w")+"%",duration:1.1,delay:.4+i*.1,ease:"power3.out"});
+    });
+  }});
+});
+
+/* filiera */
+ScrollTrigger.create({trigger:"#sFiliera",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#filiFlow .ff-node",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.15,ease:"power3.out"});
+  gsap.fromTo("#filiFlow .ff-arrow",{opacity:0,scale:.3},{opacity:1,scale:1,duration:.4,stagger:.15,delay:.6,ease:"back.out(2)"});
+  gsap.fromTo("#fInsight",{opacity:0,y:16},{opacity:1,y:0,duration:.7,delay:.9,ease:"power3.out"});
+}});
+</script>
+
+<script>
+(function(){
+var M=[
+  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},
+  {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},
+  {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
+  {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
+  {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
+  {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
+  {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
+];
+var path='m4';
+var st=document.createElement('style');
+st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
+document.head.appendChild(st);
+var ov=document.createElement('div');ov.className='rbov';
+var ih='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
+document.body.appendChild(ov);
+var mo=false,btn=document.getElementById('rbHamBtn');
+function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
+function close(){mo=false;btn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+btn.addEventListener('click',function(){if(mo)close();else open();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mo)close();});
+ov.addEventListener('click',function(e){if(e.target===ov)close();});
+var nb=document.createElement('nav');nb.id='rbnav';var nbH='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" class="rnav-a'+(a?' active':'')+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
+nb.innerHTML=nbH;document.body.appendChild(nb);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M6 Piano Media · ORBIS Italia × Ribrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#F2F5FA;--surface:#FFF;--surface2:#EBF0F8;--border:#D8E0EE;
+  --blue:#0050A0;--blue-mid:#1A72C8;--blue-light:#E8F1FB;
+  --energy:#D9730D;--energy-light:#FDF0E4;
+  --green:#1A9462;--green-light:#E4F5EE;
+  --ink:#0A1628;--ink2:#2E4060;--ink3:#5A7090;--ink4:#8FA4BC;
+}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden;padding-bottom:48px;cursor:none}
+@media(hover:none){body{cursor:auto}#cur{display:none}}
+#cur{position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:800;height:52px;background:rgba(242,245,250,.96);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border)}
+.tb-l{display:flex;align-items:center;gap:.85rem}
+.tb-logo{height:22px;object-fit:contain}
+.tb-sep{width:1px;height:16px;background:var(--border)}
+.tb-rlogo{height:11px;opacity:.3}
+.tb-r{display:flex;align-items:center;gap:.75rem}
+.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(0,80,160,.25);color:var(--blue-mid);padding:3px 9px;border-radius:4px;background:var(--blue-light)}
+.tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
+.rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
+.rb-ham .h1{width:20px}.rb-ham .h2{width:14px}.rb-ham .h3{width:20px}
+.rb-ham.open .h1{width:20px;transform:translateY(6.5px) rotate(-45deg)}
+.rb-ham.open .h2{opacity:0;width:0}
+.rb-ham.open .h3{width:20px;transform:translateY(-6.5px) rotate(45deg)}
+#progress{position:fixed;top:52px;left:0;right:0;z-index:801;height:2px;background:var(--border)}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--energy));width:0%;transition:width .1s linear}
+
+/* HERO */
+.hero{min-height:100svh;background:var(--surface);border-bottom:1px solid var(--border);padding:calc(52px + 3rem) 1.5rem 3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,80,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,80,160,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-blob{position:absolute;top:-10%;right:-8%;width:55vw;height:55vw;border-radius:50%;background:radial-gradient(circle,rgba(26,114,200,.06) 0%,transparent 65%);pointer-events:none}
+.hero-top{position:relative;z-index:1}
+.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-mid);display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.hero-eyebrow::before{content:"";width:32px;height:1px;background:var(--blue-mid)}
+.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:.92;letter-spacing:-.04em;color:var(--ink);margin-bottom:.75rem}
+.hero-title em{font-style:italic;font-weight:300;color:var(--blue)}
+.hero-sub{font-size:14px;color:var(--ink3);line-height:1.7;max-width:520px;margin-bottom:2.5rem}
+.hero-dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;position:relative;z-index:1}
+@media(max-width:600px){.hero-dual{grid-template-columns:1fr}}
+.hd-card{padding:1.5rem;border-radius:14px;border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden}
+.hd-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.hd-card.awareness::before{background:linear-gradient(90deg,var(--blue),var(--blue-mid))}
+.hd-card.leadgen::before{background:linear-gradient(90deg,var(--energy),#F5A030)}
+.hd-num{font-family:"Afacad Flux",sans-serif;font-size:clamp(3rem,8vw,6rem);font-weight:300;line-height:.88;letter-spacing:-.06em;margin-bottom:.5rem}
+.hd-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4)}
+.hd-desc{font-size:12.5px;color:var(--ink3);line-height:1.6;margin-top:.4rem}
+.hd-weight{display:flex;align-items:center;gap:.5rem;margin-top:.85rem}
+.hw-label{font-size:10px;color:var(--ink4)}
+.hw-bar{flex:1;height:4px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.hw-fill{height:100%;border-radius:99px;width:0;transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
+
+/* INTERLUDE */
+.interlude{padding:4.5rem 1.5rem;background:#0A1628;position:relative;overflow:hidden}
+.int-bg{position:absolute;right:-3%;top:-20%;font-family:"Afacad Flux",sans-serif;font-size:clamp(14rem,45vw,44rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.03);pointer-events:none;user-select:none}
+.int-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
+.int-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.5rem}
+.int-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:300;line-height:1.1;color:rgba(255,255,255,.8);margin-bottom:2rem}
+.int-title strong{font-weight:500;color:#fff}
+.calc-rows{display:flex;flex-direction:column;gap:.65rem}
+.cr{display:flex;align-items:center;gap:1rem;padding:.85rem 1rem;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)}
+.cr-l{font-size:12px;color:rgba(255,255,255,.45);flex:1;line-height:1.4}
+.cr-v{font-family:"Afacad Flux",sans-serif;font-size:1.35rem;font-weight:300;color:#fff;white-space:nowrap}
+.cr-op{font-size:1rem;color:rgba(255,255,255,.2);width:24px;text-align:center;flex-shrink:0}
+.cr.result{background:rgba(217,115,13,.12);border-color:rgba(217,115,13,.3)}
+.cr.result .cr-v{color:#D9730D;font-size:1.85rem}
+.int-note{margin-top:1.25rem;font-size:13px;color:rgba(255,255,255,.35);line-height:1.7;font-style:italic}
+.int-note strong{color:rgba(255,255,255,.6);font-style:normal}
+
+/* SEZIONI */
+.section{padding:4rem 1.5rem;border-top:1px solid var(--border)}
+.section.white{background:var(--surface)}
+.section.grey{background:var(--bg)}
+.max-w{max-width:1100px;margin:0 auto}
+.sec-header{margin-bottom:2rem}
+.sec-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.sec-tag::before{content:"";width:14px;height:1px;background:var(--stc,var(--blue))}
+.sec-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink)}
+.sec-sub{font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:560px;margin-top:.6rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2rem 4rem;align-items:start}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+
+/* CANALI */
+.ch-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:700px){.ch-cards{grid-template-columns:1fr}}
+.ch-card{padding:1.4rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);position:relative;overflow:hidden;transition:box-shadow .25s,transform .25s}
+.ch-card:hover{box-shadow:0 6px 22px rgba(0,0,0,.08);transform:translateY(-2px)}
+.ch-accent{position:absolute;top:0;left:0;right:0;height:4px;border-radius:14px 14px 0 0}
+.ch-icon-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem}
+.ch-icon{font-size:1.4rem}
+.ch-name-block{}
+.ch-name{font-family:"Afacad Flux",sans-serif;font-size:1.15rem;font-weight:400;color:var(--ink);line-height:1}
+.ch-sub{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4)}
+.ch-obj-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem}
+.ch-obj{font-size:9px;letter-spacing:.06em;padding:2px 7px;border-radius:4px}
+.ch-stats{display:flex;flex-direction:column;gap:.3rem}
+.ch-stat{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
+.ch-stat-val{font-family:"Afacad Flux",sans-serif;font-size:.95rem;color:var(--ink2);font-weight:400}
+.ch-desc{font-size:12px;color:var(--ink3);line-height:1.6;border-top:1px solid var(--border);padding-top:.75rem;margin-top:.5rem}
+
+/* SCENARI */
+.sc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem}
+@media(max-width:700px){.sc-grid{grid-template-columns:1fr}}
+.sc{border-radius:16px;border:1px solid var(--border);background:var(--surface);overflow:hidden;transition:box-shadow .25s,transform .25s;position:relative}
+.sc:hover{box-shadow:0 8px 28px rgba(0,0,0,.08);transform:translateY(-3px)}
+.sc.rec{border-color:rgba(0,80,160,.35);box-shadow:0 4px 16px rgba(0,80,160,.08)}
+.sc-top{height:5px;width:100%}
+.sc-h{padding:1.25rem 1.25rem .85rem}
+.sc-badge{font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:4px;display:inline-flex;margin-bottom:.5rem}
+.sc-name{font-family:"Afacad Flux",sans-serif;font-size:1.4rem;font-weight:400;color:var(--ink);line-height:1}
+.sc-tagline{font-size:11px;color:var(--ink3);margin-top:.25rem;line-height:1.4}
+.sc-price-row{padding:.75rem 1.25rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:.4rem}
+.sc-price{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,2.8rem);font-weight:300;letter-spacing:-.04em;line-height:1}
+.sc-unit{font-size:11px;color:var(--ink4)}
+.sc-body{padding:1rem 1.25rem}
+.sc-breakdown{margin-bottom:.85rem}
+.sc-ch-row{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;padding:.25rem 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.sc-ch-row:last-child{border-bottom:none}
+.sc-ch-name{color:var(--ink3)}
+.sc-ch-amt{font-family:"Afacad Flux",sans-serif;font-size:.95rem;font-weight:400}
+.sc-kpis{padding:.75rem;background:var(--bg);border-radius:8px;display:flex;flex-direction:column;gap:.25rem}
+.sc-kpi-row{display:flex;justify-content:space-between;font-size:11px}
+.sc-kpi-l{color:var(--ink4)}
+.sc-kpi-v{font-family:"Afacad Flux",sans-serif;font-size:.9rem}
+.rec-ribbon{position:absolute;top:.85rem;right:.85rem;background:var(--blue);color:#fff;font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:1.5rem}
+@media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr}}
+.kpi-card{padding:1.25rem;border:1px solid var(--border);border-radius:12px;background:var(--bg);text-align:center;transition:border-color .2s}
+.kpi-card:hover{border-color:var(--kc,var(--blue-mid))}
+.kpi-icon{font-size:1.4rem;display:block;margin-bottom:.5rem}
+.kpi-name{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.35rem}
+.kpi-val{font-family:"Afacad Flux",sans-serif;font-size:1.15rem;font-weight:400;color:var(--kc,var(--blue))}
+.kpi-note{font-size:10px;color:var(--ink4);margin-top:.25rem;line-height:1.4}
+
+/* PIANO 12 MESI */
+.quarters{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.5rem}
+@media(max-width:600px){.quarters{grid-template-columns:1fr}}
+.q-card{padding:1.25rem;border-radius:14px;border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden}
+.q-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+.q-badge{font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:4px;display:inline-flex;margin-bottom:.6rem}
+.q-title{font-family:"Afacad Flux",sans-serif;font-size:1.25rem;font-weight:400;color:var(--ink);margin-bottom:.2rem}
+.q-months{font-size:10px;color:var(--ink4);margin-bottom:.75rem;letter-spacing:.06em}
+.q-obj{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
+.q-obj-pill{font-size:9px;padding:2px 8px;border-radius:99px}
+.q-items{display:flex;flex-direction:column;gap:.3rem}
+.q-item{font-size:12px;color:var(--ink3);display:flex;gap:.5rem;line-height:1.4}
+.q-item::before{content:"→";color:var(--qi-c,var(--blue));flex-shrink:0;font-size:11px;margin-top:.05rem}
+.q-budget{margin-top:.85rem;padding:.5rem .75rem;border-radius:6px;display:flex;justify-content:space-between;align-items:center}
+.q-budget-l{font-size:10px;color:rgba(255,255,255,.5)}
+.q-budget-v{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;color:#fff;letter-spacing:-.02em}
+
+/* EXTRA */
+.extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+@media(max-width:600px){.extra-grid{grid-template-columns:1fr}}
+.ex-card{padding:1.25rem;border:1px solid var(--border);border-radius:14px;background:var(--bg);transition:border-color .2s,transform .2s}
+.ex-card:hover{border-color:var(--exc,var(--blue-mid));transform:translateY(-2px)}
+.ex-icon{font-size:1.3rem;margin-bottom:.5rem;display:block}
+.ex-title{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;color:var(--ink);margin-bottom:.3rem}
+.ex-sub{font-size:12px;color:var(--ink3);line-height:1.6}
+.ex-tag{font-size:9px;padding:2px 7px;border-radius:4px;display:inline-flex;margin-top:.5rem}
+
+/* PERIMETRO */
+.perim-section{padding:4rem 1.5rem;background:#0A1628;border-top:1px solid var(--border)}
+.perim-inner{max-width:900px;margin:0 auto}
+.perim-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.25rem}
+.perim-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:rgba(255,255,255,.8);margin-bottom:1.5rem}
+.perim-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:600px){.perim-grid{grid-template-columns:1fr}}
+.peri-card{padding:1.25rem;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(255,255,255,.04)}
+.peri-tier{font-family:"Afacad Flux",sans-serif;font-size:1.6rem;font-weight:300;line-height:1;margin-bottom:.4rem;letter-spacing:-.04em}
+.peri-name{font-size:13px;font-weight:500;margin-bottom:.5rem}
+.peri-items{display:flex;flex-direction:column;gap:.25rem}
+.peri-item{font-size:11px;color:rgba(255,255,255,.4);display:flex;gap:.4rem}
+.peri-item::before{content:"✓";color:rgba(26,148,98,.7);flex-shrink:0}
+.peri-note{margin-top:1.5rem;font-size:12.5px;color:rgba(255,255,255,.3);line-height:1.75;font-style:italic;border-top:1px solid rgba(255,255,255,.06);padding-top:1.25rem}
+
+/* NAV */
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);gap:1rem;flex-wrap:wrap}
+.mnav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:color .2s}
+.mnav-back:hover{color:var(--blue)}
+.mnav-next{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;padding:.7rem 1.6rem;border-radius:99px;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,transform .15s}
+.mnav-next:hover{background:#0062C4;transform:translateY(-1px)}
+.mnav-next span{transition:transform .2s}
+.mnav-next:hover span{transform:translateX(3px)}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<header class="topbar">
+  <div class="tb-l">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis" class="tb-logo">
+    <div class="tb-sep"></div>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <div class="tb-r">
+    <span class="tb-badge">06 · Piano Media</span>
+    <span class="tb-date">Maggio 2026</span>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="sHero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-blob" aria-hidden="true"></div>
+  <div class="hero-top">
+    <div class="hero-eyebrow" id="hE">Cruscotto Strategico · ORBIS Italia · Modulo 06</div>
+    <h1 class="hero-title" id="hT">Due obiettivi.<br><em>Un solo</em><br>piano. 12 mesi.</h1>
+    <p class="hero-sub" id="hS">Brand awareness e lead generation non sono alternativi: sono sequenziali e paralleli. Si costruisce la notorietà mentre si intercetta chi è già pronto a chiedere. Tre canali, tre scenari, quattro trimestri.</p>
+  </div>
+  <div class="hero-dual" id="hDual">
+    <div class="hd-card awareness">
+      <div class="hd-num" id="awNum" style="color:var(--blue)">70%</div>
+      <div class="hd-label">Brand Awareness · peso Q1–Q2</div>
+      <div class="hd-desc">Far sapere che Orbis e VIARIS esistono. Presidiare la mente di installatori e grossisti prima che inizino a comprare. LinkedIn + Meta broad.</div>
+      <div class="hd-weight">
+        <div class="hw-label">Peso budget</div>
+        <div class="hw-bar"><div class="hw-fill" data-w="70" style="background:var(--blue)"></div></div>
+      </div>
+    </div>
+    <div class="hd-card leadgen">
+      <div class="hd-num" id="lgNum" style="color:var(--energy)">30%</div>
+      <div class="hd-label">Lead Generation · scala dal Q3</div>
+      <div class="hd-desc">Intercettare chi sta già cercando: Lorenzo su Google Search long-tail, installatori su LinkedIn lead gen form. Scala al 50% dal secondo semestre.</div>
+      <div class="hd-weight">
+        <div class="hw-label">Peso budget</div>
+        <div class="hw-bar"><div class="hw-fill" data-w="30" style="background:var(--energy)"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVERSE ENGINEERING -->
+<section class="interlude" id="sRev">
+  <div class="int-bg" aria-hidden="true">€</div>
+  <div class="int-inner">
+    <div class="int-tag">Il calcolo del budget — reverse engineering</div>
+    <h2 class="int-title">Per far ricordare VIARIS a <strong>20.000 installatori</strong> in 8 settimane, servono esattamente questi numeri.</h2>
+    <div class="calc-rows" id="calcRows">
+      <div class="cr">
+        <div class="cr-l">Installatori elettrici attivi Nord-Centro Italia (target realistico su 30K totali)</div>
+        <div class="cr-op">=</div>
+        <div class="cr-v" id="rv1">0</div>
+      </div>
+      <div class="cr">
+        <div class="cr-l">Frequenza minima per creare ricordo di brand nelle prime 8 settimane (fonte Nielsen)</div>
+        <div class="cr-op">×</div>
+        <div class="cr-v">5×</div>
+      </div>
+      <div class="cr">
+        <div class="cr-l">Impression totali necessarie</div>
+        <div class="cr-op">=</div>
+        <div class="cr-v" id="rv2">0</div>
+      </div>
+      <div class="cr">
+        <div class="cr-l">CPM medio mix (LinkedIn targeting installatori ~€18 · Meta broad ~€5) — media ponderata</div>
+        <div class="cr-op">×</div>
+        <div class="cr-v">€10</div>
+      </div>
+      <div class="cr result">
+        <div class="cr-l" style="color:rgba(255,255,255,.7);font-weight:500">Budget per coprire l'obiettivo awareness iniziale — solo installatori</div>
+        <div class="cr-op" style="color:rgba(217,115,13,.4)">→</div>
+        <div class="cr-v" id="rv3">€0</div>
+      </div>
+    </div>
+    <p class="int-note" id="revNote">Questo copre solo gli installatori. <strong>Aggiungere grossisti e Lorenzo (Google Search) aumenta il budget — non diminuisce il ROI.</strong> Google Search ha CPC, non CPM: si paga solo quando Lorenzo clicca. Chi cerca "wallbox trifase gestione dinamica carichi" è già caldo: il costo per lead scende significativamente rispetto a un target freddo.</p>
+  </div>
+</section>
+
+<!-- TRE CANALI -->
+<section class="section white" id="sCanali">
+  <div class="max-w">
+    <div class="sec-header" id="shCh">
+      <div class="sec-tag" style="--stc:#0050A0">I tre canali</div>
+      <h2 class="sec-title">LinkedIn, Meta, Google.<br>Ciascuno con il suo ruolo.</h2>
+      <p class="sec-sub">Non esistono canali migliori in assoluto — esistono canali giusti per il target giusto e l'obiettivo giusto. La logica di questo piano: LinkedIn per il B2B professionale, Meta per la reach visuale, Google per intercettare chi cerca attivamente.</p>
+    </div>
+    <div class="ch-cards" id="chCards">
+      <!-- LinkedIn -->
+      <div class="ch-card">
+        <div class="ch-accent" style="background:linear-gradient(90deg,#0A66C2,#1A72C8)"></div>
+        <div class="ch-icon-row">
+          <div class="ch-icon">💼</div>
+          <div class="ch-name-block">
+            <div class="ch-name">LinkedIn Ads</div>
+            <div class="ch-sub">B2B Professionale</div>
+          </div>
+        </div>
+        <div class="ch-obj-row">
+          <span class="ch-obj" style="background:var(--blue-light);color:var(--blue)">Awareness</span>
+          <span class="ch-obj" style="background:var(--energy-light);color:var(--energy)">Lead gen form</span>
+        </div>
+        <div class="ch-stats">
+          <div class="ch-stat"><span>Target principale</span><span class="ch-stat-val" style="color:var(--blue)">Alessandro + Marco</span></div>
+          <div class="ch-stat"><span>CPM stimato</span><span class="ch-stat-val">€15–22</span></div>
+          <div class="ch-stat"><span>Formato top</span><span class="ch-stat-val">Post boostato + Lead Gen Form</span></div>
+          <div class="ch-stat"><span>Peso budget Sc. B</span><span class="ch-stat-val">€1.500/mese</span></div>
+        </div>
+        <p class="ch-desc">Il canale con il targeting B2B più preciso in assoluto: si raggiungono persone per settore, qualifica, dimensione azienda, interessi. Lead Gen Form nativa: l'installatore lascia email senza uscire da LinkedIn. Costo per lead B2B stimato: €25–45.</p>
+      </div>
+      <!-- Meta -->
+      <div class="ch-card">
+        <div class="ch-accent" style="background:linear-gradient(90deg,#1877F2,#E1306C)"></div>
+        <div class="ch-icon-row">
+          <div class="ch-icon">📱</div>
+          <div class="ch-name-block">
+            <div class="ch-name">Meta Ads</div>
+            <div class="ch-sub">Facebook + Instagram</div>
+          </div>
+        </div>
+        <div class="ch-obj-row">
+          <span class="ch-obj" style="background:var(--blue-light);color:var(--blue)">Awareness VIARIS</span>
+          <span class="ch-obj" style="background:var(--green-light);color:var(--green)">Retargeting</span>
+        </div>
+        <div class="ch-stats">
+          <div class="ch-stat"><span>Target principale</span><span class="ch-stat-val" style="color:var(--energy)">Lorenzo + installatori</span></div>
+          <div class="ch-stat"><span>CPM stimato</span><span class="ch-stat-val">€4–8</span></div>
+          <div class="ch-stat"><span>Formato top</span><span class="ch-stat-val">Video 15s + Carosello</span></div>
+          <div class="ch-stat"><span>Peso budget Sc. B</span><span class="ch-stat-val">€1.000/mese</span></div>
+        </div>
+        <p class="ch-desc">CPM più basso, reach più alta. Ideale per video brevi VIARIS (hook 2 secondi, problema→soluzione). Targeting per interessi: proprietari auto elettrica, domotica, risparmio energetico. Retargeting su chi ha visitato orbisitalia.it.</p>
+      </div>
+      <!-- Google Search -->
+      <div class="ch-card">
+        <div class="ch-accent" style="background:linear-gradient(90deg,#4285F4,#34A853,#FBBC05,#EA4335)"></div>
+        <div class="ch-icon-row">
+          <div class="ch-icon">🔍</div>
+          <div class="ch-name-block">
+            <div class="ch-name">Google Search</div>
+            <div class="ch-sub">Intercettazione attiva</div>
+          </div>
+        </div>
+        <div class="ch-obj-row">
+          <span class="ch-obj" style="background:var(--energy-light);color:var(--energy)">Lead gen qualificato</span>
+        </div>
+        <div class="ch-stats">
+          <div class="ch-stat"><span>Target principale</span><span class="ch-stat-val" style="color:var(--green)">Lorenzo — ricerca attiva</span></div>
+          <div class="ch-stat"><span>Modello pricing</span><span class="ch-stat-val">CPC — si paga al click</span></div>
+          <div class="ch-stat"><span>Query target</span><span class="ch-stat-val">Long-tail VIARIS</span></div>
+          <div class="ch-stat"><span>Peso budget Sc. B</span><span class="ch-stat-val">€500/mese</span></div>
+        </div>
+        <div style="margin-top:.75rem;padding:.65rem .85rem;background:#F8F9FA;border-radius:8px;font-family:monospace;font-size:11px;color:#333;line-height:1.5">
+          "wallbox trifase gestione dinamica carichi"<br>"VIARIS Solar prezzi installazione"<br>"wallbox integrazione fotovoltaico app"
+        </div>
+        <p class="ch-desc" style="margin-top:.5rem">Lorenzo arriva già convinto. Google Search intercetta quel momento preciso della decisione. CPC stimato €1,50–3,50 su long-tail. Costo per lead qualificato: il più basso dei tre canali.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRE SCENARI -->
+<section class="section grey" id="sScenari">
+  <div class="max-w">
+    <div class="sec-header" id="shSc">
+      <div class="sec-tag" style="--stc:#0050A0">I tre scenari</div>
+      <h2 class="sec-title">Tre livelli.<br>Tre impatti diversi.</h2>
+      <p class="sec-sub">Come promesso in call, tre opzioni concrete da presentare a Stefano e Laura. Il budget advertising è costo diretto Orbis verso le piattaforme — separato dal compenso Ribrain.</p>
+    </div>
+    <div class="sc-grid" id="scGrid">
+      <!-- A -->
+      <div class="sc">
+        <div class="sc-top" style="background:linear-gradient(90deg,#8FA4BC,#D8E0EE)"></div>
+        <div class="sc-h">
+          <div class="sc-badge" style="background:var(--surface2);color:var(--ink4)">Entry Level</div>
+          <div class="sc-name">Scenario A</div>
+          <div class="sc-tagline">Test dei canali. Baseline di dati per scalare.</div>
+        </div>
+        <div class="sc-price-row">
+          <div class="sc-price" id="saP" style="color:#8FA4BC">€0</div>
+          <div class="sc-unit">/mese advertising</div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-breakdown">
+            <div class="sc-ch-row"><span class="sc-ch-name">LinkedIn Ads</span><span class="sc-ch-amt" style="color:#8FA4BC">€700</span></div>
+            <div class="sc-ch-row"><span class="sc-ch-name">Meta Ads</span><span class="sc-ch-amt" style="color:#8FA4BC">€400</span></div>
+            <div class="sc-ch-row"><span class="sc-ch-name">Google Search</span><span class="sc-ch-amt" style="color:#8FA4BC">€150</span></div>
+          </div>
+          <div class="sc-kpis">
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Reach mensile</span><span class="sc-kpi-v" style="color:#8FA4BC">~15K</span></div>
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Lead attesi/mese</span><span class="sc-kpi-v" style="color:#8FA4BC">3–8</span></div>
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Installatori raggiunti</span><span class="sc-kpi-v" style="color:#8FA4BC">~3K</span></div>
+          </div>
+          <div style="margin-top:.65rem;font-size:11px;color:var(--ink3)">✓ Post boostati ✓ Google Search base · ✗ Lead Gen Form LI · ✗ Retargeting</div>
+        </div>
+      </div>
+      <!-- B CONSIGLIATO -->
+      <div class="sc rec">
+        <div class="rec-ribbon">Consigliato</div>
+        <div class="sc-top" style="background:linear-gradient(90deg,var(--blue-mid),var(--blue))"></div>
+        <div class="sc-h">
+          <div class="sc-badge" style="background:var(--blue-light);color:var(--blue)">Mid · Consigliato</div>
+          <div class="sc-name">Scenario B</div>
+          <div class="sc-tagline">Equilibrio ottimale tra copertura, qualità del dato e costo per lead.</div>
+        </div>
+        <div class="sc-price-row">
+          <div class="sc-price" id="sbP" style="color:var(--blue)">€0</div>
+          <div class="sc-unit">/mese advertising</div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-breakdown">
+            <div class="sc-ch-row"><span class="sc-ch-name">LinkedIn Ads</span><span class="sc-ch-amt" style="color:var(--blue)">€1.500</span></div>
+            <div class="sc-ch-row"><span class="sc-ch-name">Meta Ads</span><span class="sc-ch-amt" style="color:var(--blue)">€1.000</span></div>
+            <div class="sc-ch-row"><span class="sc-ch-name">Google Search</span><span class="sc-ch-amt" style="color:var(--blue)">€500</span></div>
+          </div>
+          <div class="sc-kpis">
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Reach mensile</span><span class="sc-kpi-v" style="color:var(--blue)">~50K</span></div>
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Lead attesi/mese</span><span class="sc-kpi-v" style="color:var(--blue)">12–25</span></div>
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Installatori raggiunti</span><span class="sc-kpi-v" style="color:var(--blue)">~12K</span></div>
+          </div>
+          <div style="margin-top:.65rem;font-size:11px;color:var(--ink3)">✓ Lead Gen Form LI ✓ Retargeting ✓ Google Search strutturato ✓ A/B test creatività</div>
+        </div>
+      </div>
+      <!-- C -->
+      <div class="sc">
+        <div class="sc-top" style="background:linear-gradient(90deg,var(--blue),#003870)"></div>
+        <div class="sc-h">
+          <div class="sc-badge" style="background:var(--blue-light);color:var(--blue)">Full Reach</div>
+          <div class="sc-name">Scenario C</div>
+          <div class="sc-tagline">Massima copertura, retargeting avanzato, campagne fiere.</div>
+        </div>
+        <div class="sc-price-row">
+          <div class="sc-price" id="scP" style="color:var(--blue)">€0</div>
+          <div class="sc-unit">/mese advertising</div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-breakdown">
+            <div class="sc-ch-row"><span class="sc-ch-name">LinkedIn Ads</span><span class="sc-ch-amt" style="color:var(--blue)">€2.500</span></div>
+            <div class="sc-ch-row"><span class="sc-ch-name">Meta Ads</span><span class="sc-ch-amt" style="color:var(--blue)">€2.000</span></div>
+            <div class="sc-ch-row"><span class="sc-ch-name">Google Search</span><span class="sc-ch-amt" style="color:var(--blue)">€1.000</span></div>
+            <div class="sc-ch-row"><span class="sc-ch-name">Campagne evento</span><span class="sc-ch-amt" style="color:var(--blue)">€500</span></div>
+          </div>
+          <div class="sc-kpis">
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Reach mensile</span><span class="sc-kpi-v" style="color:var(--blue)">~120K</span></div>
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Lead attesi/mese</span><span class="sc-kpi-v" style="color:var(--blue)">35–60</span></div>
+            <div class="sc-kpi-row"><span class="sc-kpi-l">Installatori raggiunti</span><span class="sc-kpi-v" style="color:var(--blue)">~25K</span></div>
+          </div>
+          <div style="margin-top:.65rem;font-size:11px;color:var(--ink3)">✓ Tutto Sc. B ✓ Lookalike audiences ✓ Campagne pre-fiera ✓ Dashboard live real-time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPI -->
+<section class="section white" id="sKPI">
+  <div class="max-w">
+    <div class="sec-header" id="shKPI">
+      <div class="sec-tag" style="--stc:#0050A0">I 5 KPI da misurare</div>
+      <h2 class="sec-title">Quello che non si misura<br>non si ottimizza.</h2>
+      <p class="sec-sub">Target riferiti allo Scenario B dopo 3 mesi di campagna attiva. Report mensile condiviso con Laura e Stefano.</p>
+    </div>
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card" style="--kc:var(--blue)"><span class="kpi-icon">📊</span><div class="kpi-name">CPM medio mix</div><div class="kpi-val">≤ €10</div><div class="kpi-note">Target Sc. B: €8–9</div></div>
+      <div class="kpi-card" style="--kc:var(--energy)"><span class="kpi-icon">👆</span><div class="kpi-name">CTR campagne</div><div class="kpi-val">≥ 0,8%</div><div class="kpi-note">Benchmark B2B IT: 0,5%</div></div>
+      <div class="kpi-card" style="--kc:var(--green)"><span class="kpi-icon">🎯</span><div class="kpi-name">Costo per lead</div><div class="kpi-val">≤ €35</div><div class="kpi-note">Lead = contatto qualificato</div></div>
+      <div class="kpi-card" style="--kc:var(--blue-mid)"><span class="kpi-icon">👥</span><div class="kpi-name">Reach installatori</div><div class="kpi-val">12K+/mese</div><div class="kpi-note">Stima LinkedIn targeting</div></div>
+      <div class="kpi-card" style="--kc:#4285F4"><span class="kpi-icon">🔍</span><div class="kpi-name">Engagement organico</div><div class="kpi-val">≥ 3%</div><div class="kpi-note">Post LinkedIn · attuale top: 12%</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PIANO 12 MESI -->
+<section class="section grey" id="sQuarters">
+  <div class="max-w">
+    <div class="sec-header" id="shQ">
+      <div class="sec-tag" style="--stc:#D9730D">Piano 12 mesi · Fasi trimestrali</div>
+      <h2 class="sec-title">Quattro trimestri.<br>Una progressione chiara.</h2>
+      <p class="sec-sub">Ogni trimestre ha un obiettivo specifico, un focus creativo e una review di ottimizzazione. Il budget scala in base ai risultati misurati.</p>
+    </div>
+    <div class="quarters" id="quartersGrid">
+      <div class="q-card" style="background:var(--energy-light);border-color:rgba(217,115,13,.2)">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--energy),#F5A030);border-radius:14px 14px 0 0"></div>
+        <div class="q-badge" style="background:rgba(217,115,13,.15);color:var(--energy)">Q1 · Gennaio–Marzo</div>
+        <div class="q-title">Lancio VIARIS</div>
+        <div class="q-months">Focus: awareness · Canali: LinkedIn + Meta + Google Search</div>
+        <div class="q-obj">
+          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 70%</div>
+          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 30%</div>
+        </div>
+        <div class="q-items" style="--qi-c:var(--energy)">
+          <div class="q-item">Attivazione campagne LinkedIn + Meta · test 3 creatività VIARIS</div>
+          <div class="q-item">Lancio Google Search su 8 keyword long-tail VIARIS Solar</div>
+          <div class="q-item">Employee advocacy: onboarding Stefano e 2 commerciali</div>
+          <div class="q-item">Review mese 3 → selezione creative vincenti · stop underperformer</div>
+        </div>
+        <div class="q-budget" style="background:var(--energy);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
+          <span class="q-budget-l">Budget advertising Sc. B</span>
+          <span class="q-budget-v">€3.000/mese</span>
+        </div>
+      </div>
+      <div class="q-card" style="background:var(--blue-light);border-color:rgba(0,80,160,.15)">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue-mid),var(--blue));border-radius:14px 14px 0 0"></div>
+        <div class="q-badge" style="background:rgba(0,80,160,.1);color:var(--blue)">Q2 · Aprile–Giugno</div>
+        <div class="q-title">Ottimizzazione + FV</div>
+        <div class="q-months">Focus: awareness + lancio pillar FV · MCE Milano</div>
+        <div class="q-obj">
+          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 65%</div>
+          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 35%</div>
+        </div>
+        <div class="q-items" style="--qi-c:var(--blue)">
+          <div class="q-item">Scala creative vincenti VIARIS · introduce pillar Orbis Energy FV</div>
+          <div class="q-item">Campagna MCE Milano: pre-fiera 2 settimane + live + post-fiera</div>
+          <div class="q-item">Attivazione retargeting: chi ha visitato orbisitalia.it / visto video</div>
+          <div class="q-item">Aggiunge LinkedIn Lead Gen Form per installatori (CTA: guida VIARIS)</div>
+        </div>
+        <div class="q-budget" style="background:var(--blue);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
+          <span class="q-budget-l">Budget advertising Sc. B</span>
+          <span class="q-budget-v">€3.000/mese</span>
+        </div>
+      </div>
+      <div class="q-card" style="background:var(--green-light);border-color:rgba(26,148,98,.15)">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),#2EAA6E);border-radius:14px 14px 0 0"></div>
+        <div class="q-badge" style="background:rgba(26,148,98,.1);color:var(--green)">Q3 · Luglio–Settembre</div>
+        <div class="q-title">Scaling Lead Gen</div>
+        <div class="q-months">Focus: lead generation sale al 50% · Google Search in scala</div>
+        <div class="q-obj">
+          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 50%</div>
+          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 50%</div>
+        </div>
+        <div class="q-items" style="--qi-c:var(--green)">
+          <div class="q-item">Scala Google Search a €1.000/mese su query ad alto intento acquisto</div>
+          <div class="q-item">Lookalike audiences Meta da lista lead acquisiti nel Q1–Q2</div>
+          <div class="q-item">Mid-review semestrale con Laura e Stefano · aggiustamento scenario</div>
+          <div class="q-item">Lancio newsletter installatori (obiettivo: 200 iscritti entro settembre)</div>
+        </div>
+        <div class="q-budget" style="background:var(--green);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
+          <span class="q-budget-l">Budget advertising Sc. B</span>
+          <span class="q-budget-v">€3.500/mese</span>
+        </div>
+      </div>
+      <div class="q-card" style="background:var(--surface2);border-color:var(--border)">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--energy));border-radius:14px 14px 0 0"></div>
+        <div class="q-badge" style="background:rgba(0,80,160,.08);color:var(--blue-mid)">Q4 · Ottobre–Dicembre</div>
+        <div class="q-title">Regime Full · KEY Energy</div>
+        <div class="q-months">Focus: lead gen + campagna KEY Energy · analisi annuale</div>
+        <div class="q-obj">
+          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 45%</div>
+          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 55%</div>
+        </div>
+        <div class="q-items" style="--qi-c:var(--blue-mid)">
+          <div class="q-item">Campagna KEY Energy ottobre: Orbis al centro · VIARIS + Orbis Energy</div>
+          <div class="q-item">Full retargeting ecosystem: chi ha visto, cliccato, scaricato</div>
+          <div class="q-item">Analisi ROI annuale · costo per lead finale · benchmark canale</div>
+          <div class="q-item">Piano 2027 sulla base dei dati reali — non delle stime iniziali</div>
+        </div>
+        <div class="q-budget" style="background:var(--ink);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
+          <span class="q-budget-l">Budget advertising Sc. B</span>
+          <span class="q-budget-v">€3.500/mese</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXTRA -->
+<section class="section white" id="sExtra">
+  <div class="max-w">
+    <div class="sec-header" id="shEx">
+      <div class="sec-tag" style="--stc:#1A9462">Attività senza CPM</div>
+      <h2 class="sec-title">Le leve che<br>non si pagano a click.</h2>
+    </div>
+    <div class="extra-grid" id="extraGrid">
+      <div class="ex-card" style="--exc:var(--energy)">
+        <span class="ex-icon">📍</span>
+        <div class="ex-title">Fiere — KEY Energy + MCE</div>
+        <div class="ex-sub">Il post fiera KEY 2026 è già il top performer Orbis in assoluto (4.342 imp, 12,4% eng). Piano: pre-fiera 2 settimane, live posting, follow-up LinkedIn ai contatti. Budget evento: €300–500 a fiera.</div>
+        <div class="ex-tag" style="background:var(--energy-light);color:var(--energy)">3 fiere/anno · ROI organico immediato</div>
+      </div>
+      <div class="ex-card" style="--exc:var(--blue)">
+        <span class="ex-icon">▶️</span>
+        <div class="ex-title">YouTube — Tutorial tecnici</div>
+        <div class="ex-sub">Marco cerca su YouTube prima di ogni prima installazione. Il canale non esiste oggi. Obiettivo: 2 video/mese (installazione VIARIS, strutture FV, configurazione). Costo produzione: €200–400/video. Contenuto evergreen a costo zero nel tempo.</div>
+        <div class="ex-tag" style="background:var(--blue-light);color:var(--blue)">Priorità mese 1 · zero CPM nel tempo</div>
+      </div>
+      <div class="ex-card" style="--exc:var(--green)">
+        <span class="ex-icon">👥</span>
+        <div class="ex-title">Employee Advocacy</div>
+        <div class="ex-sub">Stefano + 2 commerciali + 2 tecnici. Formazione LinkedIn 1 giornata Ribrain + piano editoriale personale mensile. 5 persone × 2 post/settimana = reach organica 3–5× la pagina corporate. Modello Carel: da 900 a 45.000 follower in 8 mesi.</div>
+        <div class="ex-tag" style="background:var(--green-light);color:var(--green)">Moltiplicatore organico × 10</div>
+      </div>
+      <div class="ex-card" style="--exc:#6B4FBB">
+        <span class="ex-icon">📧</span>
+        <div class="ex-title">Newsletter Installatori</div>
+        <div class="ex-sub">Il touchpoint che non esiste. Raccolta contatti via: fiere + LinkedIn Lead Gen + sito Orbis. Frequenza mensile. Contenuto: normativa, tutorial, news VIARIS. Lista di proprietà: zero dipendenza dall'algoritmo. Obiettivo anno 1: 500 iscritti qualificati.</div>
+        <div class="ex-tag" style="background:#F0EDFB;color:#6B4FBB">Obiettivo: 500 iscritti in 12 mesi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERIMETRO RIBRAIN -->
+<section class="perim-section" id="sPerim">
+  <div class="perim-inner">
+    <div class="perim-tag">Il perimetro di Ribrain</div>
+    <h2 class="perim-title">Approccio a fisarmonica.<br>Si scala sui risultati.</h2>
+    <div class="perim-grid" id="perimGrid">
+      <div class="peri-card">
+        <div class="peri-tier" style="color:rgba(143,164,188,.4)">Tier 1</div>
+        <div class="peri-name" style="color:rgba(143,164,188,.8)">Strategia + Piano</div>
+        <div class="peri-items">
+          <div class="peri-item">Cruscotto strategico completo</div>
+          <div class="peri-item">Piano editoriale mensile</div>
+          <div class="peri-item">Briefing creativo campagne</div>
+          <div class="peri-item">Report mensile ottimizzazione</div>
+        </div>
+      </div>
+      <div class="peri-card" style="border-color:rgba(26,114,200,.25);background:rgba(26,114,200,.06)">
+        <div class="peri-tier" style="color:rgba(26,114,200,.35)">Tier 2</div>
+        <div class="peri-name" style="color:rgba(100,160,220,.9)">+ Gestione Social + Advertising</div>
+        <div class="peri-items">
+          <div class="peri-item">Tutto il Tier 1</div>
+          <div class="peri-item">Produzione contenuti LinkedIn + Meta</div>
+          <div class="peri-item">Gestione campagne LinkedIn + Meta + Google</div>
+          <div class="peri-item">Employee advocacy program</div>
+          <div class="peri-item">Community management</div>
+        </div>
+      </div>
+      <div class="peri-card" style="border-color:rgba(217,115,13,.25);background:rgba(217,115,13,.06)">
+        <div class="peri-tier" style="color:rgba(217,115,13,.35)">Tier 3</div>
+        <div class="peri-name" style="color:rgba(240,160,80,.9)">+ Video + YouTube + Newsletter</div>
+        <div class="peri-items">
+          <div class="peri-item">Tutto il Tier 2</div>
+          <div class="peri-item">Produzione video tutorial (Snake)</div>
+          <div class="peri-item">Gestione canale YouTube</div>
+          <div class="peri-item">Newsletter installatori end-to-end</div>
+          <div class="peri-item">Campagne evento fiere complete</div>
+        </div>
+      </div>
+    </div>
+    <p class="peri-note" id="perimNote">Il budget media (advertising) è un costo diretto di Orbis verso le piattaforme — separato dal compenso Ribrain. Ribrain gestisce strategia e ottimizzazione, non percepisce margine sull'advertising. Il piano è a fisarmonica: come detto in call, si scala o si riduce mensilmente in base ai dati misurati. Si parte dal Tier e dallo Scenario che Stefano e Laura scelgono, e si cresce sui risultati reali — non sulle promesse iniziali.</p>
+  </div>
+</section>
+
+<nav class="mod-nav">
+  <a href="m5.html" class="mnav-back">← M5 Architettura Editoriale</a>
+  <a href="m7.html" class="mnav-next">M7 Strategia Creativa <span>→</span></a>
+</nav>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+var cur=document.getElementById("cur");
+document.addEventListener("mousemove",function(e){gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.1,ease:"none"});});
+document.querySelectorAll("a,button").forEach(function(el){
+  el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#D9730D",duration:.15});});
+  el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#0050A0",duration:.15});});
+});
+ScrollTrigger.create({trigger:"body",start:"top top",end:"bottom bottom",onUpdate:function(self){document.getElementById("progress-fill").style.width=(self.progress*100)+"%";}});
+
+gsap.fromTo("#hE",{opacity:0,y:10},{opacity:1,y:0,duration:.7,delay:.2,ease:"power3.out"});
+gsap.fromTo("#hT",{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.35,ease:"power3.out"});
+gsap.fromTo("#hS",{opacity:0,y:18},{opacity:1,y:0,duration:.8,delay:.6,ease:"power3.out"});
+gsap.fromTo("#hDual .hd-card",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.15,delay:.9,ease:"power3.out"});
+setTimeout(function(){
+  document.querySelectorAll(".hw-fill").forEach(function(f){f.style.width=f.getAttribute("data-w")+"%";});
+},1200);
+
+ScrollTrigger.create({trigger:"#sRev",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#calcRows .cr",{opacity:0,x:-16},{opacity:1,x:0,duration:.5,stagger:.1,ease:"power3.out"});
+  gsap.fromTo("#revNote",{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:.8,ease:"power3.out"});
+  var pairs=[{id:"rv1",v:20000,fmt:function(v){return Math.round(v).toLocaleString("it");}},
+             {id:"rv2",v:100000,fmt:function(v){return Math.round(v).toLocaleString("it");}},
+             {id:"rv3",v:1000,fmt:function(v){return "€"+Math.round(v).toLocaleString("it");}}];
+  pairs.forEach(function(p,i){var o={v:0},e=document.getElementById(p.id);gsap.to(o,{v:p.v,duration:1.3,delay:.3+i*.2,ease:"power2.out",onUpdate:function(){if(e)e.textContent=p.fmt(o.v);}});});
+}});
+
+ScrollTrigger.create({trigger:"#chCards",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#shCh",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo("#chCards .ch-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.12,ease:"power3.out",delay:.1});
+}});
+
+ScrollTrigger.create({trigger:"#scGrid",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#shSc",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo("#scGrid .sc",{opacity:0,y:24},{opacity:1,y:0,duration:.6,stagger:.12,ease:"power3.out",delay:.1});
+  [{id:"saP",v:1250},{id:"sbP",v:3000},{id:"scP",v:6000}].forEach(function(p,i){
+    var o={v:0},e=document.getElementById(p.id);
+    gsap.to(o,{v:p.v,duration:1.2,delay:.4+i*.1,ease:"power2.out",onUpdate:function(){if(e)e.textContent="€"+Math.round(o.v).toLocaleString("it");}});
+  });
+}});
+
+ScrollTrigger.create({trigger:"#kpiGrid",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#shKPI",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo("#kpiGrid .kpi-card",{opacity:0,y:18},{opacity:1,y:0,duration:.5,stagger:.08,ease:"power3.out",delay:.1});
+}});
+
+ScrollTrigger.create({trigger:"#quartersGrid",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#shQ",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo("#quartersGrid .q-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.12,ease:"power3.out",delay:.1});
+}});
+
+ScrollTrigger.create({trigger:"#extraGrid",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#extraGrid .ex-card",{opacity:0,y:16},{opacity:1,y:0,duration:.5,stagger:.1,ease:"power3.out"});
+}});
+
+ScrollTrigger.create({trigger:"#sPerim",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#perimGrid .peri-card",{opacity:0,y:16},{opacity:1,y:0,duration:.6,stagger:.12,ease:"power3.out"});
+  gsap.fromTo("#perimNote",{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:.5,ease:"power3.out"});
+}});
+</script>
+
+<script>
+(function(){
+var M=[
+  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},
+  {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},
+  {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
+  {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
+  {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
+  {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
+  {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
+];
+var path='m6';
+var st=document.createElement('style');
+st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
+document.head.appendChild(st);
+var ov=document.createElement('div');ov.className='rbov';
+var ih='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
+document.body.appendChild(ov);
+var mo=false,btn=document.getElementById('rbHamBtn');
+function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
+function close(){mo=false;btn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+btn.addEventListener('click',function(){if(mo)close();else open();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mo)close();});
+ov.addEventListener('click',function(e){if(e.target===ov)close();});
+var nb=document.createElement('nav');nb.id='rbnav';var nbH='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" class="rnav-a'+(a?' active':'')+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
+nb.innerHTML=nbH;document.body.appendChild(nb);
+})();
+</script>
+</body>
+</html>

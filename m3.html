@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3 Social Audit · ORBIS Italia × Ribrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#F2F5FA;--surface:#FFF;--surface2:#EBF0F8;--border:#D8E0EE;
+  --blue:#0050A0;--blue-mid:#1A72C8;--blue-light:#E8F1FB;
+  --energy:#D9730D;--energy-light:#FDF0E4;
+  --green:#1A9462;--green-light:#E4F5EE;
+  --red:#C03020;--red-light:#FDECEA;
+  --ink:#0A1628;--ink2:#2E4060;--ink3:#5A7090;--ink4:#8FA4BC;
+  --li:#0A66C2;--ig:#E1306C;--fb:#1877F2;
+}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden;padding-bottom:48px;cursor:none}
+@media(hover:none){body{cursor:auto}#cur{display:none}}
+#cur{position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:800;height:52px;background:rgba(242,245,250,.96);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border)}
+.tb-l{display:flex;align-items:center;gap:.85rem}
+.tb-logo{height:22px;object-fit:contain}
+.tb-sep{width:1px;height:16px;background:var(--border)}
+.tb-rlogo{height:11px;opacity:.3}
+.tb-r{display:flex;align-items:center;gap:.75rem}
+.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(26,148,98,.25);color:var(--green);padding:3px 9px;border-radius:4px;background:var(--green-light)}
+.tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
+.rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
+.rb-ham .h1{width:20px}.rb-ham .h2{width:14px}.rb-ham .h3{width:20px}
+.rb-ham.open .h1{width:20px;transform:translateY(6.5px) rotate(-45deg)}
+.rb-ham.open .h2{opacity:0;width:0}
+.rb-ham.open .h3{width:20px;transform:translateY(-6.5px) rotate(45deg)}
+#progress{position:fixed;top:52px;left:0;right:0;z-index:801;height:2px;background:var(--border)}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--energy));width:0%;transition:width .1s linear}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100svh;background:var(--surface);border-bottom:1px solid var(--border);padding:calc(52px + 3rem) 1.5rem 3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,80,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,80,160,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-blob{position:absolute;top:-10%;right:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(26,148,98,.06) 0%,transparent 65%);pointer-events:none}
+.hero-top{position:relative;z-index:1}
+.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.hero-eyebrow::before{content:"";width:32px;height:1px;background:var(--green)}
+.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:.92;letter-spacing:-.04em;color:var(--ink);margin-bottom:.75rem}
+.hero-title em{font-style:italic;font-weight:300;color:var(--green)}
+.hero-sub{font-size:14px;color:var(--ink3);line-height:1.7;max-width:480px;margin-bottom:2.5rem}
+/* THREE CHANNEL GAUGES */
+.channel-gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;position:relative;z-index:1}
+@media(max-width:600px){.channel-gauges{grid-template-columns:1fr}}
+.gauge{padding:1.5rem;border-radius:16px;border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden}
+.gauge-icon{font-size:1.5rem;margin-bottom:.75rem}
+.gauge-name{font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.35rem;font-family:"DM Sans",sans-serif}
+.gauge-status{font-family:"Afacad Flux",sans-serif;font-size:1.5rem;font-weight:400;letter-spacing:-.02em;line-height:1;margin-bottom:.85rem}
+.gauge-bars{display:flex;gap:4px;margin-bottom:.75rem}
+.gauge-bar{height:28px;border-radius:4px;flex:1;transition:all .8s cubic-bezier(0.16,1,0.3,1)}
+.gauge-bar.active{}
+.gauge-bar.inactive{opacity:.1}
+.gauge-metric{font-size:12px;color:var(--ink3);line-height:1.55}
+.gauge-metric strong{font-family:"Afacad Flux",sans-serif;font-size:1.4rem;font-weight:300;display:block;line-height:1;letter-spacing:-.02em}
+/* LinkedIn: verde */
+.gauge.li{border-color:rgba(10,102,194,.2)}
+.gauge.li .gauge-name{color:var(--li)}
+.gauge.li .gauge-status{color:var(--ink)}
+/* Facebook: rosso (dying) */
+.gauge.fb{border-color:rgba(192,48,32,.15)}
+.gauge.fb .gauge-name{color:var(--red)}
+.gauge.fb .gauge-status{color:var(--red)}
+/* Instagram: grigio (flatline) */
+.gauge.ig{border-color:rgba(143,164,188,.2)}
+.gauge.ig .gauge-name{color:var(--ink4)}
+.gauge.ig .gauge-status{color:var(--ink4)}
+.gauge-flatline{display:flex;align-items:center;gap:4px;margin-bottom:.75rem;height:28px}
+.fl-line{flex:1;height:2px;background:var(--border);border-radius:1px}
+.fl-blip{width:6px;height:6px;border-radius:50%;background:var(--ink4);animation:blip 2s ease-in-out infinite}
+@keyframes blip{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.3)}}
+
+/* ═══ ZERO BUDGET INTERLUDE ═══ */
+.interlude{padding:4rem 1.5rem;background:#0A1628;position:relative;overflow:hidden}
+.interlude-bg{position:absolute;right:-3%;top:-10%;font-family:"Afacad Flux",sans-serif;font-size:clamp(14rem,40vw,38rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.03);pointer-events:none;user-select:none}
+.interlude-inner{position:relative;z-index:1;max-width:900px}
+.interlude-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.25rem}
+.interlude-text{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,5vw,4rem);font-weight:300;line-height:1.1;letter-spacing:-.025em;color:rgba(255,255,255,.8)}
+.interlude-text strong{font-weight:500;color:#fff}
+.interlude-text em{font-style:italic;color:#D9730D}
+.interlude-pill{display:inline-flex;align-items:center;gap:.6rem;margin-top:2rem;padding:.65rem 1.25rem;border:1px solid rgba(217,115,13,.3);border-radius:99px;font-size:12px;color:rgba(217,115,13,.8);font-family:"Afacad Flux",sans-serif;font-style:italic}
+
+/* ═══ SEZIONI ═══ */
+.section{padding:4rem 1.5rem;border-top:1px solid var(--border)}
+.section.white{background:var(--surface)}
+.section.grey{background:var(--bg)}
+.max-w{max-width:1100px;margin:0 auto}
+.sec-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.sec-tag::before{content:"";width:14px;height:1px;background:var(--stc,var(--blue))}
+.sec-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink)}
+.sec-sub{font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:560px;margin-top:.6rem}
+.sec-header{margin-bottom:2rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2rem 4rem;align-items:start}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+
+/* ═══ LINKEDIN TOP POSTS LEADERBOARD ═══ */
+.leaderboard{display:flex;flex-direction:column;gap:.5rem}
+.lb-item{display:grid;grid-template-columns:28px 1fr auto;gap:.5rem 1rem;align-items:center;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;transition:box-shadow .2s,border-color .2s;cursor:default}
+.lb-item:hover{box-shadow:0 4px 16px rgba(0,80,160,.08);border-color:rgba(0,80,160,.2)}
+.lb-item.top{border-color:rgba(10,102,194,.25);background:linear-gradient(90deg,rgba(10,102,194,.04),var(--surface))}
+.lb-rank{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-weight:300;color:var(--ink4);text-align:center}
+.lb-rank.gold{color:#C8A034}
+.lb-content{}
+.lb-title{font-size:12.5px;color:var(--ink2);line-height:1.4;margin-bottom:.25rem}
+.lb-type{font-size:9px;letter-spacing:.08em;padding:1px 6px;border-radius:4px;display:inline-flex}
+.lb-metrics{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.lb-imp{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-weight:400;color:var(--ink);line-height:1}
+.lb-eng{font-size:10px;color:var(--green);font-weight:500}
+.lb-bar-wrap{grid-column:2/4;padding-top:.25rem}
+.lb-bar-track{height:3px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.lb-bar-fill{height:100%;border-radius:99px;width:0;transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
+
+/* ═══ PATTERN MATRIX ═══ */
+.pattern-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+@media(max-width:700px){.pattern-grid{grid-template-columns:1fr 1fr}}
+.pat-card{padding:1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-align:center;transition:transform .2s,box-shadow .2s}
+.pat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,80,160,.08)}
+.pat-icon{font-size:1.6rem;margin-bottom:.6rem;display:block}
+.pat-type{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem}
+.pat-score{font-family:"Afacad Flux",sans-serif;font-size:2rem;font-weight:300;line-height:1;letter-spacing:-.04em;color:var(--pc,var(--blue));margin-bottom:.2rem}
+.pat-desc{font-size:11px;color:var(--ink3);line-height:1.5}
+.pat-ring{position:relative;width:52px;height:52px;margin:0 auto .6rem}
+.pat-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.pat-ring-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Afacad Flux",sans-serif;font-size:.8rem;font-weight:500}
+
+/* ═══ FACEBOOK DECAY ═══ */
+.decay-chart{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;overflow:hidden}
+.dc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem}
+.dc-title{font-family:"Afacad Flux",sans-serif;font-size:1.3rem;color:var(--ink)}
+.dc-badge{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:var(--red-light);color:var(--red);border:1px solid rgba(192,48,32,.15)}
+.decay-bars{display:flex;flex-direction:column;gap:.85rem}
+.db-row{display:flex;flex-direction:column;gap:.25rem}
+.db-header{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3)}
+.db-period{font-weight:500;color:var(--ink2)}
+.db-val{font-family:"Afacad Flux",sans-serif;font-size:.95rem;color:var(--db-c,var(--ink2))}
+.db-track{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.db-fill{height:100%;border-radius:99px;width:0;transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
+.db-delta{font-size:10px;font-weight:600;margin-left:.35rem}
+
+/* ═══ INSTAGRAM FLATLINE ═══ */
+.flatline-visual{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;text-align:center}
+.fl-big{font-family:"Afacad Flux",sans-serif;font-size:clamp(5rem,18vw,10rem);font-weight:300;line-height:.88;letter-spacing:-.06em;color:rgba(143,164,188,.3)}
+.fl-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-top:.5rem}
+.fl-chart{display:flex;align-items:center;justify-content:center;gap:3px;margin:1.5rem 0;height:48px}
+.fl-segment{width:18px;border-radius:3px;background:var(--surface2);transition:height .8s cubic-bezier(0.16,1,0.3,1)}
+.fl-note{font-size:12px;color:var(--ink3);font-style:italic;max-width:280px;margin:0 auto}
+
+/* ═══ INSIGHTS PATTERN ═══ */
+.insight-row{display:flex;flex-direction:column;gap:.75rem}
+.ir-item{display:flex;gap:.85rem;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;align-items:flex-start;transition:border-color .2s}
+.ir-item:hover{border-color:rgba(0,80,160,.2)}
+.ir-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.ir-body{}
+.ir-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:.2rem}
+.ir-text{font-size:12px;color:var(--ink3);line-height:1.6}
+
+/* ═══ OPPORTUNITÀ SECTION ═══ */
+.opp-section{padding:4rem 1.5rem;background:var(--ink);border-top:1px solid var(--border);position:relative;overflow:hidden}
+.opp-bg{position:absolute;left:-5%;bottom:-15%;font-family:"Afacad Flux",sans-serif;font-size:clamp(16rem,45vw,44rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.03);pointer-events:none;user-select:none}
+.opp-inner{position:relative;z-index:1;max-width:900px}
+.opp-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.5rem}
+.opp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2rem}
+@media(max-width:600px){.opp-grid{grid-template-columns:1fr}}
+.opp-card{padding:1.25rem;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.04)}
+.oc-num{font-family:"Afacad Flux",sans-serif;font-size:2.5rem;font-weight:300;color:rgba(255,255,255,.2);line-height:1;margin-bottom:.5rem;letter-spacing:-.04em}
+.oc-title{font-size:13.5px;font-weight:500;color:rgba(255,255,255,.8);margin-bottom:.4rem;line-height:1.3}
+.oc-text{font-size:12px;color:rgba(255,255,255,.4);line-height:1.65}
+.opp-cta{display:inline-flex;align-items:center;gap:.6rem;margin-top:2rem;padding:.65rem 1.5rem;background:var(--energy);color:#fff;border-radius:99px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .15s}
+.opp-cta:hover{background:#C0640A;transform:translateY(-1px)}
+
+/* NAV */
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);gap:1rem;flex-wrap:wrap}
+.mnav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:color .2s}
+.mnav-back:hover{color:var(--blue)}
+.mnav-next{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;padding:.7rem 1.6rem;border-radius:99px;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,transform .15s}
+.mnav-next:hover{background:#0062C4;transform:translateY(-1px)}
+.mnav-next span{transition:transform .2s}
+.mnav-next:hover span{transform:translateX(3px)}
+
+/* STAT PILL */
+.stat-pill{display:inline-flex;flex-direction:column;padding:.75rem 1.1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
+.sp-val{font-family:"Afacad Flux",sans-serif;font-size:1.6rem;font-weight:300;line-height:1;letter-spacing:-.03em;color:var(--sp-c,var(--blue))}
+.sp-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-top:.2rem}
+
+/* DELTA BADGE */
+.delta{font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:.2rem}
+.delta.up{background:var(--green-light);color:var(--green)}
+.delta.down{background:var(--red-light);color:var(--red)}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<header class="topbar">
+  <div class="tb-l">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis" class="tb-logo">
+    <div class="tb-sep"></div>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <div class="tb-r">
+    <span class="tb-badge">03 · Social Audit</span>
+    <span class="tb-date">Maggio 2026</span>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
+
+<!-- ═══ HERO: TRE SEGNALI ═══ -->
+<section class="hero" id="sHero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-blob" aria-hidden="true"></div>
+  <div class="hero-top">
+    <div class="hero-eyebrow" id="hE">Cruscotto Strategico · ORBIS Italia · Modulo 03</div>
+    <h1 class="hero-title" id="hT">Un anno di post.<br><em>Tre canali.</em><br>Una sola storia.</h1>
+    <p class="hero-sub" id="hS">Dati reali estratti dagli analytics ufficiali: Facebook, Instagram, LinkedIn maggio 2025–maggio 2026. Nessuna stima. Tutto verificato.</p>
+  </div>
+  <div class="channel-gauges" id="gauges">
+    <!-- LinkedIn -->
+    <div class="gauge li">
+      <div class="gauge-icon">💼</div>
+      <div class="gauge-name">LinkedIn</div>
+      <div class="gauge-status">Vivo. 🟢</div>
+      <div class="gauge-bars" id="liBars">
+        <div class="gauge-bar active" style="background:#0A66C2;height:28px"></div>
+        <div class="gauge-bar active" style="background:#0A66C2;height:28px"></div>
+        <div class="gauge-bar active" style="background:#0A66C2;height:28px"></div>
+        <div class="gauge-bar inactive" style="background:#D8E0EE;height:28px"></div>
+        <div class="gauge-bar inactive" style="background:#D8E0EE;height:28px"></div>
+      </div>
+      <div class="gauge-metric">
+        Top post<strong>4.342 imp</strong>
+        12,4% engagement
+      </div>
+    </div>
+    <!-- Facebook -->
+    <div class="gauge fb">
+      <div class="gauge-icon">📉</div>
+      <div class="gauge-name">Facebook</div>
+      <div class="gauge-status">In caduta. 🔴</div>
+      <div class="gauge-bars" id="fbBars">
+        <div class="gauge-bar active" style="background:rgba(192,48,32,.5);height:28px"></div>
+        <div class="gauge-bar inactive" style="background:#D8E0EE;height:28px"></div>
+        <div class="gauge-bar inactive" style="background:#D8E0EE;height:28px"></div>
+        <div class="gauge-bar inactive" style="background:#D8E0EE;height:28px"></div>
+        <div class="gauge-bar inactive" style="background:#D8E0EE;height:28px"></div>
+      </div>
+      <div class="gauge-metric">
+        Interazioni –60%<strong>128</strong>
+        ultimi 6 mesi
+      </div>
+    </div>
+    <!-- Instagram -->
+    <div class="gauge ig">
+      <div class="gauge-icon">📊</div>
+      <div class="gauge-name">Instagram</div>
+      <div class="gauge-status">Piatto. ⚫</div>
+      <div class="gauge-flatline">
+        <div class="fl-line"></div>
+        <div class="fl-blip"></div>
+        <div class="fl-line"></div>
+        <div class="fl-blip" style="animation-delay:.4s"></div>
+        <div class="fl-line"></div>
+      </div>
+      <div class="gauge-metric">
+        Follower totali<strong id="igCnt">0</strong>
+        in un anno intero
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INTERLUDE: ZERO BUDGET ═══ -->
+<section class="interlude" id="sIntro">
+  <div class="interlude-bg" aria-hidden="true">€0</div>
+  <div class="interlude-inner">
+    <div class="interlude-tag">Il paradosso Orbis</div>
+    <p class="interlude-text" id="iText">
+      Il contenuto è <strong>buono</strong>.<br>
+      Il canale LinkedIn <strong>funziona</strong>.<br>
+      Il budget media è <em>zero.</em><br>
+      È come avere una Ferrari<br>senza benzina nel serbatoio.
+    </p>
+    <div class="interlude-pill" id="iPill">€0 investiti in advertising nell'ultimo anno su tutti e tre i canali</div>
+  </div>
+</section>
+
+<!-- ═══ LINKEDIN DEEP DIVE ═══ -->
+<section class="section white" id="sLI">
+  <div class="max-w">
+    <div class="sec-header" id="shLI">
+      <div class="sec-tag" style="--stc:#0A66C2">LinkedIn · Il canale che funziona</div>
+      <h2 class="sec-title">Quando si fa bene,<br>il pubblico risponde.</h2>
+      <p class="sec-sub">Analisi di 12 mesi di post LinkedIn Orbis Italia. 100% organico. I dati mostrano un pattern chiarissimo: alcune tipologie di contenuto sovraperformano sistematicamente.</p>
+    </div>
+    <div class="g2" id="gLI">
+      <div>
+        <!-- TOP POSTS LEADERBOARD -->
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">Top post per impressioni · maggio 2025 – aprile 2026</div>
+        <div class="leaderboard" id="lbList">
+          <div class="lb-item top">
+            <div class="lb-rank gold">1</div>
+            <div class="lb-content">
+              <div class="lb-title">Fiera KEY Energy Expo — primo giorno in fiera</div>
+              <span class="lb-type" style="background:rgba(10,102,194,.1);color:#0A66C2">📍 Evento</span>
+            </div>
+            <div class="lb-metrics">
+              <div class="lb-imp" id="cnt1">0</div>
+              <div class="lb-eng" style="color:var(--green)">12,4% eng</div>
+            </div>
+            <div class="lb-bar-wrap">
+              <div class="lb-bar-track"><div class="lb-bar-fill" data-w="100" style="background:#0A66C2"></div></div>
+            </div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank">2</div>
+            <div class="lb-content">
+              <div class="lb-title">Meeting di Vendita Bergamo — team riunito</div>
+              <span class="lb-type" style="background:rgba(217,115,13,.1);color:#D9730D">👥 People</span>
+            </div>
+            <div class="lb-metrics">
+              <div class="lb-imp" id="cnt2">0</div>
+              <div class="lb-eng">163 click</div>
+            </div>
+            <div class="lb-bar-wrap">
+              <div class="lb-bar-track"><div class="lb-bar-fill" data-w="61" style="background:#0A66C2"></div></div>
+            </div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank">3</div>
+            <div class="lb-content">
+              <div class="lb-title">Pietro — presentazione Area Manager</div>
+              <span class="lb-type" style="background:rgba(217,115,13,.1);color:#D9730D">👥 People</span>
+            </div>
+            <div class="lb-metrics">
+              <div class="lb-imp" id="cnt3">0</div>
+              <div class="lb-eng">10 commenti</div>
+            </div>
+            <div class="lb-bar-wrap">
+              <div class="lb-bar-track"><div class="lb-bar-fill" data-w="60" style="background:#0A66C2"></div></div>
+            </div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank">4</div>
+            <div class="lb-content">
+              <div class="lb-title">Bilancio sostenibilità — riconoscimento al Campidoglio</div>
+              <span class="lb-type" style="background:rgba(26,148,98,.1);color:#1A9462">🌱 ESG</span>
+            </div>
+            <div class="lb-metrics">
+              <div class="lb-imp" id="cnt4">0</div>
+              <div class="lb-eng">56 rec.</div>
+            </div>
+            <div class="lb-bar-wrap">
+              <div class="lb-bar-track"><div class="lb-bar-fill" data-w="53" style="background:#1A9462"></div></div>
+            </div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank">5</div>
+            <div class="lb-content">
+              <div class="lb-title">VIARIS multistazione — post prodotto con CTA</div>
+              <span class="lb-type" style="background:rgba(0,80,160,.08);color:#0050A0">⚡ Prodotto</span>
+            </div>
+            <div class="lb-metrics">
+              <div class="lb-imp">~398</div>
+              <div class="lb-eng" style="color:var(--energy)">59% CTR</div>
+            </div>
+            <div class="lb-bar-wrap">
+              <div class="lb-bar-track"><div class="lb-bar-fill" data-w="9" style="background:var(--energy)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- PATTERN -->
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem">Cosa funziona di più per tipo di contenuto</div>
+        <div class="pattern-grid" id="patGrid">
+          <div class="pat-card">
+            <span class="pat-icon">👤</span>
+            <div class="pat-type">People post</div>
+            <div class="pat-score" style="--pc:#D9730D">★★★</div>
+            <div class="pat-desc">Dipendenti, team, persone reali. Engagement più alto in assoluto. L'algoritmo ama le persone.</div>
+          </div>
+          <div class="pat-card">
+            <span class="pat-icon">📍</span>
+            <div class="pat-type">Evento / Fiera</div>
+            <div class="pat-score" style="--pc:#0A66C2">★★★</div>
+            <div class="pat-desc">Key, Mostra Convegno. Reach massima. Il contesto live amplifica organicamente.</div>
+          </div>
+          <div class="pat-card">
+            <span class="pat-icon">🌱</span>
+            <div class="pat-type">ESG / Sostenibilità</div>
+            <div class="pat-score" style="--pc:#1A9462">★★☆</div>
+            <div class="pat-desc">Bilancio di sostenibilità. Buone recommendation, alto credito istituzionale.</div>
+          </div>
+          <div class="pat-card">
+            <span class="pat-icon">⚡</span>
+            <div class="pat-type">Prodotto + CTA</div>
+            <div class="pat-score" style="--pc:#0050A0">★★☆</div>
+            <div class="pat-desc">CTR altissimo (59% VIARIS) quando c'è una call to action specifica. Poca reach, alta qualità.</div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;padding:1rem;background:var(--blue-light);border:1px solid rgba(0,80,160,.12);border-radius:10px">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:.3rem">Il pattern è chiaro</div>
+          <p style="font-size:12.5px;color:var(--ink2);line-height:1.65">Le persone battono i prodotti ogni volta. Il post "Pietro Area Manager" ha più engagement del catalogo VIARIS. <strong>La leva da attivare è l'employee advocacy sistematica, non più post istituzionali.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FACEBOOK DECAY ═══ -->
+<section class="section grey" id="sFB">
+  <div class="max-w">
+    <div class="sec-header" id="shFB">
+      <div class="sec-tag" style="--stc:#C03020">Facebook · La curva che scende</div>
+      <h2 class="sec-title">Non è colpa dei contenuti.<br>È la piattaforma.</h2>
+      <p class="sec-sub">Facebook senza budget advertising nel 2026 è strutturalmente inerte per un brand B2B. I numeri non mentono: ogni semestre peggiore del precedente.</p>
+    </div>
+    <div class="g2" id="gFB">
+      <div>
+        <div class="decay-chart">
+          <div class="dc-header">
+            <div class="dc-title">Interazioni su Facebook</div>
+            <div class="dc-badge">–60% ultimi 6 mesi</div>
+          </div>
+          <div class="decay-bars" id="decayBars">
+            <div class="db-row">
+              <div class="db-header">
+                <span class="db-period">Mag 2025 – Mag 2026 (anno intero)</span>
+                <span class="db-val" style="--db-c:var(--blue)">449 interazioni <span class="delta up">+30,9%</span></span>
+              </div>
+              <div class="db-track"><div class="db-fill" data-w="100" style="background:rgba(0,80,160,.35)"></div></div>
+            </div>
+            <div class="db-row">
+              <div class="db-header">
+                <span class="db-period">Nov 2025 – Mag 2026 (ultimi 6 mesi)</span>
+                <span class="db-val" style="--db-c:var(--red)">128 interazioni <span class="delta down">–60%</span></span>
+              </div>
+              <div class="db-track"><div class="db-fill" data-w="28" style="background:rgba(192,48,32,.5)"></div></div>
+            </div>
+            <div style="height:.5px;background:var(--border);margin:.5rem 0"></div>
+            <div class="db-row">
+              <div class="db-header">
+                <span class="db-period">Visualizzazioni anno intero</span>
+                <span class="db-val">22.482</span>
+              </div>
+              <div class="db-track"><div class="db-fill" data-w="85" style="background:rgba(0,80,160,.15)"></div></div>
+            </div>
+            <div class="db-row">
+              <div class="db-header">
+                <span class="db-period">Nuovi follower in un anno</span>
+                <span class="db-val" style="--db-c:var(--red)">27 <span class="delta down">–28,9%</span></span>
+              </div>
+              <div class="db-track"><div class="db-fill" data-w="3" style="background:rgba(192,48,32,.4)"></div></div>
+            </div>
+            <div class="db-row">
+              <div class="db-header">
+                <span class="db-period">Clic sui link anno intero</span>
+                <span class="db-val" style="--db-c:var(--red)">21 <span class="delta down">–27,6%</span></span>
+              </div>
+              <div class="db-track"><div class="db-fill" data-w="2" style="background:rgba(192,48,32,.4)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="padding:1.25rem;background:var(--red-light);border:1px solid rgba(192,48,32,.15);border-radius:12px;margin-bottom:1rem">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.4rem">Verdetto</div>
+          <p style="font-size:13px;color:var(--ink2);line-height:1.7">Facebook senza budget è inutile nel 2026. Non è un'opinione: è scritto nell'algoritmo di Meta. Dopo il 2020 la piattaforma ha spostato completamente il modello sulla paid reach. <strong>Ogni ora spesa a creare contenuti organici per Facebook è un'ora non investita su LinkedIn.</strong></p>
+        </div>
+        <div style="padding:1.25rem;background:var(--green-light);border:1px solid rgba(26,148,98,.15);border-radius:12px">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.4rem">Raccomandazione</div>
+          <p style="font-size:13px;color:var(--ink2);line-height:1.7">Facebook va de-prioritizzato come canale organico. Le risorse liberate vanno su LinkedIn (budget sponsorizzato) e YouTube (tutorial tecnici per installatori). Facebook può restare attivo come canale paid per raggiungere l'utente finale B2C — ma solo con budget dedicato.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INSTAGRAM FLATLINE ═══ -->
+<section class="section white" id="sIG">
+  <div class="max-w">
+    <div class="sec-header" id="shIG">
+      <div class="sec-tag" style="--stc:#8FA4BC">Instagram · Il canale fantasma</div>
+      <h2 class="sec-title">170 follower.<br>Un anno di contenuti.</h2>
+      <p class="sec-sub">Il +100% su tutte le metriche Instagram è fuorviante: significa che l'anno prima era ancora più piccolo. Con 170 follower totali la base è troppo piccola per qualsiasi conversazione organica.</p>
+    </div>
+    <div class="g2" id="gIG">
+      <div class="flatline-visual">
+        <div class="fl-big" id="igBig">0</div>
+        <div class="fl-label">follower totali · Instagram</div>
+        <div class="fl-chart" id="flChart">
+          <!-- bars generated by JS -->
+        </div>
+        <p class="fl-note">Il profilo esiste. Ma non ha ancora una comunità. Ogni post parla a meno persone di quante ne conta un condominio milanese.</p>
+      </div>
+      <div>
+        <div class="insight-row" id="igInsights">
+          <div class="ir-item">
+            <div class="ir-icon" style="background:rgba(225,48,108,.1)">📸</div>
+            <div class="ir-body">
+              <div class="ir-title">Dati anno intero (mag 2025 – mag 2026)</div>
+              <div class="ir-text">30.729 visualizzazioni totali · 3.391 copertura · 744 interazioni · solo 4 clic sul link in bio. I numeri crescono ma da una base irrisoria: il +100% vale poco quando il punto di partenza è quasi zero.</div>
+            </div>
+          </div>
+          <div class="ir-item">
+            <div class="ir-icon" style="background:rgba(217,115,13,.1)">🎯</div>
+            <div class="ir-body">
+              <div class="ir-title">A chi serve Instagram per Orbis?</div>
+              <div class="ir-text">Potenzialmente utile per Lorenzo Altieri (l'early adopter green che valuta wallbox e FV). Non per grossisti o installatori. Ma serve prima una base: 170 follower non bastano. Instagram diventa priorità <strong>solo con budget Meta dedicato</strong> che costruisca la community velocemente.</div>
+            </div>
+          </div>
+          <div class="ir-item">
+            <div class="ir-icon" style="background:rgba(26,148,98,.1)">✓</div>
+            <div class="ir-body">
+              <div class="ir-title">Cosa mantenere comunque</div>
+              <div class="ir-text">Cross-posting da LinkedIn come presenza minima. Zero risorse creative extra dedicate. Attivare Instagram come canale primario solo quando VIARIS avrà una campagna Meta strutturata che costruisce la community.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THE REAL GAP ═══ -->
+<section class="section grey" id="sGap">
+  <div class="max-w">
+    <div class="sec-header" id="shGap">
+      <div class="sec-tag" style="--stc:#D9730D">Il vero problema</div>
+      <h2 class="sec-title">Non è questione di contenuti.<br>È questione di sistema.</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem" id="gGap">
+      <div style="padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:3.5rem;font-weight:300;color:rgba(0,80,160,.15);line-height:1;margin-bottom:.5rem">€0</div>
+        <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:.35rem">Budget advertising</div>
+        <p style="font-size:12px;color:var(--ink3);line-height:1.65">Zero euro investiti in paid media nell'ultimo anno su tutti i canali. Il contenuto organico, per quanto buono, non può scalare senza carburante su nessuna piattaforma nel 2026.</p>
+      </div>
+      <div style="padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:3.5rem;font-weight:300;color:rgba(0,80,160,.15);line-height:1;margin-bottom:.5rem">0</div>
+        <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:.35rem">Touchpoint installatori</div>
+        <p style="font-size:12px;color:var(--ink3);line-height:1.65">Nessuna newsletter, nessun webinar, nessuna community dedicata agli installatori. Raggiunti solo dalla rete commerciale fisica. Il canale digitale più efficace per questo target è completamente vuoto.</p>
+      </div>
+      <div style="padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:3.5rem;font-weight:300;color:rgba(0,80,160,.15);line-height:1;margin-bottom:.5rem">0</div>
+        <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:.35rem">Video tecnici prodotti</div>
+        <p style="font-size:12px;color:var(--ink3);line-height:1.65">4 video in tutto l'anno. Nessun tutorial di installazione su YouTube. Nessun reel di cantiere. Il formato che più converte l'installatore — "vedo, capisco, compro" — è completamente assente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OPPORTUNITÀ ═══ -->
+<section class="opp-section" id="sOpp">
+  <div class="opp-bg" aria-hidden="true">Go</div>
+  <div class="opp-inner">
+    <div class="opp-tag">Da qui, cosa si fa</div>
+    <h2 style="font-family:'Afacad Flux',sans-serif;font-size:clamp(2rem,5vw,4rem);font-weight:300;line-height:1.05;letter-spacing:-.03em;color:#fff;margin-bottom:.5rem">
+      I tre interruttori<br>da accendere.
+    </h2>
+    <p style="font-size:14px;color:rgba(255,255,255,.4);line-height:1.75;max-width:480px">Il framework funziona già su LinkedIn. Mancano solo tre leve.</p>
+    <div class="opp-grid" id="oppGrid">
+      <div class="opp-card">
+        <div class="oc-num">01</div>
+        <div class="oc-title">Portare budget su LinkedIn</div>
+        <p class="oc-text">Anche solo €500–800/mese di post boostati sui top post già esistenti (people, eventi, VIARIS) triplica la reach organica. Il contenuto c'è. Manca la benzina.</p>
+      </div>
+      <div class="opp-card">
+        <div class="oc-num">02</div>
+        <div class="oc-title">Aprire YouTube per gli installatori</div>
+        <p class="oc-text">Tutorial di installazione VIARIS, guida strutture FV su tetto in coppi, configurazione cronotermostato. 3 video al mese. Il canale più cercato dagli installatori è completamente assente.</p>
+      </div>
+      <div class="opp-card">
+        <div class="oc-num">03</div>
+        <div class="oc-title">Employee advocacy sistematica</div>
+        <p class="oc-text">Stefano, i commerciali, i tecnici — 5 persone che postano dai profili personali 2x/settimana. I "people post" superano ogni contenuto corporate. È già dimostrato dai dati.</p>
+      </div>
+      <div class="opp-card" style="border-color:rgba(217,115,13,.25);background:rgba(217,115,13,.08)">
+        <div class="oc-num" style="color:rgba(217,115,13,.4)">+</div>
+        <div class="oc-title" style="color:rgba(255,255,255,.9)">Facebook e Instagram: solo paid</div>
+        <p class="oc-text">Non sprecare energia creativa su canali morti organicamente. Se si attiva Meta, lo si fa con obiettivo preciso: VIARIS per Lorenzo Altieri (early adopter EV), con campagna strutturata e budget minimo €300/mese.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="mod-nav">
+  <a href="m2.html" class="mnav-back">← M2 Competitor Map</a>
+  <a href="m4.html" class="mnav-next">M4 Personas <span>→</span></a>
+</nav>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+var cur=document.getElementById("cur");
+document.addEventListener("mousemove",function(e){gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.1,ease:"none"});});
+document.querySelectorAll("a,button").forEach(function(el){
+  el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#D9730D",duration:.15});});
+  el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#1A9462",duration:.15});});
+});
+ScrollTrigger.create({trigger:"body",start:"top top",end:"bottom bottom",onUpdate:function(self){document.getElementById("progress-fill").style.width=(self.progress*100)+"%";}});
+
+/* hero entry */
+gsap.fromTo("#hE",{opacity:0,y:10},{opacity:1,y:0,duration:.7,delay:.2,ease:"power3.out"});
+gsap.fromTo("#hT",{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.35,ease:"power3.out"});
+gsap.fromTo("#hS",{opacity:0,y:18},{opacity:1,y:0,duration:.8,delay:.6,ease:"power3.out"});
+gsap.fromTo("#gauges .gauge",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.15,delay:.9,ease:"power3.out"});
+
+/* IG counter hero */
+setTimeout(function(){
+  var o={v:0},e=document.getElementById("igCnt");
+  gsap.to(o,{v:170,duration:1.2,delay:.1,ease:"power2.out",onUpdate:function(){if(e)e.textContent=Math.round(o.v);}});
+},1200);
+
+/* interlude */
+ScrollTrigger.create({trigger:"#sIntro",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#iText",{opacity:0,y:20},{opacity:1,y:0,duration:.9,ease:"power3.out"});
+  gsap.fromTo("#iPill",{opacity:0,y:12},{opacity:1,y:0,duration:.7,delay:.3,ease:"power3.out"});
+}});
+
+/* LinkedIn leaderboard */
+ScrollTrigger.create({trigger:"#sLI",start:"top 72%",once:true,onEnter:function(){
+  gsap.fromTo("#shLI",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo("#lbList .lb-item",{opacity:0,x:-12},{opacity:1,x:0,duration:.5,stagger:.08,ease:"power3.out",delay:.1});
+  document.querySelectorAll("#lbList .lb-bar-fill").forEach(function(f,i){
+    gsap.fromTo(f,{width:"0%"},{width:f.getAttribute("data-w")+"%",duration:1.2,delay:.4+i*.1,ease:"power3.out"});
+  });
+  /* counters */
+  var posts=[{id:"cnt1",v:4342},{id:"cnt2",v:2650},{id:"cnt3",v:2587},{id:"cnt4",v:2299}];
+  posts.forEach(function(p,i){
+    var o={v:0},e=document.getElementById(p.id);
+    gsap.to(o,{v:p.v,duration:1.4,delay:.5+i*.08,ease:"power2.out",onUpdate:function(){if(e)e.textContent=Math.round(o.v).toLocaleString("it");}});
+  });
+  gsap.fromTo("#patGrid .pat-card",{opacity:0,y:16},{opacity:1,y:0,duration:.5,stagger:.1,delay:.3,ease:"power3.out"});
+}});
+
+/* Facebook decay */
+ScrollTrigger.create({trigger:"#sFB",start:"top 72%",once:true,onEnter:function(){
+  gsap.fromTo("#shFB",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo("#gFB",{opacity:0,y:20},{opacity:1,y:0,duration:.7,delay:.1,ease:"power3.out"});
+  document.querySelectorAll("#decayBars .db-fill").forEach(function(f,i){
+    gsap.fromTo(f,{width:"0%"},{width:f.getAttribute("data-w")+"%",duration:1.3,delay:.3+i*.15,ease:"power3.out"});
+  });
+}});
+
+/* Instagram flatline */
+ScrollTrigger.create({trigger:"#sIG",start:"top 72%",once:true,onEnter:function(){
+  gsap.fromTo("#shIG",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  /* big number */
+  var o={v:0},e=document.getElementById("igBig");
+  gsap.to(o,{v:170,duration:1.4,delay:.2,ease:"power2.out",onUpdate:function(){if(e)e.textContent=Math.round(o.v);}});
+  /* flatline bars */
+  var chart=document.getElementById("flChart");
+  var heights=[8,12,6,28,6,10,6,20,8,6,14,8,6,10,8,24,6,8,10,6];
+  heights.forEach(function(h,i){
+    var d=document.createElement("div");
+    d.className="fl-segment";
+    d.style.height="4px";
+    d.style.background=i===3||i===15?"rgba(143,164,188,.4)":"rgba(143,164,188,.15)";
+    chart.appendChild(d);
+    gsap.to(d,{height:h+"px",duration:.4,delay:.5+i*.04,ease:"power3.out"});
+  });
+  gsap.fromTo("#igInsights .ir-item",{opacity:0,x:12},{opacity:1,x:0,duration:.5,stagger:.1,delay:.4,ease:"power3.out"});
+}});
+
+/* Gap section */
+ScrollTrigger.create({trigger:"#sGap",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#gGap >div",{opacity:0,y:18},{opacity:1,y:0,duration:.6,stagger:.1,ease:"power3.out"});
+}});
+
+/* Opportunità */
+ScrollTrigger.create({trigger:"#sOpp",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#oppGrid .opp-card",{opacity:0,y:18},{opacity:1,y:0,duration:.6,stagger:.1,ease:"power3.out"});
+}});
+</script>
+
+<script>
+(function(){
+var M=[
+  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},
+  {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},
+  {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
+  {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
+  {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
+  {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
+  {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
+];
+var path='m3';
+var st=document.createElement('style');
+st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
+document.head.appendChild(st);
+var ov=document.createElement('div');ov.className='rbov';
+var ih='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
+document.body.appendChild(ov);
+var mo=false,btn=document.getElementById('rbHamBtn');
+function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
+function close(){mo=false;btn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+btn.addEventListener('click',function(){if(mo)close();else open();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mo)close();});
+ov.addEventListener('click',function(e){if(e.target===ov)close();});
+var nb=document.createElement('nav');nb.id='rbnav';var nbH='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" class="rnav-a'+(a?' active':'')+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
+nb.innerHTML=nbH;document.body.appendChild(nb);
+})();
+</script>
+</body>
+</html>

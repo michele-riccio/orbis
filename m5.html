@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M5 Architettura Editoriale · ORBIS Italia × Ribrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#F2F5FA;--surface:#FFF;--surface2:#EBF0F8;--border:#D8E0EE;
+  --blue:#0050A0;--blue-mid:#1A72C8;--blue-light:#E8F1FB;
+  --energy:#D9730D;--energy-light:#FDF0E4;
+  --green:#1A9462;--green-light:#E4F5EE;
+  --purple:#6B4FBB;--purple-light:#F0EDFB;
+  --ink:#0A1628;--ink2:#2E4060;--ink3:#5A7090;--ink4:#8FA4BC;
+  /* pillar colors */
+  --p1:#D9730D; /* VIARIS */
+  --p2:#0050A0; /* Orbis Energy FV */
+  --p3:#1A72C8; /* Efficienza Casa */
+  --p4:#1A9462; /* Persone Orbis ESG */
+}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden;padding-bottom:48px;cursor:none}
+@media(hover:none){body{cursor:auto}#cur{display:none}}
+#cur{position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:800;height:52px;background:rgba(242,245,250,.96);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border)}
+.tb-l{display:flex;align-items:center;gap:.85rem}
+.tb-logo{height:22px;object-fit:contain}
+.tb-sep{width:1px;height:16px;background:var(--border)}
+.tb-rlogo{height:11px;opacity:.3}
+.tb-r{display:flex;align-items:center;gap:.75rem}
+.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(0,80,160,.25);color:var(--blue-mid);padding:3px 9px;border-radius:4px;background:var(--blue-light)}
+.tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
+.rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
+.rb-ham .h1{width:20px}.rb-ham .h2{width:14px}.rb-ham .h3{width:20px}
+.rb-ham.open .h1{width:20px;transform:translateY(6.5px) rotate(-45deg)}
+.rb-ham.open .h2{opacity:0;width:0}
+.rb-ham.open .h3{width:20px;transform:translateY(-6.5px) rotate(45deg)}
+#progress{position:fixed;top:52px;left:0;right:0;z-index:801;height:2px;background:var(--border)}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p4));width:0%;transition:width .1s linear}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100svh;background:var(--surface);border-bottom:1px solid var(--border);padding:calc(52px + 3rem) 1.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,80,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,80,160,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-top{position:relative;z-index:1}
+.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-mid);display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.hero-eyebrow::before{content:"";width:32px;height:1px;background:var(--blue-mid)}
+.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:.92;letter-spacing:-.04em;color:var(--ink);margin-bottom:.75rem}
+.hero-title em{font-style:italic;font-weight:300;color:var(--blue)}
+.hero-sub{font-size:14px;color:var(--ink3);line-height:1.7;max-width:520px;margin-bottom:2rem}
+
+/* ═══ ARCHITETTURA SVG ═══ */
+.arch-wrap{position:relative;z-index:1;background:var(--surface2);border-radius:16px;border:1px solid var(--border);padding:1.5rem;overflow:hidden}
+.arch-label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink4);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.arch-label::before{content:"";width:12px;height:1px;background:var(--ink4)}
+
+/* ═══ CAPPELLO INTERLUDE ═══ */
+.cappello{padding:4rem 1.5rem;background:#0A1628;position:relative;overflow:hidden}
+.cap-bg{position:absolute;left:-3%;bottom:-15%;font-family:"Afacad Flux",sans-serif;font-size:clamp(14rem,45vw,44rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.03);pointer-events:none;user-select:none}
+.cap-inner{position:relative;z-index:1;max-width:900px}
+.cap-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.25rem}
+.cap-payoff{font-family:"Afacad Flux",sans-serif;font-size:clamp(3rem,10vw,8rem);font-weight:300;line-height:.9;letter-spacing:-.05em;color:rgba(255,255,255,.15);margin-bottom:.5rem}
+.cap-payoff-highlight{font-family:"Afacad Flux",sans-serif;font-size:clamp(3rem,10vw,8rem);font-weight:400;line-height:.9;letter-spacing:-.05em;color:#fff;display:block}
+.cap-body{font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;max-width:560px;margin-top:1.5rem}
+.cap-body strong{color:rgba(255,255,255,.85);font-weight:500}
+
+/* ═══ PILLAR SECTIONS ═══ */
+.section{padding:4rem 1.5rem;border-top:1px solid var(--border)}
+.section.white{background:var(--surface)}
+.section.grey{background:var(--bg)}
+.max-w{max-width:1100px;margin:0 auto}
+.sec-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.sec-tag::before{content:"";width:14px;height:1px;background:var(--stc,var(--blue))}
+.sec-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink)}
+.sec-sub{font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:560px;margin-top:.6rem}
+.sec-header{margin-bottom:2rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2rem 4rem;align-items:start}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+
+/* PILLAR CARD */
+.pillar-section{border-top:1px solid var(--border)}
+.pillar-header{padding:2rem 1.5rem;display:flex;align-items:center;gap:1.5rem}
+.ph-num{font-family:"Afacad Flux",sans-serif;font-size:4rem;font-weight:300;line-height:1;letter-spacing:-.06em;color:var(--ph-c,var(--blue));opacity:.2}
+.ph-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.ph-right{}
+.ph-tag{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ph-c,var(--blue));margin-bottom:.3rem}
+.ph-name{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;line-height:1.05;letter-spacing:-.02em;color:var(--ink)}
+.ph-target{font-size:11px;color:var(--ink4)}
+.pillar-body{padding:0 1.5rem 2.5rem}
+.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 4rem;align-items:start}
+@media(max-width:700px){.pillar-grid{grid-template-columns:1fr}}
+
+/* CONTENT TYPE CARDS */
+.ct-stack{display:flex;flex-direction:column;gap:.5rem}
+.ct-card{padding:.85rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--surface);display:flex;gap:.75rem;align-items:flex-start;transition:border-color .2s,transform .2s}
+.ct-card:hover{border-color:var(--ct-c,var(--blue));transform:translateX(4px)}
+.ct-card-accent{width:3px;border-radius:99px;flex-shrink:0;align-self:stretch}
+.ct-content{}
+.ct-format{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.2rem}
+.ct-desc{font-size:12.5px;color:var(--ink2);line-height:1.55}
+.ct-meta{display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap}
+.ct-chip{font-size:8px;letter-spacing:.06em;padding:1px 6px;border-radius:4px;background:var(--surface2);color:var(--ink4)}
+
+/* CHANNEL ROUTING */
+.ch-routing{display:flex;flex-direction:column;gap:.5rem}
+.cr-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .9rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.cr-channel{font-size:10px;letter-spacing:.06em;min-width:80px;color:var(--ink3)}
+.cr-bar-wrap{flex:1}
+.cr-bar-track{height:5px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.cr-bar-fill{height:100%;border-radius:99px;width:0;transition:width 1.1s cubic-bezier(0.16,1,0.3,1)}
+.cr-freq{font-size:10px;color:var(--ink4);min-width:60px;text-align:right;font-family:"Afacad Flux",sans-serif;font-size:.85rem}
+
+/* PRIORITY BADGE */
+.priority-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:99px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:.85rem}
+
+/* ═══ CHANNEL MATRIX ═══ */
+.matrix-section{padding:4rem 1.5rem;background:var(--bg);border-top:1px solid var(--border)}
+.matrix-grid{display:grid;gap:1px;background:var(--border);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+.mg-header{background:var(--surface2);padding:.6rem .85rem;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);display:flex;align-items:center;justify-content:center;min-height:44px}
+.mg-cell{background:var(--surface);padding:.85rem;display:flex;flex-direction:column;gap:.3rem;min-height:80px}
+.mg-cell.active{background:rgba(255,255,255,.95)}
+.mg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.mg-item{display:flex;align-items:flex-start;gap:.4rem;font-size:11px;color:var(--ink3);line-height:1.4}
+.mg-item.strong{color:var(--ink2);font-weight:500}
+.mg-empty{font-size:11px;color:var(--ink4);font-style:italic;opacity:.5}
+
+/* ═══ SETTIMANA TIPO ═══ */
+.week-section{padding:4rem 1.5rem;background:var(--surface);border-top:1px solid var(--border)}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.5rem;margin-top:1.5rem}
+@media(max-width:600px){.week-grid{grid-template-columns:repeat(7,1fr);gap:3px}}
+.wg-day{display:flex;flex-direction:column;gap:.3rem}
+.wg-day-name{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);text-align:center;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.wg-post{padding:.4rem .5rem;border-radius:5px;font-size:9px;line-height:1.3;text-align:center;font-weight:500}
+.wg-empty{height:24px}
+
+/* ═══ FIL ROUGE SOSTENIBILITÀ ═══ */
+.filrouge-section{padding:4rem 1.5rem;background:var(--green-light);border-top:1px solid rgba(26,148,98,.2)}
+.fr-inner{max-width:900px;margin:0 auto}
+.fr-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink);margin-bottom:.75rem}
+.fr-sub{font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:560px;margin-bottom:2rem}
+.fr-items{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:600px){.fr-items{grid-template-columns:1fr}}
+.fr-item{padding:1rem 1.15rem;background:var(--surface);border:1px solid rgba(26,148,98,.15);border-radius:10px}
+.fr-item-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.3rem}
+.fr-item-text{font-size:12.5px;color:var(--ink2);line-height:1.6}
+
+/* NAV */
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);gap:1rem;flex-wrap:wrap}
+.mnav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:color .2s}
+.mnav-back:hover{color:var(--blue)}
+.mnav-next{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;padding:.7rem 1.6rem;border-radius:99px;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,transform .15s}
+.mnav-next:hover{background:#0062C4;transform:translateY(-1px)}
+.mnav-next span{transition:transform .2s}
+.mnav-next:hover span{transform:translateX(3px)}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<header class="topbar">
+  <div class="tb-l">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis" class="tb-logo">
+    <div class="tb-sep"></div>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <div class="tb-r">
+    <span class="tb-badge">05 · Architettura Editoriale</span>
+    <span class="tb-date">Maggio 2026</span>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="sHero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-top">
+    <div class="hero-eyebrow" id="hE">Cruscotto Strategico · ORBIS Italia · Modulo 05</div>
+    <h1 class="hero-title" id="hT">Quattro pillar.<br><em>Un cappello.</em><br>Una voce.</h1>
+    <p class="hero-sub" id="hS">Il payoff "Energia Intelligente" non è uno slogan: è la struttura portante della comunicazione. Quattro pillar editoriali distinti, coordinati da un unico filo narrativo. Ogni contenuto è al suo posto, per la sua audience, sul suo canale.</p>
+  </div>
+  <!-- ARCHITETTURA SVG -->
+  <div class="arch-wrap" id="archWrap">
+    <div class="arch-label">Architettura editoriale · visione d'insieme</div>
+    <svg viewBox="0 0 800 260" preserveAspectRatio="xMidYMid meet" style="width:100%;max-height:260px" id="archSVG">
+      <!-- CAPPELLO / ARCHITRAVE -->
+      <rect x="20" y="20" width="760" height="44" rx="8" fill="rgba(10,22,40,.06)" class="arch-beam"/>
+      <text x="400" y="47" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="18" font-weight="400" fill="#0A1628" letter-spacing="-0.5" class="arch-beam-text">ENERGIA INTELLIGENTE · il cappello narrativo</text>
+      <!-- PILLAR 1: VIARIS -->
+      <rect x="30" y="74" width="170" height="166" rx="8" fill="rgba(217,115,13,.08)" stroke="rgba(217,115,13,.3)" stroke-width="1" class="arch-pillar" data-i="0"/>
+      <text x="115" y="100" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="11" font-weight="500" fill="#D9730D" letter-spacing="1">VIARIS</text>
+      <text x="115" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#D9730D" opacity=".7" letter-spacing="0.5">MOBILITÀ EV · pillar 1</text>
+      <line x1="50" y1="128" x2="180" y2="128" stroke="rgba(217,115,13,.15)" stroke-width="1"/>
+      <text x="40" y="148" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Video tutorial installazione</text>
+      <text x="40" y="163" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Modalità Green/Hybrid/Full</text>
+      <text x="40" y="178" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Case study residenziale</text>
+      <text x="40" y="193" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Calcolatore risparmio</text>
+      <text x="40" y="208" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Normativa wallbox 2026</text>
+      <rect x="45" y="220" width="140" height="12" rx="3" fill="rgba(217,115,13,.15)"/>
+      <text x="115" y="230" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#D9730D" letter-spacing="0.5">TARGET: Marco + Lorenzo</text>
+      <!-- PILLAR 2: ENERGY FV -->
+      <rect x="215" y="74" width="170" height="166" rx="8" fill="rgba(0,80,160,.08)" stroke="rgba(0,80,160,.25)" stroke-width="1" class="arch-pillar" data-i="1"/>
+      <text x="300" y="100" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="11" font-weight="500" fill="#0050A0" letter-spacing="1">ORBIS ENERGY</text>
+      <text x="300" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#0050A0" opacity=".7" letter-spacing="0.5">FOTOVOLTAICO · pillar 2</text>
+      <line x1="235" y1="128" x2="365" y2="128" stroke="rgba(0,80,160,.12)" stroke-width="1"/>
+      <text x="225" y="148" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Guide strutture per tetto</text>
+      <text x="225" y="163" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Configuratore FV (hero)</text>
+      <text x="225" y="178" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Aggiornamenti incentivi</text>
+      <text x="225" y="193" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Tutorial coppi/tetto piano</text>
+      <text x="225" y="208" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ ROI impianto 10 anni</text>
+      <rect x="230" y="220" width="140" height="12" rx="3" fill="rgba(0,80,160,.12)"/>
+      <text x="300" y="230" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#0050A0" letter-spacing="0.5">TARGET: Marco + Lorenzo</text>
+      <!-- PILLAR 3: EFFICIENZA CASA -->
+      <rect x="400" y="74" width="170" height="166" rx="8" fill="rgba(26,114,200,.08)" stroke="rgba(26,114,200,.25)" stroke-width="1" class="arch-pillar" data-i="2"/>
+      <text x="485" y="100" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="11" font-weight="500" fill="#1A72C8" letter-spacing="1">EFFICIENZA CASA</text>
+      <text x="485" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#1A72C8" opacity=".7" letter-spacing="0.5">BUILDING AUTO. · pillar 3</text>
+      <line x1="420" y1="128" x2="550" y2="128" stroke="rgba(26,114,200,.12)" stroke-width="1"/>
+      <text x="410" y="148" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Risparmio bolletta calcolato</text>
+      <text x="410" y="163" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Direttiva Case Green EU</text>
+      <text x="410" y="178" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Cronotermostato smart</text>
+      <text x="410" y="193" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Temporizzatore = –23% luce</text>
+      <text x="410" y="208" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Guide installatori building</text>
+      <rect x="415" y="220" width="140" height="12" rx="3" fill="rgba(26,114,200,.1)"/>
+      <text x="485" y="230" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#1A72C8" letter-spacing="0.5">TARGET: Alessandro + Lorenzo</text>
+      <!-- PILLAR 4: PERSONE ORBIS -->
+      <rect x="585" y="74" width="195" height="166" rx="8" fill="rgba(26,148,98,.08)" stroke="rgba(26,148,98,.25)" stroke-width="1" class="arch-pillar" data-i="3"/>
+      <text x="683" y="100" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="11" font-weight="500" fill="#1A9462" letter-spacing="1">PERSONE ORBIS</text>
+      <text x="683" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#1A9462" opacity=".7" letter-spacing="0.5">ESG + EMPLOYER BR. · pillar 4</text>
+      <line x1="605" y1="128" x2="765" y2="128" stroke="rgba(26,148,98,.12)" stroke-width="1"/>
+      <text x="595" y="148" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Presentazioni team (people)</text>
+      <text x="595" y="163" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Behind-the-scenes fiere</text>
+      <text x="595" y="178" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Bilancio sost. episodi mensili</text>
+      <text x="595" y="193" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Employee advocacy post</text>
+      <text x="595" y="208" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">▸ Certificazioni EU / premi</text>
+      <rect x="600" y="220" width="165" height="12" rx="3" fill="rgba(26,148,98,.12)"/>
+      <text x="683" y="230" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#1A9462" letter-spacing="0.5">TARGET: tutti e 3 · reach massima</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ CAPPELLO INTERLUDE ═══ -->
+<section class="cappello" id="sCap">
+  <div class="cap-bg" aria-hidden="true">EI</div>
+  <div class="cap-inner">
+    <div class="cap-tag">Il cappello narrativo</div>
+    <div class="cap-payoff" id="capP">Energia</div>
+    <span class="cap-payoff-highlight" id="capH">Intelligente.</span>
+    <p class="cap-body" id="capB">Non è uno slogan. È la descrizione letterale del catalogo. Il cronotermostato <strong>riduce i consumi</strong>. Il pannello FV <strong>genera energia</strong>. VIARIS <strong>la usa in modo intelligente</strong>. Il temporizzatore <strong>ottimizza i carichi</strong>. Ogni prodotto Orbis è, letteralmente, energia intelligente in azione. Il payoff non è marketing — è ingegneria comunicata bene. <strong>Ogni contenuto parte da qui e ritorna qui.</strong></p>
+  </div>
+</section>
+
+<!-- ═══ PILLAR 01: VIARIS ═══ -->
+<div class="pillar-section" id="p1">
+  <div class="pillar-header">
+    <div class="ph-num" style="--ph-c:var(--p1)">01</div>
+    <div class="ph-dot" style="background:var(--p1)"></div>
+    <div class="ph-right">
+      <div class="ph-tag" style="color:var(--p1)">Pillar 1 · Priorità 2026</div>
+      <div class="ph-name">VIARIS · Mobilità Elettrica</div>
+      <div class="ph-target">Target primario: Marco (installatori) · Target secondario: Lorenzo (early adopter)</div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="pillar-grid" id="pg1">
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.75rem">Tipologie di contenuto</div>
+        <div class="ct-stack">
+          <div class="ct-card" style="--ct-c:var(--p1)">
+            <div class="ct-card-accent" style="background:var(--p1)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Video verticale · 15–30s</div>
+              <div class="ct-desc">Problema di cantiere → VIARIS Solar lo risolve. Hook nei primi 2 secondi. Zero configurazioni complesse.</div>
+              <div class="ct-meta"><span class="ct-chip">Facebook</span><span class="ct-chip">Instagram</span><span class="ct-chip">YouTube Shorts</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p1)">
+            <div class="ct-card-accent" style="background:var(--p1)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Tutorial YouTube · 4–8 min</div>
+              <div class="ct-desc">Installazione wallbox passo-passo. Configurazione modalità Green/Hybrid/Full. Schema elettrico unifilar scaricabile.</div>
+              <div class="ct-meta"><span class="ct-chip">YouTube</span><span class="ct-chip">LinkedIn (link)</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p1)">
+            <div class="ct-card-accent" style="background:var(--p1)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Carosello infografica · 6 slide</div>
+              <div class="ct-desc">Calcolatore risparmio bolletta. Confronto tariffe ricarica pubblica vs VIARIS Solar a casa. Dati veri, calcolo chiaro.</div>
+              <div class="ct-meta"><span class="ct-chip">Instagram</span><span class="ct-chip">LinkedIn</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p1)">
+            <div class="ct-card-accent" style="background:rgba(217,115,13,.4)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Post normativa · aggiornamento</div>
+              <div class="ct-desc">Bonus Colonnine 2026. Transizione 5.0. Ogni aggiornamento normativo = opportunità di contenuto utile per Marco e Lorenzo.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn</span><span class="ct-chip">Newsletter</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="priority-badge" style="background:var(--energy-light);border:1px solid rgba(217,115,13,.25);color:var(--energy)">⚡ Pillar prioritario — massimo investimento contenuti nel 2026</div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.75rem">Routing per canale</div>
+        <div class="ch-routing" id="cr1">
+          <div class="cr-item">
+            <div class="cr-channel">YouTube</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="100" style="background:var(--p1)"></div></div></div>
+            <div class="cr-freq">2×/mese</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">Instagram</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="85" style="background:var(--p1)"></div></div></div>
+            <div class="cr-freq">3×/sett.</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">Facebook</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="70" style="background:rgba(217,115,13,.5)"></div></div></div>
+            <div class="cr-freq">2×/sett.</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">LinkedIn</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="60" style="background:rgba(217,115,13,.4)"></div></div></div>
+            <div class="cr-freq">2×/sett.</div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;padding:1rem;background:var(--energy-light);border:1px solid rgba(217,115,13,.2);border-radius:10px">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--energy);margin-bottom:.35rem">Il contenuto chiave mancante</div>
+          <p style="font-size:12.5px;color:var(--ink2);line-height:1.65">Nessun tutorial YouTube di installazione VIARIS esiste oggi. Questo è il territorio più urgente da presidiare: Marco lo cerca la sera prima di installare un prodotto nuovo. Chi arriva primo, vince la fiducia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PILLAR 02: FV ═══ -->
+<div class="pillar-section" style="background:var(--bg)" id="p2">
+  <div class="pillar-header">
+    <div class="ph-num" style="--ph-c:var(--p2)">02</div>
+    <div class="ph-dot" style="background:var(--p2)"></div>
+    <div class="ph-right">
+      <div class="ph-tag" style="color:var(--p2)">Pillar 2</div>
+      <div class="ph-name">Orbis Energy · Fotovoltaico</div>
+      <div class="ph-target">Target primario: Marco (installatori FV) · Target secondario: Lorenzo (proprietario con FV)</div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="pillar-grid" id="pg2">
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.75rem">Tipologie di contenuto</div>
+        <div class="ct-stack">
+          <div class="ct-card" style="--ct-c:var(--p2)">
+            <div class="ct-card-accent" style="background:var(--p2)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Tutorial YouTube · installazione strutture</div>
+              <div class="ct-desc">Guida montaggio su tetto in coppi, tetto piano, copertura industriale. Le tipologie di tetto italiane che Schletter e K2 ignorano.</div>
+              <div class="ct-meta"><span class="ct-chip">YouTube</span><span class="ct-chip">LinkedIn</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p2)">
+            <div class="ct-card-accent" style="background:var(--p2)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Post configuratore FV · hero asset</div>
+              <div class="ct-desc">Il configuratore online di Orbis come protagonista del contenuto. K2 lo fa. Orbis deve renderlo ancora più accessibile e visibile.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn</span><span class="ct-chip">Instagram</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p2)">
+            <div class="ct-card-accent" style="background:rgba(0,80,160,.4)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Aggiornamento incentivi · mensile</div>
+              <div class="ct-desc">GSE, PNIEC 2030, scambio sul posto, autoconsumo collettivo. Ogni norma nuova = un post utile che posiziona Orbis come esperto.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn</span><span class="ct-chip">Newsletter</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.75rem">Routing per canale</div>
+        <div class="ch-routing" id="cr2">
+          <div class="cr-item">
+            <div class="cr-channel">YouTube</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="90" style="background:var(--p2)"></div></div></div>
+            <div class="cr-freq">1×/mese</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">LinkedIn</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="80" style="background:var(--p2)"></div></div></div>
+            <div class="cr-freq">2×/sett.</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">Instagram</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="50" style="background:rgba(0,80,160,.4)"></div></div></div>
+            <div class="cr-freq">1×/sett.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PILLAR 03: EFFICIENZA CASA ═══ -->
+<div class="pillar-section" id="p3">
+  <div class="pillar-header">
+    <div class="ph-num" style="--ph-c:var(--p3)">03</div>
+    <div class="ph-dot" style="background:var(--p3)"></div>
+    <div class="ph-right">
+      <div class="ph-tag" style="color:var(--p3)">Pillar 3</div>
+      <div class="ph-name">Efficienza Casa · Building Automation</div>
+      <div class="ph-target">Target: Alessandro (grossista) · Lorenzo (B2C) · Installatori civili</div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="pillar-grid" id="pg3">
+      <div>
+        <div class="ct-stack">
+          <div class="ct-card" style="--ct-c:var(--p3)">
+            <div class="ct-card-accent" style="background:var(--p3)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Post risparmio calcolato · dato reale</div>
+              <div class="ct-desc">"Il cronotermostato Orbis X riduce il consumo termico del 22%." Dati veri, fonte citata, non affermazione generica.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn</span><span class="ct-chip">Instagram</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p3)">
+            <div class="ct-card-accent" style="background:var(--p3)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Direttiva Case Green · serie educativa</div>
+              <div class="ct-desc">La direttiva EU impone edifici a emissioni zero dal 2028. Ogni norma è un'opportunità di contenuto B2B (Alessandro) e B2C (Lorenzo).</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn</span><span class="ct-chip">Newsletter</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p3)">
+            <div class="ct-card-accent" style="background:rgba(26,114,200,.4)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Le radici del brand · storia Orbis</div>
+              <div class="ct-desc">Orbis nasce con i temporizzatori. 75 anni di storia. Questo catalogo storico è un asset di credibilità che i competitor non hanno.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="ch-routing" id="cr3">
+          <div class="cr-item">
+            <div class="cr-channel">LinkedIn</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="85" style="background:var(--p3)"></div></div></div>
+            <div class="cr-freq">2×/sett.</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">Instagram</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="50" style="background:rgba(26,114,200,.4)"></div></div></div>
+            <div class="cr-freq">1×/sett.</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">Facebook</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="40" style="background:rgba(26,114,200,.3)"></div></div></div>
+            <div class="cr-freq">1×/sett.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PILLAR 04: PERSONE ORBIS ═══ -->
+<div class="pillar-section" style="background:var(--bg)" id="p4">
+  <div class="pillar-header">
+    <div class="ph-num" style="--ph-c:var(--p4)">04</div>
+    <div class="ph-dot" style="background:var(--p4)"></div>
+    <div class="ph-right">
+      <div class="ph-tag" style="color:var(--p4)">Pillar 4 · Il moltiplicatore di reach</div>
+      <div class="ph-name">Persone Orbis · ESG</div>
+      <div class="ph-target">Target: tutti e tre · reach organica massima su LinkedIn</div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="pillar-grid" id="pg4">
+      <div>
+        <div class="ct-stack">
+          <div class="ct-card" style="--ct-c:var(--p4)">
+            <div class="ct-card-accent" style="background:var(--p4)"></div>
+            <div class="ct-content">
+              <div class="ct-format">People post · team Orbis</div>
+              <div class="ct-desc">Il modello già funziona: Pietro, Anna, Meeting Bergamo. Sistematizzare: ogni persona del team ha la sua cadenza mensile. Carel docet.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn ★ top performer</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p4)">
+            <div class="ct-card-accent" style="background:var(--p4)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Fiere ed eventi · live coverage</div>
+              <div class="ct-desc">KEY Energy, MCE, Mostra Convegno. Il post da fiera è il top performer assoluto (4.342 imp KEY 2026). Pianificare contenuti PRIMA, DURANTE, DOPO ogni fiera.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn ★ top performer</span><span class="ct-chip">Instagram Stories</span></div>
+            </div>
+          </div>
+          <div class="ct-card" style="--ct-c:var(--p4)">
+            <div class="ct-card-accent" style="background:rgba(26,148,98,.5)"></div>
+            <div class="ct-content">
+              <div class="ct-format">Bilancio sostenibilità · serie mensile</div>
+              <div class="ct-desc">Il documento esiste. Non è usato abbastanza. Da documento scaricabile a serie narrativa: ogni mese un capitolo. Un dato ESG = un post.</div>
+              <div class="ct-meta"><span class="ct-chip">LinkedIn</span><span class="ct-chip">Instagram</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;padding:1rem;background:var(--green-light);border:1px solid rgba(26,148,98,.2);border-radius:10px">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.3rem">Il principio Carel applicato a Orbis</div>
+          <p style="font-size:12.5px;color:var(--ink2);line-height:1.65">Stefano Lucini, i commerciali, i tecnici: 5 persone × 2 post/settimana dai profili personali = 10× più reach della pagina corporate. Employee advocacy non è optional — è la principale leva di amplificazione organica disponibile oggi.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ch-routing" id="cr4">
+          <div class="cr-item">
+            <div class="cr-channel">LinkedIn</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="100" style="background:var(--p4)"></div></div></div>
+            <div class="cr-freq">3×/sett.</div>
+          </div>
+          <div class="cr-item">
+            <div class="cr-channel">Instagram</div>
+            <div class="cr-bar-wrap"><div class="cr-bar-track"><div class="cr-bar-fill" data-w="55" style="background:rgba(26,148,98,.4)"></div></div></div>
+            <div class="cr-freq">1×/sett.</div>
+          </div>
+        </div>
+        <div style="margin-top:1rem;padding:1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem">Frequenza editoriale consigliata · totale settimanale</div>
+          <div style="display:flex;flex-direction:column;gap:.4rem">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink2)"><span>LinkedIn (corporate)</span><span style="font-weight:500;color:var(--blue)">3–4 post</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink2)"><span>LinkedIn (employee)</span><span style="font-weight:500;color:var(--green)">5–10 post</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink2)"><span>Instagram</span><span style="font-weight:500;color:var(--energy)">3 post</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink2)"><span>Facebook</span><span style="font-weight:500;color:var(--blue-mid)">2 post</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink2)"><span>YouTube</span><span style="font-weight:500;color:var(--red,#C03020)">2–3 video/mese</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SETTIMANA TIPO ═══ -->
+<section class="week-section" id="sWeek">
+  <div class="max-w">
+    <div class="sec-header" id="shWeek">
+      <div class="sec-tag" style="--stc:#0050A0">Piano editoriale</div>
+      <h2 class="sec-title">Come suona una settimana tipo.</h2>
+      <p class="sec-sub">Distribuzione dei pillar sui giorni della settimana. L'obiettivo è varietà di ritmo e alternanza tra i target — mai due post dello stesso pillar consecutivi.</p>
+    </div>
+    <div class="week-grid" id="weekGrid">
+      <!-- Monday -->
+      <div class="wg-day">
+        <div class="wg-day-name">Lun</div>
+        <div class="wg-post" style="background:rgba(217,115,13,.12);color:var(--p1)">VIARIS<br>Video reel</div>
+        <div class="wg-empty"></div>
+        <div class="wg-post" style="background:rgba(26,148,98,.1);color:var(--p4)">People<br>post</div>
+      </div>
+      <!-- Tuesday -->
+      <div class="wg-day">
+        <div class="wg-day-name">Mar</div>
+        <div class="wg-post" style="background:rgba(0,80,160,.1);color:var(--p2)">FV<br>Tutorial</div>
+        <div class="wg-post" style="background:rgba(26,114,200,.1);color:var(--p3)">Efficienza<br>dato</div>
+        <div class="wg-empty"></div>
+      </div>
+      <!-- Wednesday -->
+      <div class="wg-day">
+        <div class="wg-day-name">Mer</div>
+        <div class="wg-post" style="background:rgba(26,148,98,.1);color:var(--p4)">ESG<br>mese</div>
+        <div class="wg-empty"></div>
+        <div class="wg-post" style="background:rgba(217,115,13,.12);color:var(--p1)">VIARIS<br>Normativa</div>
+      </div>
+      <!-- Thursday -->
+      <div class="wg-day">
+        <div class="wg-day-name">Gio</div>
+        <div class="wg-post" style="background:rgba(0,80,160,.1);color:var(--p2)">FV<br>Configuratore</div>
+        <div class="wg-post" style="background:rgba(26,148,98,.1);color:var(--p4)">Fiera /<br>evento</div>
+        <div class="wg-empty"></div>
+      </div>
+      <!-- Friday -->
+      <div class="wg-day">
+        <div class="wg-day-name">Ven</div>
+        <div class="wg-post" style="background:rgba(26,114,200,.1);color:var(--p3)">Casa green<br>update</div>
+        <div class="wg-empty"></div>
+        <div class="wg-post" style="background:rgba(217,115,13,.12);color:var(--p1)">VIARIS<br>Case study</div>
+      </div>
+      <!-- Saturday -->
+      <div class="wg-day">
+        <div class="wg-day-name">Sab</div>
+        <div class="wg-post" style="background:rgba(26,148,98,.1);color:var(--p4)">Behind<br>scenes</div>
+        <div class="wg-empty"></div>
+        <div class="wg-empty"></div>
+      </div>
+      <!-- Sunday -->
+      <div class="wg-day">
+        <div class="wg-day-name">Dom</div>
+        <div class="wg-empty"></div>
+        <div class="wg-empty"></div>
+        <div class="wg-post" style="background:rgba(0,80,160,.08);color:var(--blue-mid);font-size:8px">YouTube<br>nuovo video</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem">
+      <div style="display:flex;align-items:center;gap:.4rem;font-size:10px;color:var(--ink4)"><div style="width:10px;height:10px;border-radius:3px;background:rgba(217,115,13,.2)"></div>VIARIS</div>
+      <div style="display:flex;align-items:center;gap:.4rem;font-size:10px;color:var(--ink4)"><div style="width:10px;height:10px;border-radius:3px;background:rgba(0,80,160,.15)"></div>Orbis Energy FV</div>
+      <div style="display:flex;align-items:center;gap:.4rem;font-size:10px;color:var(--ink4)"><div style="width:10px;height:10px;border-radius:3px;background:rgba(26,114,200,.12)"></div>Efficienza Casa</div>
+      <div style="display:flex;align-items:center;gap:.4rem;font-size:10px;color:var(--ink4)"><div style="width:10px;height:10px;border-radius:3px;background:rgba(26,148,98,.12)"></div>Persone Orbis</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FIL ROUGE SOSTENIBILITÀ ═══ -->
+<section class="filrouge-section" id="sFilRouge">
+  <div class="fr-inner">
+    <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem"><span style="display:block;width:14px;height:1px;background:var(--green)"></span>Il filo verde</div>
+    <h2 class="fr-title">La sostenibilità come<br>narrativa trasversale.</h2>
+    <p class="fr-sub">Il bilancio di sostenibilità Orbis esiste già (2° anno). Non è un documento da scaricare: è una serie editoriale da raccontare mese per mese. Ogni capitolo del bilancio diventa un contenuto LinkedIn.</p>
+    <div class="fr-items" id="frItems">
+      <div class="fr-item">
+        <div class="fr-item-tag">Gennaio · Produzione</div>
+        <div class="fr-item-text">Quante ore di energia producono i prodotti Orbis installati in Italia. Dato aggregato, visual semplice.</div>
+      </div>
+      <div class="fr-item">
+        <div class="fr-item-tag">Febbraio · Materiali</div>
+        <div class="fr-item-text">Zavorre in gomma riciclata per FV. Imballaggi in cartone riciclato. La sostenibilità nel dettaglio materiale.</div>
+      </div>
+      <div class="fr-item">
+        <div class="fr-item-tag">Aprile · Mobilità</div>
+        <div class="fr-item-text">Quante auto elettriche sono state caricate da VIARIS? Quante emissioni CO₂ evitate? Dato misurabile e comunicabile.</div>
+      </div>
+      <div class="fr-item">
+        <div class="fr-item-tag">Ottobre · Persone</div>
+        <div class="fr-item-text">Team Orbis, diversity, welfare aziendale. L'ESG non è solo ambiente: è anche come si trattano le persone dentro l'azienda.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="mod-nav">
+  <a href="m4.html" class="mnav-back">← M4 Personas</a>
+  <a href="m6.html" class="mnav-next">M6 Piano Media <span>→</span></a>
+</nav>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+var cur=document.getElementById("cur");
+document.addEventListener("mousemove",function(e){gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.1,ease:"none"});});
+document.querySelectorAll("a,button").forEach(function(el){
+  el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#D9730D",duration:.15});});
+  el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#0050A0",duration:.15});});
+});
+ScrollTrigger.create({trigger:"body",start:"top top",end:"bottom bottom",onUpdate:function(self){document.getElementById("progress-fill").style.width=(self.progress*100)+"%";}});
+
+/* hero */
+gsap.fromTo("#hE",{opacity:0,y:10},{opacity:1,y:0,duration:.7,delay:.2,ease:"power3.out"});
+gsap.fromTo("#hT",{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.35,ease:"power3.out"});
+gsap.fromTo("#hS",{opacity:0,y:18},{opacity:1,y:0,duration:.8,delay:.6,ease:"power3.out"});
+
+/* arch SVG */
+ScrollTrigger.create({trigger:"#archWrap",start:"top 80%",once:true,onEnter:function(){
+  gsap.fromTo("#archWrap",{opacity:0,y:20},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo(".arch-beam",{opacity:0,scaleX:.8,transformOrigin:"left"},{opacity:1,scaleX:1,duration:.8,delay:.2,ease:"power3.out"});
+  gsap.fromTo(".arch-pillar",{opacity:0,scaleY:0,transformOrigin:"bottom"},{opacity:1,scaleY:1,duration:.8,stagger:.12,delay:.5,ease:"power3.out"});
+}});
+
+/* cappello */
+ScrollTrigger.create({trigger:"#sCap",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#capP",{opacity:0,y:30},{opacity:1,y:0,duration:.8,ease:"power3.out"});
+  gsap.fromTo("#capH",{opacity:0,y:30},{opacity:1,y:0,duration:.8,delay:.15,ease:"power3.out"});
+  gsap.fromTo("#capB",{opacity:0,y:16},{opacity:1,y:0,duration:.7,delay:.4,ease:"power3.out"});
+}});
+
+/* pillar sections */
+["#pg1","#pg2","#pg3","#pg4"].forEach(function(sel,idx){
+  ScrollTrigger.create({trigger:sel,start:"top 75%",once:true,onEnter:function(){
+    gsap.fromTo(sel+" .ct-card",{opacity:0,x:-12},{opacity:1,x:0,duration:.5,stagger:.08,ease:"power3.out"});
+    gsap.fromTo(sel+" .priority-badge, "+sel+" div[style*='green-light'], "+sel+" div[style*='energy-light']",{opacity:0,y:10},{opacity:1,y:0,duration:.5,delay:.4,ease:"power3.out"});
+  }});
+  /* channel routing bars */
+  var crSel="#cr"+(idx+1);
+  ScrollTrigger.create({trigger:crSel,start:"top 78%",once:true,onEnter:function(){
+    document.querySelectorAll(crSel+" .cr-bar-fill").forEach(function(f,i){
+      gsap.fromTo(f,{width:"0%"},{width:f.getAttribute("data-w")+"%",duration:1.1,delay:.1+i*.1,ease:"power3.out"});
+    });
+  }});
+});
+
+/* settimana tipo */
+ScrollTrigger.create({trigger:"#sWeek",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#shWeek",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  gsap.fromTo("#weekGrid .wg-post",{opacity:0,scale:.8},{opacity:1,scale:1,duration:.4,stagger:.04,delay:.2,ease:"back.out(1.5)"});
+}});
+
+/* fil rouge */
+ScrollTrigger.create({trigger:"#sFilRouge",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#frItems .fr-item",{opacity:0,y:16},{opacity:1,y:0,duration:.5,stagger:.1,ease:"power3.out"});
+}});
+</script>
+
+<script>
+(function(){
+var M=[
+  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},
+  {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},
+  {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
+  {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
+  {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
+  {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
+  {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
+];
+var path='m5';
+var st=document.createElement('style');
+st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
+document.head.appendChild(st);
+var ov=document.createElement('div');ov.className='rbov';
+var ih='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
+document.body.appendChild(ov);
+var mo=false,btn=document.getElementById('rbHamBtn');
+function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
+function close(){mo=false;btn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+btn.addEventListener('click',function(){if(mo)close();else open();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mo)close();});
+ov.addEventListener('click',function(e){if(e.target===ov)close();});
+var nb=document.createElement('nav');nb.id='rbnav';var nbH='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" class="rnav-a'+(a?' active':'')+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
+nb.innerHTML=nbH;document.body.appendChild(nb);
+})();
+</script>
+</body>
+</html>

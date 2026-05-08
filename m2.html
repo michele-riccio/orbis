@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M2 Competitor Map · ORBIS Italia × Ribrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#F2F5FA;--surface:#FFF;--surface2:#EBF0F8;--border:#D8E0EE;
+  --blue:#0050A0;--blue-mid:#1A72C8;--blue-light:#E8F1FB;
+  --energy:#D9730D;--energy-light:#FDF0E4;
+  --green:#1A9462;--green-light:#E4F5EE;
+  --ink:#0A1628;--ink2:#2E4060;--ink3:#5A7090;--ink4:#8FA4BC;
+}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden;padding-bottom:48px;cursor:none}
+@media(hover:none){body{cursor:auto}#cur{display:none}}
+#cur{position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:800;height:52px;background:rgba(242,245,250,.96);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border)}
+.tb-l{display:flex;align-items:center;gap:.85rem}
+.tb-logo{height:22px;object-fit:contain}
+.tb-sep{width:1px;height:16px;background:var(--border)}
+.tb-rlogo{height:11px;opacity:.3}
+.tb-r{display:flex;align-items:center;gap:.75rem}
+.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(26,114,200,.25);color:var(--blue-mid);padding:3px 9px;border-radius:4px;background:var(--blue-light)}
+.tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
+.rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
+.rb-ham .h1{width:20px}.rb-ham .h2{width:14px}.rb-ham .h3{width:20px}
+.rb-ham.open .h1{width:20px;transform:translateY(6.5px) rotate(-45deg)}
+.rb-ham.open .h2{opacity:0;width:0}
+.rb-ham.open .h3{width:20px;transform:translateY(-6.5px) rotate(45deg)}
+#progress{position:fixed;top:52px;left:0;right:0;z-index:801;height:2px;background:var(--border)}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--energy));width:0%;transition:width .1s linear}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100svh;background:var(--surface);border-bottom:1px solid var(--border);padding-top:52px;display:grid;grid-template-rows:auto 1fr;overflow:hidden;position:relative}
+.hero-top{padding:3rem 1.5rem 0;position:relative;z-index:2}
+.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-mid);display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.hero-eyebrow::before{content:"";width:32px;height:1px;background:var(--blue-mid)}
+.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:.92;letter-spacing:-.04em;color:var(--ink);margin-bottom:.75rem}
+.hero-title em{font-style:italic;font-weight:300;color:var(--blue)}
+.hero-sub{font-size:14px;color:var(--ink3);line-height:1.7;max-width:480px}
+.hero-chart-wrap{position:relative;z-index:1;flex:1;overflow:hidden}
+.hero-chart-label{position:absolute;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);font-family:"DM Sans",sans-serif}
+.hero-chart-label.x-left{left:1.5rem;bottom:2.5rem}
+.hero-chart-label.x-right{right:1.5rem;bottom:2.5rem}
+.hero-chart-label.y-top{left:1.5rem;top:.5rem}
+.hero-chart-label.y-bottom{left:1.5rem;bottom:3.5rem}
+.hero-axis-x{position:absolute;left:0;right:0;bottom:3.2rem;height:1px;background:var(--border)}
+.hero-axis-y{position:absolute;left:50%;top:0;bottom:3.2rem;width:1px;background:var(--border);transform:translateX(-50%)}
+.bubble-legend{position:absolute;bottom:2rem;right:1.5rem;display:flex;gap:1rem;flex-wrap:wrap}
+.bl-item{display:flex;align-items:center;gap:.4rem;font-size:9px;color:var(--ink4)}
+.bl-dot{width:8px;height:8px;border-radius:50%}
+
+/* ═══ STATEMENT INTERLUDE ═══ */
+.interlude{padding:4.5rem 1.5rem;background:var(--ink);position:relative;overflow:hidden}
+.interlude-bg{position:absolute;right:-5%;top:-20%;font-family:"Afacad Flux",sans-serif;font-size:clamp(12rem,35vw,32rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.03);pointer-events:none;user-select:none}
+.interlude-inner{position:relative;z-index:1;max-width:900px}
+.interlude-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.25rem;font-family:"DM Sans",sans-serif}
+.interlude-text{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5.5vw,4.5rem);font-weight:300;line-height:1.08;letter-spacing:-.025em;color:rgba(255,255,255,.85)}
+.interlude-text em{font-style:italic;color:#D9730D}
+.interlude-text strong{font-weight:500;color:#fff}
+.interlude-numbers{display:flex;gap:3rem;margin-top:2.5rem;flex-wrap:wrap}
+.in-item{display:flex;flex-direction:column;gap:.2rem}
+.in-val{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;color:#fff;letter-spacing:-.04em;line-height:1}
+.in-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);font-family:"DM Sans",sans-serif}
+
+/* ═══ HEATMAP ═══ */
+.heatmap-section{padding:4rem 1.5rem;background:var(--bg)}
+.heatmap-section .sec-header{margin-bottom:2rem}
+.heatmap-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.heatmap-scroll::-webkit-scrollbar{height:3px}
+.heatmap-scroll::-webkit-scrollbar-track{background:var(--border)}
+.heatmap-scroll::-webkit-scrollbar-thumb{background:var(--blue-mid);border-radius:99px}
+.hm-table{min-width:700px;width:100%}
+.hm-thead th{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);font-weight:400;padding:.5rem .75rem;text-align:center;vertical-align:bottom}
+.hm-thead th:first-child{text-align:left;min-width:120px}
+.hm-thead .ch-icon{font-size:1.1rem;display:block;margin-bottom:.25rem}
+.hm-tbody tr{transition:background .2s}
+.hm-tbody tr:hover{background:rgba(0,80,160,.03)}
+.hm-tbody td{padding:.5rem .75rem;border-top:1px solid var(--border)}
+.hm-name{font-family:"Afacad Flux",sans-serif;font-size:.95rem;color:var(--ink);line-height:1.2}
+.hm-group{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-top:1px}
+.hm-cell{width:100%;display:flex;justify-content:center}
+.hm-dot{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:.06em;font-weight:500;transition:transform .2s}
+.hm-dot:hover{transform:scale(1.1)}
+.hm-dot.l0{background:#F2F5FA;color:var(--ink4);border:1px solid var(--border)}
+.hm-dot.l1{background:rgba(0,80,160,.08);color:var(--blue);border:1px solid rgba(0,80,160,.15)}
+.hm-dot.l2{background:rgba(0,80,160,.18);color:var(--blue);border:1px solid rgba(0,80,160,.25)}
+.hm-dot.l3{background:var(--blue);color:#fff;border:1px solid var(--blue)}
+.hm-dot.energy{background:var(--energy);color:#fff;border:1px solid var(--energy)}
+.hm-dot.green{background:var(--green);color:#fff;border:1px solid var(--green)}
+.hm-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}
+.hml-item{display:flex;align-items:center;gap:.4rem;font-size:10px;color:var(--ink4)}
+
+/* ═══ COMPETITOR GROUPS ═══ */
+.group-section{padding:4rem 1.5rem;border-top:1px solid var(--border)}
+.group-section.white{background:var(--surface)}
+.group-section.grey{background:var(--bg)}
+.gs-header{margin-bottom:2rem;display:grid;grid-template-columns:auto 1fr;gap:1rem 2rem;align-items:start}
+@media(max-width:600px){.gs-header{grid-template-columns:1fr}}
+.gs-number{font-family:"Afacad Flux",sans-serif;font-size:clamp(4rem,12vw,8rem);font-weight:300;line-height:1;letter-spacing:-.06em;color:var(--gs-color,var(--blue));opacity:.15}
+.gs-right{}
+.gs-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.gs-tag::before{content:"";width:14px;height:1px;background:var(--gs-color,var(--blue))}
+.gs-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:400;letter-spacing:-.025em;line-height:1.05;color:var(--ink);margin-bottom:.6rem}
+.gs-sub{font-size:13px;color:var(--ink3);line-height:1.8;max-width:520px}
+.cc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.cc{padding:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;gap:.85rem;transition:box-shadow .25s,border-color .25s;position:relative;overflow:hidden}
+.cc:hover{box-shadow:0 6px 24px rgba(0,80,160,.09);border-color:rgba(0,80,160,.22)}
+.cc-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.cc-name{font-family:"Afacad Flux",sans-serif;font-size:1.15rem;font-weight:400;color:var(--ink);line-height:1.1}
+.cc-score-ring{flex-shrink:0}
+.cc-channels{display:flex;gap:.3rem;flex-wrap:wrap}
+.cc-ch{font-size:8px;letter-spacing:.06em;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink4)}
+.cc-ch.active{background:var(--blue-light);border-color:rgba(0,80,160,.2);color:var(--blue)}
+.cc-ch.strong{background:var(--blue);border-color:var(--blue);color:#fff}
+.cc-insight{font-size:12px;color:var(--ink3);line-height:1.6;padding:.65rem .75rem;background:var(--bg);border-radius:8px}
+.cc-gap{font-size:11.5px;color:var(--gap-c,var(--energy));line-height:1.55;display:flex;gap:.5rem;align-items:flex-start}
+.cc-gap::before{content:"→";flex-shrink:0;margin-top:.05rem}
+.cc-followers{display:flex;gap:.75rem}
+.ccf{display:flex;flex-direction:column}
+.ccf-v{font-family:"Afacad Flux",sans-serif;font-size:1rem;color:var(--ink2);line-height:1}
+.ccf-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4)}
+
+/* SCORE RING SVG */
+.score-ring-wrap{position:relative;width:44px;height:44px;flex-shrink:0}
+.score-ring-wrap svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.score-ring-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Afacad Flux",sans-serif;font-size:.75rem;font-weight:500;color:var(--ring-c,var(--blue))}
+
+/* ═══ STANZA VUOTA ═══ */
+.vuota-section{padding:4rem 1.5rem;background:var(--surface);border-top:1px solid var(--border)}
+.vuota-inner{max-width:900px;margin:0 auto}
+.vuota-header{margin-bottom:2.5rem}
+.vuota-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+.vg-cell{background:var(--surface);padding:1.25rem;display:flex;flex-direction:column;gap:.5rem;min-height:120px;transition:background .25s}
+.vg-cell.occupied{background:rgba(0,80,160,.03)}
+.vg-cell.opportunity{background:linear-gradient(135deg,rgba(217,115,13,.06),rgba(217,115,13,.02));position:relative;overflow:hidden}
+.vg-cell.opportunity::after{content:"";position:absolute;inset:0;border:2px dashed rgba(217,115,13,.3);border-radius:2px;animation:pulse-border 2s ease-in-out infinite}
+@keyframes pulse-border{0%,100%{opacity:.5}50%{opacity:1}}
+.vg-header-row{background:var(--surface2);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);display:flex;align-items:center;justify-content:center;min-height:44px;padding:.5rem}
+.vg-players{display:flex;flex-wrap:wrap;gap:.25rem}
+.vg-player{font-size:9px;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink3);background:var(--surface)}
+.vg-empty{font-size:10px;color:var(--ink4);opacity:.5;font-style:italic}
+.vg-opp-label{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-style:italic;color:var(--energy);font-weight:300}
+.vg-opp-sub{font-size:11px;color:var(--energy);opacity:.7}
+.vg-opp-star{font-size:1.5rem;position:absolute;top:.75rem;right:.75rem;animation:starPulse 1.5s ease-in-out infinite}
+@keyframes starPulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.15);opacity:1}}
+.vg-axis-label{background:var(--bg);padding:.75rem;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);text-align:center;display:flex;align-items:center;justify-content:center}
+
+/* ═══ BENCHMARK ═══ */
+.bench-section{padding:4rem 1.5rem;background:var(--bg);border-top:1px solid var(--border)}
+.bench-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+@media(max-width:700px){.bench-grid{grid-template-columns:1fr}}
+.bcard{padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;gap:1.1rem}
+.bcard-icon-row{display:flex;align-items:center;gap:.85rem}
+.bcard-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.bcard-name{font-family:"Afacad Flux",sans-serif;font-size:1.2rem;font-weight:400;color:var(--ink)}
+.bcard-sector{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.bcard-what{font-size:12.5px;color:var(--ink3);line-height:1.7}
+.bcard-orbis{padding:.85rem;border-radius:8px;background:var(--blue-light);border:1px solid rgba(0,80,160,.1)}
+.bcard-orbis-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:.3rem}
+.bcard-orbis-text{font-size:12px;color:var(--ink2);line-height:1.6}
+
+/* ═══ TAKEAWAY FULL BLEED ═══ */
+.tw-section{border-top:1px solid var(--border)}
+.tw-block{padding:4rem 1.5rem;display:grid;grid-template-columns:1fr 2fr;gap:2rem 4rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.1)}
+@media(max-width:600px){.tw-block{grid-template-columns:1fr;gap:1.5rem}}
+.tw-block.do{background:#0A1628}
+.tw-block.dont{background:#1A0A08}
+.tw-block.space{background:#0A1A10}
+.tw-left{}
+.tw-icon{font-size:3rem;margin-bottom:.75rem;display:block}
+.tw-num{font-family:"Afacad Flux",sans-serif;font-size:clamp(4rem,12vw,8rem);font-weight:300;line-height:.9;letter-spacing:-.06em}
+.tw-block.do .tw-num{color:rgba(26,148,98,.4)}
+.tw-block.dont .tw-num{color:rgba(200,60,40,.3)}
+.tw-block.space .tw-num{color:rgba(217,115,13,.35)}
+.tw-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:.4rem;font-family:"DM Sans",sans-serif}
+.tw-right{}
+.tw-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.4rem,3.5vw,2.4rem);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:.85rem;color:#fff}
+.tw-block.do .tw-title{color:rgba(255,255,255,.9)}
+.tw-block.dont .tw-title{color:rgba(255,255,255,.85)}
+.tw-block.space .tw-title{color:rgba(255,255,255,.9)}
+.tw-text{font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.45)}
+.tw-text strong{color:rgba(255,255,255,.8);font-weight:500}
+.tw-pill{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.25rem;padding:.5rem 1rem;border-radius:99px;font-size:11px;letter-spacing:.06em}
+.tw-block.do .tw-pill{background:rgba(26,148,98,.15);color:rgba(26,148,98,.8);border:1px solid rgba(26,148,98,.2)}
+.tw-block.dont .tw-pill{background:rgba(200,60,40,.12);color:rgba(255,120,100,.7);border:1px solid rgba(200,60,40,.2)}
+.tw-block.space .tw-pill{background:rgba(217,115,13,.15);color:rgba(217,115,13,.8);border:1px solid rgba(217,115,13,.2)}
+
+/* NAV */
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);gap:1rem;flex-wrap:wrap}
+.mnav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:color .2s}
+.mnav-back:hover{color:var(--blue)}
+.mnav-next{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;padding:.7rem 1.6rem;border-radius:99px;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,transform .15s}
+.mnav-next:hover{background:#0062C4;transform:translateY(-1px)}
+
+/* SHARED */
+.sec-header{margin-bottom:2rem}
+.sec-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.sec-tag::before{content:"";width:14px;height:1px;background:var(--stc,var(--blue))}
+.sec-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink)}
+.sec-sub{font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:560px;margin-top:.6rem}
+.max-w{max-width:1100px;margin:0 auto}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<header class="topbar">
+  <div class="tb-l">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis" class="tb-logo">
+    <div class="tb-sep"></div>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <div class="tb-r">
+    <span class="tb-badge">02 · Competitor Map</span>
+    <span class="tb-date">Maggio 2026</span>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
+
+<!-- ═══ HERO: BUBBLE MAP ═══ -->
+<section class="hero" id="sHero">
+  <div class="hero-top">
+    <div class="mod-eyebrow" id="hE" style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-mid);display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem">
+      <span style="display:block;width:32px;height:1px;background:var(--blue-mid)"></span>
+      Cruscotto Strategico · ORBIS Italia · Modulo 02
+    </div>
+    <h1 class="hero-title" id="hT">Chi parla.<br><em>E chi tace.</em></h1>
+    <p class="hero-sub" id="hS">11 competitor. 3 segmenti. La mappa delle voci nel settore elettrico-energetico italiano — e il territorio che nessuno ha ancora occupato.</p>
+  </div>
+  <div class="hero-chart-wrap" id="bubbleWrap">
+    <svg id="bubbleSVG" viewBox="0 0 800 380" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;min-height:280px">
+      <!-- GRID LINES -->
+      <line x1="400" y1="0" x2="400" y2="340" stroke="#D8E0EE" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="0" y1="200" x2="800" y2="200" stroke="#D8E0EE" stroke-width="1" stroke-dasharray="4,4"/>
+      <!-- AXIS LABELS -->
+      <text x="20" y="355" font-family="DM Sans,sans-serif" font-size="10" fill="#8FA4BC" letter-spacing="1">← Utente finale</text>
+      <text x="600" y="355" font-family="DM Sans,sans-serif" font-size="10" fill="#8FA4BC" letter-spacing="1">Installatore B2B →</text>
+      <text x="12" y="30" font-family="DM Sans,sans-serif" font-size="10" fill="#8FA4BC" letter-spacing="1">Globale</text>
+      <text x="12" y="220" font-family="DM Sans,sans-serif" font-size="10" fill="#8FA4BC" letter-spacing="1">Locale IT</text>
+      <!-- OPPORTUNITY ZONE -->
+      <ellipse cx="660" cy="280" rx="90" ry="65" fill="rgba(217,115,13,.07)" stroke="rgba(217,115,13,.3)" stroke-width="1.5" stroke-dasharray="6,3" class="opp-zone"/>
+      <text x="660" y="282" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="11" fill="#D9730D" opacity=".8" font-style="italic">territorio libero</text>
+      <text x="660" y="298" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#D9730D" opacity=".6" letter-spacing="1">VIARIS target</text>
+      <!-- COMPETITOR BUBBLES (animate from opacity 0) -->
+      <!-- ABB (4.2M LI, global corporate B2B) -->
+      <g class="bubble" data-delay="0">
+        <circle cx="160" cy="80" r="52" fill="rgba(0,80,160,.1)" stroke="rgba(0,80,160,.25)" stroke-width="1.5"/>
+        <text x="160" y="76" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="11" fill="#0050A0" font-weight="500">ABB</text>
+        <text x="160" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">4,2M LI</text>
+      </g>
+      <!-- ABB E-mobility (global infrastructure) -->
+      <g class="bubble" data-delay="0.05">
+        <circle cx="240" cy="55" r="30" fill="rgba(0,80,160,.08)" stroke="rgba(0,80,160,.2)" stroke-width="1"/>
+        <text x="240" y="52" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="9" fill="#0050A0">ABB E-mob</text>
+        <text x="240" y="63" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#5A7090">infrastrutture</text>
+      </g>
+      <!-- BTicino (510K FB, B2C design, moderately local) -->
+      <g class="bubble" data-delay="0.1">
+        <circle cx="240" cy="290" r="40" fill="rgba(26,114,200,.1)" stroke="rgba(26,114,200,.25)" stroke-width="1.5"/>
+        <text x="240" y="286" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="11" fill="#1A72C8" font-weight="500">BTicino</text>
+        <text x="240" y="300" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#5A7090">510K FB</text>
+      </g>
+      <!-- Vimar (B2C/B2B hybrid, dispersive) -->
+      <g class="bubble" data-delay="0.15">
+        <circle cx="310" cy="250" r="26" fill="rgba(26,114,200,.08)" stroke="rgba(26,114,200,.2)" stroke-width="1"/>
+        <text x="310" y="247" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="10" fill="#1A72C8">Vimar</text>
+        <text x="310" y="259" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#5A7090">~15K LI</text>
+      </g>
+      <!-- Juice Technology (B2C, viral TikTok) -->
+      <g class="bubble" data-delay="0.2">
+        <circle cx="90" cy="295" r="32" fill="rgba(217,115,13,.08)" stroke="rgba(217,115,13,.2)" stroke-width="1"/>
+        <text x="90" y="291" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="10" fill="#D9730D">Juice</text>
+        <text x="90" y="303" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#5A7090">TikTok viral</text>
+      </g>
+      <!-- Hager (B2B but corporate, low digital) -->
+      <g class="bubble" data-delay="0.25">
+        <circle cx="520" cy="130" r="28" fill="rgba(122,174,216,.15)" stroke="rgba(122,174,216,.3)" stroke-width="1"/>
+        <text x="520" y="127" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="10" fill="#5A7090">Hager</text>
+        <text x="520" y="139" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8FA4BC">~50K LI</text>
+      </g>
+      <!-- Scame (B2B industrial, EV) -->
+      <g class="bubble" data-delay="0.3">
+        <circle cx="490" cy="240" r="22" fill="rgba(217,115,13,.08)" stroke="rgba(217,115,13,.2)" stroke-width="1"/>
+        <text x="490" y="237" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="10" fill="#D9730D">Scame</text>
+        <text x="490" y="249" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#5A7090">~8K LI</text>
+      </g>
+      <!-- Schletter (utility, global) -->
+      <g class="bubble" data-delay="0.35">
+        <circle cx="440" cy="95" r="22" fill="rgba(122,174,216,.1)" stroke="rgba(122,174,216,.25)" stroke-width="1"/>
+        <text x="440" y="92" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="9" fill="#5A7090">Schletter</text>
+        <text x="440" y="104" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8FA4BC">utility</text>
+      </g>
+      <!-- Enstall (M&A limbo) -->
+      <g class="bubble" data-delay="0.38">
+        <circle cx="370" cy="110" r="15" fill="rgba(143,164,188,.1)" stroke="rgba(143,164,188,.25)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="370" y="107" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="9" fill="#8FA4BC">Enstall</text>
+        <text x="370" y="118" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8FA4BC">M&A</text>
+      </g>
+      <!-- Mennekes (B2B installer, local-ish) -->
+      <g class="bubble" data-delay="0.4">
+        <circle cx="595" cy="230" r="20" fill="rgba(217,115,13,.06)" stroke="rgba(217,115,13,.18)" stroke-width="1"/>
+        <text x="595" y="227" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="9" fill="#D9730D">Mennekes</text>
+        <text x="595" y="239" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#5A7090">~5K IT</text>
+      </g>
+      <!-- K2 Systems (best B2B local FV — closest to target) -->
+      <g class="bubble" data-delay="0.45">
+        <circle cx="640" cy="310" r="26" fill="rgba(26,148,98,.1)" stroke="rgba(26,148,98,.3)" stroke-width="1.5"/>
+        <text x="640" y="306" text-anchor="middle" font-family="Afacad Flux,sans-serif" font-size="10" fill="#1A9462" font-weight="500">K2 Systems</text>
+        <text x="640" y="318" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#1A9462">benchmark</text>
+      </g>
+      <!-- ORBIS today: tiny dot in wrong position -->
+      <g class="bubble orbis-now" data-delay="0.6">
+        <circle cx="560" cy="320" r="10" fill="rgba(217,115,13,.15)" stroke="#D9730D" stroke-width="2" stroke-dasharray="3,2"/>
+        <circle cx="560" cy="320" r="4" fill="#D9730D"/>
+        <text x="560" y="338" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#D9730D" letter-spacing="1">ORBIS oggi</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ STATEMENT INTERLUDE ═══ -->
+<section class="interlude" id="sInterlude">
+  <div class="interlude-bg" aria-hidden="true">11</div>
+  <div class="interlude-inner">
+    <div class="interlude-tag">Il paradosso</div>
+    <p class="interlude-text" id="iText">
+      Il mercato elettrico italiano produce <strong>€10,5 miliardi</strong> l'anno.<br>
+      Eppure nessuno sta parlando<br>
+      <em>all'installatore, in italiano, con la voce giusta.</em>
+    </p>
+    <div class="interlude-numbers" id="iNumbers">
+      <div class="in-item">
+        <div class="in-val" id="cnt11">0</div>
+        <div class="in-lbl">competitor analizzati</div>
+      </div>
+      <div class="in-item">
+        <div class="in-val" id="cnt3">0</div>
+        <div class="in-lbl">segmenti di mercato</div>
+      </div>
+      <div class="in-item">
+        <div class="in-val">1</div>
+        <div class="in-lbl">territorio libero</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HEATMAP PRESENZA CANALI ═══ -->
+<section class="heatmap-section" id="sHeat">
+  <div class="max-w">
+    <div class="sec-header" id="shHeat">
+      <div class="sec-tag" style="--stc:#0050A0">Chi è dove · mappa della presenza</div>
+      <h2 class="sec-title">La fotografia dei canali.</h2>
+      <p class="sec-sub">Intensità di presenza per canale: da assente (bianco) a strategico (pieno). I vuoti sono opportunità. I blocchi pieni sono affollamento.</p>
+    </div>
+    <div class="heatmap-scroll">
+      <table class="hm-table" id="hmTable">
+        <thead class="hm-thead">
+          <tr>
+            <th></th>
+            <th><span class="ch-icon">💼</span>LinkedIn</th>
+            <th><span class="ch-icon">📸</span>Instagram</th>
+            <th><span class="ch-icon">👥</span>Facebook</th>
+            <th><span class="ch-icon">▶️</span>YouTube</th>
+            <th><span class="ch-icon">🎵</span>TikTok</th>
+            <th><span class="ch-icon">📊</span>Maturità</th>
+          </tr>
+        </thead>
+        <tbody class="hm-tbody" id="hmBody">
+          <!-- rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
+    <div class="hm-legend">
+      <div class="hml-item"><div style="width:16px;height:16px;border-radius:4px;background:#F2F5FA;border:1px solid #D8E0EE"></div> Assente</div>
+      <div class="hml-item"><div style="width:16px;height:16px;border-radius:4px;background:rgba(0,80,160,.1)"></div> Debole</div>
+      <div class="hml-item"><div style="width:16px;height:16px;border-radius:4px;background:rgba(0,80,160,.22)"></div> Attivo</div>
+      <div class="hml-item"><div style="width:16px;height:16px;border-radius:4px;background:#0050A0"></div> Strategico</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GRUPPO A: EFFICIENZA ═══ -->
+<section class="group-section white" id="sGrA" style="--gs-color:#0050A0">
+  <div class="max-w">
+    <div class="gs-header" id="ghA">
+      <div class="gs-number">A</div>
+      <div class="gs-right">
+        <div class="gs-tag">Gruppo A — Efficienza Energetica</div>
+        <h2 class="gs-title">Chi presidia<br>i cronotermostati.</h2>
+        <p class="gs-sub">ABB punta ai piani alti. BTicino parla ai designer. Vimar parla a tutti. Hager non parla. Risultato: l'installatore civile non ha un interlocutore digitale tecnico, locale, accessibile.</p>
+      </div>
+    </div>
+    <div class="cc-grid" id="cgA">
+      <!-- ABB -->
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#0050A0,#1A72C8)"></div>
+        <div class="cc-top">
+          <div class="cc-name">ABB Italia</div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#0050A0" stroke-width="3" stroke-dasharray="80 113" stroke-linecap="round" class="ring-fill" data-score="80"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#0050A0">4</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">4,2M</div><div class="ccf-l">LinkedIn</div></div>
+          <div class="ccf"><div class="ccf-v">0,5–1%</div><div class="ccf-l">Engagement</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch strong">LinkedIn</span>
+          <span class="cc-ch active">YouTube</span>
+          <span class="cc-ch">FB</span>
+          <span class="cc-ch">IG</span>
+        </div>
+        <p class="cc-insight">Broadcasting istituzionale globale. Sostenibilità, employer branding STEM. Tono accademico. Quando posta persone fisiche l'engagement triplica — ma non è una strategia, è un accidente.</p>
+        <div class="cc-gap" style="--gap-c:#1A9462">Occupare il problem-solving dell'installatore civile. ABB parla di infrastrutture critiche: Orbis può spiegare come installare un temporizzatore scale in 4 minuti.</div>
+      </div>
+      <!-- BTicino -->
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#1A72C8,#2E9CDB)"></div>
+        <div class="cc-top">
+          <div class="cc-name">BTicino</div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#1A72C8" stroke-width="3" stroke-dasharray="102 113" stroke-linecap="round" class="ring-fill" data-score="90"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#1A72C8">4,5</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">86K</div><div class="ccf-l">LinkedIn</div></div>
+          <div class="ccf"><div class="ccf-v">510K</div><div class="ccf-l">Facebook</div></div>
+          <div class="ccf"><div class="ccf-v">49K</div><div class="ccf-l">Instagram</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch strong">FB</span>
+          <span class="cc-ch strong">IG</span>
+          <span class="cc-ch active">LinkedIn</span>
+          <span class="cc-ch active">YouTube</span>
+        </div>
+        <p class="cc-insight">Il miglior B2B2C del settore. Instagram per il design, YouTube per gli installatori, risponde ai commenti, ha MyBTicino portal. Ma tutto è premium: Living Now, domotica luxury.</p>
+        <div class="cc-gap" style="--gap-c:#D9730D">BTicino è inaccessibile sul prezzo per il medio-basso residenziale. Orbis presidia l'installazione pragmatica senza competere sull'high-end design.</div>
+      </div>
+      <!-- Vimar -->
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#1A72C8,#7AAED8)"></div>
+        <div class="cc-top">
+          <div class="cc-name">Vimar</div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#1A72C8" stroke-width="3" stroke-dasharray="79 113" stroke-linecap="round" class="ring-fill" data-score="70"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#1A72C8">3,5</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">~15K</div><div class="ccf-l">LinkedIn</div></div>
+          <div class="ccf"><div class="ccf-v">6</div><div class="ccf-l">Canali attivi</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch active">LinkedIn</span>
+          <span class="cc-ch active">IG</span>
+          <span class="cc-ch">Pinterest</span>
+          <span class="cc-ch">TikTok</span>
+        </div>
+        <p class="cc-insight">Onnipresente su 6 canali — compreso Pinterest. Blog che insegna come fare LinkedIn. Strategia troppo ampia che diluisce l'identità tecnica. YouTube funziona bene per tutorial.</p>
+        <div class="cc-gap" style="--gap-c:#1A9462">Vimar perde focalizzazione cercando tutti i target. Orbis vince con verticalizzazione netta: solo efficienza, solo installatore, zero dispersione.</div>
+      </div>
+      <!-- Hager -->
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#8FA4BC,#D8E0EE)"></div>
+        <div class="cc-top">
+          <div class="cc-name">Hager <span style="font-size:.8rem;color:var(--ink4);font-weight:300">— territorio da prendere</span></div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#8FA4BC" stroke-width="3" stroke-dasharray="45 113" stroke-linecap="round" class="ring-fill" data-score="40"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#8FA4BC">2</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">~50K</div><div class="ccf-l">LinkedIn</div></div>
+          <div class="ccf"><div class="ccf-v">min.</div><div class="ccf-l">Engagement</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch active">LinkedIn</span>
+          <span class="cc-ch">FB</span>
+        </div>
+        <p class="cc-insight">LinkedIn come repository PDF. Immagini statiche, comunicati stampa, zero video, zero risposta ai commenti. L'algoritmo lo penalizza. L'installatore lo ignora. Presenza = zero dialogo.</p>
+        <div class="cc-gap" style="--gap-c:#D9730D">Hager e Orbis competono sulle stesse categorie. Adottare video e narrazione umana basta per sottrarre Share of Voice immediatamente — senza neanche dover fare chissà cosa.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GRUPPO B: EV ═══ -->
+<section class="group-section grey" id="sGrB" style="--gs-color:#D9730D">
+  <div class="max-w">
+    <div class="gs-header" id="ghB">
+      <div class="gs-number" style="color:rgba(217,115,13,.15)">B</div>
+      <div class="gs-right">
+        <div class="gs-tag" style="--stc:#D9730D">Gruppo B — Mobilità Elettrica EV</div>
+        <h2 class="gs-title">Il mercato più caldo.<br>La comunicazione più confusa.</h2>
+        <p class="gs-sub">ABB presidia le autostrade. Juice parla al nomade EV. Mennekes forma in tedesco. Il vuoto: nessuno parla in italiano all'installatore residenziale che deve configurare una wallbox con 3kW disponibili.</p>
+      </div>
+    </div>
+    <div class="cc-grid" id="cgB">
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#D9730D,#F5A030)"></div>
+        <div class="cc-top">
+          <div class="cc-name">Scame</div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#D9730D" stroke-width="3" stroke-dasharray="56 113" stroke-linecap="round" class="ring-fill" data-score="50"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#D9730D">2,5</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">~8K</div><div class="ccf-l">LinkedIn</div></div>
+          <div class="ccf"><div class="ccf-v">TikTok</div><div class="ccf-l">aperto</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch active">FB</span>
+          <span class="cc-ch active">LinkedIn</span>
+          <span class="cc-ch">TikTok</span>
+        </div>
+        <p class="cc-insight">Storia industriale (dal 1963) comunicata bene. Ma il feed mescola spine industriali pesanti e wallbox residenziali — cacofonia visiva che confonde l'algoritmo e il cliente.</p>
+        <div class="cc-gap" style="--gap-c:#1A9462">VIARIS isolato dalla zavorra industriale di Orbis diventa brand fresco di smart mobility — esattamente il contrario di Scame.</div>
+      </div>
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#0050A0,#D9730D)"></div>
+        <div class="cc-top">
+          <div class="cc-name">ABB E-mobility</div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#0050A0" stroke-width="3" stroke-dasharray="79 113" stroke-linecap="round" class="ring-fill" data-score="70"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#0050A0">3,5</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">n.d.</div><div class="ccf-l">LinkedIn IT</div></div>
+          <div class="ccf"><div class="ccf-v">Formula E</div><div class="ccf-l">Sponsor</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch strong">YouTube</span>
+          <span class="cc-ch active">LinkedIn</span>
+        </div>
+        <p class="cc-insight">Factory in Valdarno, partnership Edison Next, sponsor Formula E. Visionario, infrastrutturale, da CPO e grandi flotte. L'installatore domestico non esiste nel suo radar.</p>
+        <div class="cc-gap" style="--gap-c:#D9730D">ABB non vede il residenziale. VIARIS domina narrativamente la wallbox domestica: configurazione app, bilanciamento carichi, integrazione FV. Mercato invisibile per ABB.</div>
+      </div>
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#D9730D,#8FA4BC)"></div>
+        <div class="cc-top">
+          <div class="cc-name">Mennekes</div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#D9730D" stroke-width="3" stroke-dasharray="68 113" stroke-linecap="round" class="ring-fill" data-score="60"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#D9730D">3</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">~5K</div><div class="ccf-l">LinkedIn IT</div></div>
+          <div class="ccf"><div class="ccf-v">alto qual.</div><div class="ccf-l">Engagement</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch strong">YouTube</span>
+          <span class="cc-ch active">LinkedIn</span>
+        </div>
+        <p class="cc-insight">Inventori del connettore Tipo 2. YouTube sistematico con tutorial profondi, podcast con dirigenti tecnici. Gli installatori fanno domande vere nelle sezioni commenti. La didattica migliore del settore.</p>
+        <div class="cc-gap" style="--gap-c:#1A9462">Mennekes ha il rigore tecnico, ma l'estetica è austeramente tedesca. Orbis mutuare la profondità didattica + iniettarci il gusto visivo italiano + UX digitale 2026.</div>
+      </div>
+      <div class="cc" style="border-color:rgba(217,115,13,.3)">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#D9730D,#F5A030)"></div>
+        <div class="cc-top">
+          <div class="cc-name">Juice Technology <span style="font-size:.78rem;color:var(--energy)">★ modello</span></div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#D9730D" stroke-width="3" stroke-dasharray="91 113" stroke-linecap="round" class="ring-fill" data-score="80"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#D9730D">4</div>
+          </div>
+        </div>
+        <div class="cc-followers">
+          <div class="ccf"><div class="ccf-v">TikTok</div><div class="ccf-l">virale</div></div>
+          <div class="ccf"><div class="ccf-v">SUV test</div><div class="ccf-l">format iconico</div></div>
+        </div>
+        <div class="cc-channels">
+          <span class="cc-ch strong">TikTok</span>
+          <span class="cc-ch strong">IG</span>
+          <span class="cc-ch active">YouTube</span>
+        </div>
+        <p class="cc-insight">SUV sopra al caricatore su TikTok. Unboxing ritmati, linguaggio consumer-tech, "Swiss Army knife" della ricarica. Prova definitiva: anche le wallbox possono diventare virali. Ma bypassa l'installatore.</p>
+        <div class="cc-gap" style="--gap-c:#D9730D">Mutuare l'audacia nei formati. Video verticali, test visivi, hook in 2 secondi. VIARIS dovrebbe fare altrettanto — ma parlando all'installatore, non al nomade elettrico.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GRUPPO C: FV ═══ -->
+<section class="group-section white" id="sGrC" style="--gs-color:#1A9462">
+  <div class="max-w">
+    <div class="gs-header" id="ghC">
+      <div class="gs-number" style="color:rgba(26,148,98,.15)">C</div>
+      <div class="gs-right">
+        <div class="gs-tag" style="--stc:#1A9462">Gruppo C — Fotovoltaico BOS</div>
+        <h2 class="gs-title">Il benchmark da battere<br>e i giganti bloccati.</h2>
+        <p class="gs-sub">K2 Systems è il miglior comunicatore B2B del segmento. Schletter ignora il residenziale italiano. Enstall è bloccata nel rebranding globale. La finestra è aperta adesso.</p>
+      </div>
+    </div>
+    <div class="cc-grid" id="cgC">
+      <div class="cc" style="border-color:rgba(26,148,98,.3);grid-column:span 2" id="k2card">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#1A9462,#2EAA6E)"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div>
+            <div class="cc-top" style="margin-bottom:.85rem">
+              <div>
+                <div class="cc-name">K2 Systems <span style="font-size:.85rem;color:var(--green);margin-left:.5rem">★ benchmark</span></div>
+                <div style="font-size:11px;color:var(--ink4);margin-top:.15rem">Il modello da eguagliare per Orbis Energy</div>
+              </div>
+              <div class="score-ring-wrap">
+                <svg viewBox="0 0 44 44" fill="none">
+                  <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+                  <circle cx="22" cy="22" r="18" stroke="#1A9462" stroke-width="3" stroke-dasharray="102 113" stroke-linecap="round" class="ring-fill" data-score="90"/>
+                </svg>
+                <div class="score-ring-val" style="--ring-c:#1A9462">4,5</div>
+              </div>
+            </div>
+            <div class="cc-followers" style="margin-bottom:.85rem">
+              <div class="ccf"><div class="ccf-v">attiva</div><div class="ccf-l">LinkedIn</div></div>
+              <div class="ccf"><div class="ccf-v">YouTube</div><div class="ccf-l">tutorial</div></div>
+              <div class="ccf"><div class="ccf-v">alto</div><div class="ccf-l">Engagement</div></div>
+            </div>
+            <p class="cc-insight">Promuovono il software K2 Base come hero del marketing. Presentano il team italiano con nomi e volti reali: "our Italian quartet" — Alessandro Papaianni, Claudia Vannoni. Tutorial animati YouTube sistematici. Tono: tecnico-collaborativo.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div style="padding:1rem;background:var(--green-light);border:1px solid rgba(26,148,98,.2);border-radius:10px">
+              <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.35rem">Formula K2 da copiare</div>
+              <div style="font-size:12.5px;color:var(--ink2);line-height:1.6">Software di configurazione come hero del piano editoriale + volti reali del team italiano + tutorial animati su YouTube + tono "we are your strong connection".</div>
+            </div>
+            <div class="cc-gap" style="--gap-c:#1A9462">Orbis Energy deve sviluppare: configuratore strutture FV proprio + presentare il team tecnico italiano + produrre video installazione su tipologie di tetto italiane (coppi, piana, industriale).</div>
+          </div>
+        </div>
+      </div>
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#7AAED8,#D8E0EE)"></div>
+        <div class="cc-top">
+          <div class="cc-name">Schletter</div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#7AAED8" stroke-width="3" stroke-dasharray="45 113" stroke-linecap="round" class="ring-fill" data-score="40"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#7AAED8">2</div>
+          </div>
+        </div>
+        <div class="cc-channels"><span class="cc-ch active">LinkedIn</span></div>
+        <p class="cc-insight">Mega-impianti con drone, comunicati finanziari, espansioni produttive. Parla ai fondi d'investimento. Zero supporto all'installatore che posa strutture su tetti civili italiani.</p>
+        <div class="cc-gap" style="--gap-c:#D9730D">Il residenziale italiano è abbandonato. Orbis Energy domina con video pratici su tetti a falda, coppi, coperture industriali — il lavoro quotidiano dell'installatore FV italiano.</div>
+      </div>
+      <div class="cc">
+        <div class="cc-accent" style="background:linear-gradient(90deg,#D8E0EE,#D8E0EE)" style="opacity:.5"></div>
+        <div class="cc-top">
+          <div class="cc-name">Enstall <span style="font-size:.78rem;color:var(--ink4)">(ex Esdec/IronRidge)</span></div>
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3"/>
+              <circle cx="22" cy="22" r="18" stroke="#D8E0EE" stroke-width="3" stroke-dasharray="28 113" stroke-linecap="round" class="ring-fill" data-score="25"/>
+            </svg>
+            <div class="score-ring-val" style="--ring-c:#8FA4BC">1,5</div>
+          </div>
+        </div>
+        <div class="cc-channels"><span class="cc-ch">LinkedIn</span><span class="cc-ch" style="opacity:.5">in transizione</span></div>
+        <p class="cc-insight">Fusione globale Esdec + IronRidge sotto Enstall. La comunicazione è ferma ai comunicati M&A. L'installatore che cerca supporto tecnico trova silenzio. La finestra è aperta oggi.</p>
+        <div class="cc-gap" style="--gap-c:#D9730D">Mentre il gigante si riorganizza, Orbis Energy produce contenuti iper-locali sulle coperture italiane. Partner locale stabile vs colosso in ristrutturazione.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LA STANZA VUOTA ═══ -->
+<section class="vuota-section" id="sVuota">
+  <div class="vuota-inner">
+    <div class="vuota-header" id="vhHeader">
+      <div class="sec-tag" style="--stc:#D9730D;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+        <span style="display:block;width:14px;height:1px;background:#D9730D"></span>
+        Il territorio non presidiato
+      </div>
+      <h2 style="font-family:'Afacad Flux',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;letter-spacing:-.025em;line-height:1.05;color:var(--ink)">La stanza vuota.</h2>
+      <p style="font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:520px;margin-top:.6rem">Chi comunica cosa, a chi. Ogni cella occupata = almeno un competitor attivo. La cella arancione = nessuno è lì. È il territorio di Orbis.</p>
+    </div>
+    <div class="vuota-grid" id="vuotaGrid">
+      <!-- Header row -->
+      <div class="vg-axis-label"></div>
+      <div class="vg-header-row">Grossisti B2B</div>
+      <div class="vg-header-row">Installatori B2B</div>
+      <div class="vg-header-row">Utente finale B2C</div>
+      <!-- Row: Globale/Corporate -->
+      <div class="vg-axis-label">Voce globale</div>
+      <div class="vg-cell occupied">
+        <div class="vg-players">
+          <div class="vg-player">ABB</div>
+          <div class="vg-player">Schletter</div>
+          <div class="vg-player">Enstall</div>
+        </div>
+      </div>
+      <div class="vg-cell occupied">
+        <div class="vg-players">
+          <div class="vg-player">ABB E-mob</div>
+          <div class="vg-player">Mennekes</div>
+        </div>
+      </div>
+      <div class="vg-cell occupied">
+        <div class="vg-players">
+          <div class="vg-player">Juice</div>
+          <div class="vg-player">BTicino</div>
+        </div>
+      </div>
+      <!-- Row: Locale/Italiana -->
+      <div class="vg-axis-label">Voce locale italiana</div>
+      <div class="vg-cell occupied">
+        <div class="vg-players">
+          <div class="vg-player">Hager</div>
+          <div class="vg-player">Vimar</div>
+        </div>
+      </div>
+      <!-- THE EMPTY CELL -->
+      <div class="vg-cell opportunity" id="oppCell">
+        <div class="vg-opp-star">⚡</div>
+        <div class="vg-opp-label">VIARIS può essere qui</div>
+        <div class="vg-opp-sub">territorio non occupato</div>
+      </div>
+      <div class="vg-cell occupied">
+        <div class="vg-players">
+          <div class="vg-player">BTicino</div>
+          <div class="vg-player">Vimar</div>
+          <div class="vg-player">Scame</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;padding:1.25rem;background:var(--energy-light);border:1px solid rgba(217,115,13,.2);border-radius:12px" id="vCard">
+      <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--energy);margin-bottom:.4rem">La cella vuota in sintesi</div>
+      <p style="font-size:13.5px;color:var(--ink2);line-height:1.75">Nessun brand parla in italiano, con voce locale e tecnica, direttamente all'installatore elettrico. Non ABB (troppo corporate). Non Juice (troppo B2C). Non Mennekes (troppo austero e tedesco). <strong>Orbis ha la dimensione giusta, la competenza tecnica e il posizionamento locale per occupare questo slot — prima che qualcuno se ne accorga.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENCHMARK ═══ -->
+<section class="bench-section" id="sBench">
+  <div class="max-w">
+    <div class="sec-header" id="shBench">
+      <div class="sec-tag" style="--stc:#6B4FBB">3 modelli da altri settori</div>
+      <h2 class="sec-title">Chi lo fa bene<br>fuori dal perimetro.</h2>
+      <p class="sec-sub">Non competitor diretti — maestri di metodo. Tre storie di B2B che hanno ridisegnato le regole del social nel proprio settore. Modelli direttamente applicabili a Orbis.</p>
+    </div>
+    <div class="bench-grid" id="gBench">
+      <div class="bcard">
+        <div class="bcard-icon-row">
+          <div class="bcard-icon" style="background:var(--blue-light)">👥</div>
+          <div>
+            <div class="bcard-name">Carel Industries</div>
+            <div class="bcard-sector">HVAC · Refrigerazione · B2B</div>
+          </div>
+        </div>
+        <p class="bcard-what">Ha scoperto che le pagine aziendali hanno reach organica soppressa dall'algoritmo. Soluzione: <strong>employee advocacy massiccia</strong>. Gli ingegneri e product manager Carel pubblicano contenuti tecnici dai propri profili personali. Da 900 a 45.000 follower LinkedIn in 8 mesi. Engagement esponenzialmente superiore alla pagina corporate.</p>
+        <div class="bcard-orbis">
+          <div class="bcard-orbis-lbl">👉 Per Orbis significa</div>
+          <div class="bcard-orbis-text">Stefano Lucini, i commerciali e i tecnici Orbis diventano micro-influencer di nicchia. Un post del "tecnico Orbis" risponde a una domanda di installazione: l'installatore commenta perché vede un "pari", non un logo distante.</div>
+        </div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-icon-row">
+          <div class="bcard-icon" style="background:var(--energy-light)">📱</div>
+          <div>
+            <div class="bcard-name">Ariston Group</div>
+            <div class="bcard-sector">Comfort Termico · HVAC · B2B2C</div>
+          </div>
+        </div>
+        <p class="bcard-what">Ha spostato il messaggio dal <strong>prodotto fisico all'ecosistema digitale</strong>. L'app Ariston Net viene comunicata come il vero prodotto: consente all'installatore di controllare la flotta installata da remoto, vendere contratti di manutenzione, ridurre le chiamate domenicali. Il termostato è solo il pretesto.</p>
+        <div class="bcard-orbis">
+          <div class="bcard-orbis-lbl">👉 Per Orbis significa</div>
+          <div class="bcard-orbis-text">"Con l'app VIARIS monitori la ricarica e prevenzi il guasto senza tornare dal cliente." Comunicare il configuratore FV e l'app VIARIS come il vero prodotto. L'hardware è solo il punto di accesso all'ecosistema.</div>
+        </div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-icon-row">
+          <div class="bcard-icon" style="background:var(--green-light)">🎬</div>
+          <div>
+            <div class="bcard-name">Würth Italia</div>
+            <div class="bcard-sector">Fissaggio · E-commerce · B2P</div>
+          </div>
+        </div>
+        <p class="bcard-what">Massima espressione del <strong>B2P (Business-to-People)</strong>. Video brevi verticali che mostrano senza filtri la risoluzione di problemi reali in cantiere. 30 secondi di autenticità pratica: problema dell'installatore → soluzione Würth → dimostrazione live. Il prodotto non si spiega: si mostra in azione.</p>
+        <div class="bcard-orbis">
+          <div class="bcard-orbis-lbl">👉 Per Orbis significa</div>
+          <div class="bcard-orbis-text">Problem-Solution Framework: "Hai 3kW disponibili e devi installare una wallbox senza far saltare il contatore? Ecco VIARIS Solar in 28 secondi." Zero rendering patinati. Cantiere reale, installatore reale, prodotto vero.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAKEAWAY 3 BLOCCHI FULL BLEED ═══ -->
+<section class="tw-section" id="sTake">
+  <div class="tw-block do" id="twDo">
+    <div class="tw-left">
+      <span class="tw-num">✓</span>
+      <div class="tw-label">Cosa fare</div>
+    </div>
+    <div class="tw-right">
+      <h3 class="tw-title">Diventare il Problem Solver tecnico in italiano, in short-form video.</h3>
+      <p class="tw-text">La reach delle immagini statiche è crollata del 40% su Instagram nel 2025. YouTube Shorts e Reels B2B crescono. <strong>Nessun brand industriale parla all'installatore in modo rapido, pratico e italiano.</strong> Il format è "Problema reale di cantiere → Soluzione Orbis" in 30–60 secondi. Autenticità sopra la produzione. Cantiere sopra il rendering. Persona sopra il logo.</p>
+      <span class="tw-pill">↗ Modello Würth + K2 Systems</span>
+    </div>
+  </div>
+  <div class="tw-block dont" id="twDont">
+    <div class="tw-left">
+      <span class="tw-num">✗</span>
+      <div class="tw-label">Cosa non fare</div>
+    </div>
+    <div class="tw-right">
+      <h3 class="tw-title">Il broadcasting da catalogo e la pagina aziendale fredda.</h3>
+      <p class="tw-text">Hager lo fa: LinkedIn come repository di PDF tecnici. L'algoritmo lo penalizza. L'installatore lo ignora. <strong>Orbis deve "deistituzionalizzarsi" senza abbassare il rigore tecnico.</strong> La ricetta è employee advocacy alla Carel: quando un aggiornamento normativo viene pubblicato dall'ingegnere Orbis con nome e faccia, l'installatore commenta. Quando lo pubblica il logo aziendale, scorre oltre.</p>
+      <span class="tw-pill">↗ Errore di Hager da non replicare</span>
+    </div>
+  </div>
+  <div class="tw-block space" id="twSpace">
+    <div class="tw-left">
+      <span class="tw-num">○</span>
+      <div class="tw-label">Spazio libero</div>
+    </div>
+    <div class="tw-right">
+      <h3 class="tw-title">EV charging residenziale italiano: nessuno è qui.</h3>
+      <p class="tw-text">ABB presidia le autostrade. Juice vende al nomade. Mennekes forma in tedesco. <strong>Il buco nero: la gestione installatore–condominio–utente privato per la wallbox residenziale, in italiano.</strong> Normative antincendio, adeguamento contatore, bilanciamento del carico, incentivi statali. VIARIS deve diventare la risorsa #1 in Italia su questi temi. Questo slot non è occupato. Non ci sono mesi. C'è adesso.</p>
+      <span class="tw-pill">↗ Opportunity window: 6–12 mesi</span>
+    </div>
+  </div>
+</section>
+
+<nav class="mod-nav">
+  <a href="m1.html" class="mnav-back">← M1 Mercato</a>
+  <a href="m3.html" class="mnav-next">M3 Social Audit <span>→</span></a>
+</nav>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* cursor */
+var cur=document.getElementById("cur");
+document.addEventListener("mousemove",function(e){gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.1,ease:"none"});});
+document.querySelectorAll("a,button").forEach(function(el){
+  el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#D9730D",duration:.15});});
+  el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#0050A0",duration:.15});});
+});
+
+/* progress */
+ScrollTrigger.create({trigger:"body",start:"top top",end:"bottom bottom",onUpdate:function(self){document.getElementById("progress-fill").style.width=(self.progress*100)+"%";}});
+
+/* hero entry */
+gsap.fromTo("#hE",{opacity:0,y:10},{opacity:1,y:0,duration:.7,delay:.2,ease:"power3.out"});
+gsap.fromTo("#hT",{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.35,ease:"power3.out"});
+gsap.fromTo("#hS",{opacity:0,y:18},{opacity:1,y:0,duration:.8,delay:.6,ease:"power3.out"});
+
+/* bubble chart */
+var bubbles=document.querySelectorAll(".bubble");
+bubbles.forEach(function(b,i){
+  var delay=parseFloat(b.getAttribute("data-delay")||0)+.8;
+  gsap.fromTo(b,{opacity:0,scale:.4,transformOrigin:"center"},{opacity:1,scale:1,duration:.7,delay:delay,ease:"back.out(1.5)"});
+});
+
+/* opportunity zone pulse */
+gsap.to(".opp-zone",{opacity:.6,duration:1.5,repeat:-1,yoyo:true,ease:"sine.inOut",delay:1.5});
+
+/* interlude */
+ScrollTrigger.create({trigger:"#sInterlude",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#iText",{opacity:0,y:24},{opacity:1,y:0,duration:.9,ease:"power3.out"});
+  gsap.fromTo("#iNumbers",{opacity:0,y:16},{opacity:1,y:0,duration:.7,delay:.3,ease:"power3.out"});
+  var o1={v:0},e1=document.getElementById("cnt11");
+  gsap.to(o1,{v:11,duration:1.2,delay:.4,ease:"power2.out",onUpdate:function(){if(e1)e1.textContent=Math.round(o1.v);}});
+  var o2={v:0},e2=document.getElementById("cnt3");
+  gsap.to(o2,{v:3,duration:.8,delay:.6,ease:"power2.out",onUpdate:function(){if(e2)e2.textContent=Math.round(o2.v);}});
+}});
+
+/* heatmap data */
+var competitors=[
+  {name:"ABB Italia",group:"Efficienza",li:3,ig:1,fb:1,yt:2,tt:0,score:80},
+  {name:"BTicino",group:"Efficienza",li:2,ig:3,fb:3,yt:2,tt:0,score:90},
+  {name:"Vimar",group:"Efficienza",li:2,ig:2,fb:1,yt:2,tt:1,score:70},
+  {name:"Hager",group:"Efficienza",li:2,ig:0,fb:0,yt:0,tt:0,score:40},
+  {name:"Scame",group:"EV Charging",li:1,ig:1,fb:2,yt:1,tt:1,score:50},
+  {name:"ABB E-mobility",group:"EV Charging",li:2,ig:1,fb:1,yt:3,tt:0,score:70},
+  {name:"Mennekes",group:"EV Charging",li:2,ig:1,fb:1,yt:3,tt:0,score:60},
+  {name:"Juice Technology",group:"EV Charging",li:1,ig:3,fb:1,yt:2,tt:3,score:80},
+  {name:"K2 Systems",group:"Fotovoltaico",li:3,ig:2,fb:1,yt:3,tt:0,score:90},
+  {name:"Schletter",group:"Fotovoltaico",li:2,ig:1,fb:1,yt:1,tt:0,score:40},
+  {name:"Enstall",group:"Fotovoltaico",li:1,ig:0,fb:0,yt:1,tt:0,score:25}
+];
+var levelClass=["l0","l1","l2","l3"];
+var levelLabel=["—","◦","●","★"];
+var groupColor={Efficienza:"#0050A0","EV Charging":"#D9730D",Fotovoltaico:"#1A9462"};
+var tbody=document.getElementById("hmBody");
+competitors.forEach(function(c){
+  var tr=document.createElement("tr");
+  var pct=Math.round((c.score/100)*113);
+  tr.innerHTML='<td><div class="hm-name">'+c.name+'</div><div class="hm-group" style="color:'+groupColor[c.group]+'">'+c.group+'</div></td>'
+    +'<td><div class="hm-cell"><div class="hm-dot '+levelClass[c.li]+'" title="LinkedIn">'+levelLabel[c.li]+'</div></div></td>'
+    +'<td><div class="hm-cell"><div class="hm-dot '+levelClass[c.ig]+'" title="Instagram">'+levelLabel[c.ig]+'</div></div></td>'
+    +'<td><div class="hm-cell"><div class="hm-dot '+levelClass[c.fb]+'" title="Facebook">'+levelLabel[c.fb]+'</div></div></td>'
+    +'<td><div class="hm-cell"><div class="hm-dot '+(c.yt===3?"green":levelClass[c.yt])+'" title="YouTube">'+levelLabel[c.yt]+'</div></div></td>'
+    +'<td><div class="hm-cell"><div class="hm-dot '+(c.tt===3?"energy":levelClass[c.tt])+'" title="TikTok">'+levelLabel[c.tt]+'</div></div></td>'
+    +'<td><div style="display:flex;align-items:center;gap:.5rem">'
+    +'<div style="flex:1;height:4px;background:var(--surface2);border-radius:99px;overflow:hidden">'
+    +'<div class="ring-score-bar" data-w="'+c.score+'" style="height:100%;width:0;border-radius:99px;background:'+groupColor[c.group]+';transition:width 1s cubic-bezier(0.16,1,0.3,1)"></div></div>'
+    +'<span style="font-family:Afacad Flux,sans-serif;font-size:.85rem;color:'+groupColor[c.group]+'">'+Math.round(c.score/20)+'/5</span></div></td>';
+  tbody.appendChild(tr);
+});
+
+ScrollTrigger.create({trigger:"#hmTable",start:"top 72%",once:true,onEnter:function(){
+  gsap.fromTo("#hmTable tbody tr",{opacity:0,x:-10},{opacity:1,x:0,duration:.4,stagger:.06,ease:"power3.out"});
+  setTimeout(function(){
+    document.querySelectorAll(".ring-score-bar").forEach(function(b){b.style.width=b.getAttribute("data-w")+"%";});
+  },300);
+}});
+
+/* section headers reveal */
+["#ghA","#ghB","#ghC","#shBench","#shHeat","#vhHeader"].forEach(function(sel){
+  var el=document.querySelector(sel);if(!el)return;
+  gsap.fromTo(el,{opacity:0,y:20},{opacity:1,y:0,duration:.7,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 82%",once:true}});
+});
+
+/* competitor cards */
+["#cgA","#cgB","#cgC"].forEach(function(sel){
+  ScrollTrigger.create({trigger:sel,start:"top 75%",once:true,onEnter:function(){
+    gsap.fromTo(sel+" .cc",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.1,ease:"power3.out"});
+  }});
+});
+
+/* score rings animate in */
+ScrollTrigger.create({trigger:"#sGrA",start:"top 70%",once:true,onEnter:function(){
+  document.querySelectorAll("#sGrA .ring-fill").forEach(function(r){
+    var sa=r.getAttribute("data-score")/100*113;
+    gsap.fromTo(r,{strokeDasharray:"0 113"},{strokeDasharray:sa+" 113",duration:1,delay:.4,ease:"power3.out"});
+  });
+}});
+["#sGrB","#sGrC"].forEach(function(sel){
+  ScrollTrigger.create({trigger:sel,start:"top 70%",once:true,onEnter:function(){
+    document.querySelectorAll(sel+" .ring-fill").forEach(function(r){
+      var sa=r.getAttribute("data-score")/100*113;
+      gsap.fromTo(r,{strokeDasharray:"0 113"},{strokeDasharray:sa+" 113",duration:1,delay:.3,ease:"power3.out"});
+    });
+  }});
+});
+
+/* vuota grid */
+ScrollTrigger.create({trigger:"#sVuota",start:"top 72%",once:true,onEnter:function(){
+  gsap.fromTo("#vuotaGrid .vg-cell",{opacity:0,scale:.95},{opacity:1,scale:1,duration:.5,stagger:.04,ease:"power3.out"});
+  gsap.fromTo("#vCard",{opacity:0,y:12},{opacity:1,y:0,duration:.7,delay:.5,ease:"power3.out"});
+}});
+
+/* benchmark */
+ScrollTrigger.create({trigger:"#sBench",start:"top 75%",once:true,onEnter:function(){
+  gsap.fromTo("#gBench .bcard",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.12,ease:"power3.out"});
+}});
+
+/* takeaway */
+["#twDo","#twDont","#twSpace"].forEach(function(sel,i){
+  ScrollTrigger.create({trigger:sel,start:"top 80%",once:true,onEnter:function(){
+    gsap.fromTo(sel,{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
+  }});
+});
+</script>
+
+<script>
+/* MENU NAV */
+(function(){
+var M=[
+  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},
+  {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},
+  {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
+  {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
+  {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
+  {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
+  {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
+];
+var path='m2';
+var st=document.createElement('style');
+st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
+document.head.appendChild(st);
+var ov=document.createElement('div');ov.className='rbov';
+var ih='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
+document.body.appendChild(ov);
+var mo=false,btn=document.getElementById('rbHamBtn');
+function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
+function close(){mo=false;btn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+btn.addEventListener('click',function(){if(mo)close();else open();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mo)close();});
+ov.addEventListener('click',function(e){if(e.target===ov)close();});
+var nb=document.createElement('nav');nb.id='rbnav';var nbH='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" class="rnav-a'+(a?' active':'')+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
+nb.innerHTML=nbH;document.body.appendChild(nb);
+})();
+</script>
+</body>
+</html>
