@@ -20,14 +20,14 @@ html{scroll-behavior:smooth}
 }
 body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden;padding-bottom:48px;cursor:none}
 @media(hover:none){body{cursor:auto}#cur{display:none}}
-#cur{position:fixed;width:7px;height:7px;background:var(--energy);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
+#cur{position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:800;height:52px;background:rgba(242,245,250,.96);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border)}
 .tb-l{display:flex;align-items:center;gap:.85rem}
 .tb-logo{height:22px;object-fit:contain}
 .tb-sep{width:1px;height:16px;background:var(--border)}
 .tb-rlogo{height:11px;opacity:.3}
 .tb-r{display:flex;align-items:center;gap:.75rem}
-.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(217,115,13,.25);color:var(--energy);padding:3px 9px;border-radius:4px;background:var(--energy-light)}
+.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(217,115,13,.3);color:var(--energy);padding:3px 9px;border-radius:4px;background:var(--energy-light)}
 .tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
 .rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
 .rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
@@ -36,728 +36,969 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 .rb-ham.open .h2{opacity:0;width:0}
 .rb-ham.open .h3{width:20px;transform:translateY(-6.5px) rotate(45deg)}
 #progress{position:fixed;top:52px;left:0;right:0;z-index:801;height:2px;background:var(--border)}
-#progress-fill{height:100%;background:linear-gradient(90deg,var(--energy),var(--blue));width:0%;transition:width .1s linear}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--energy));width:0%;transition:width .1s linear}
 
-/* ═══ HERO ═══ */
-.hero{min-height:100svh;background:var(--surface);border-bottom:1px solid var(--border);padding:calc(52px + 3rem) 1.5rem 3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(217,115,13,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(217,115,13,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
-.hero-blob{position:absolute;top:-10%;right:-8%;width:55vw;height:55vw;border-radius:50%;background:radial-gradient(circle,rgba(217,115,13,.07) 0%,transparent 65%);pointer-events:none}
-.hero-top{position:relative;z-index:1}
+/* HERO */
+.hero{min-height:100svh;background:var(--surface);border-bottom:1px solid var(--border);padding:calc(52px + 3.5rem) 1.5rem 3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(217,115,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(217,115,13,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-blob{position:absolute;top:-10%;right:-8%;width:55vw;height:55vw;border-radius:50%;background:radial-gradient(circle,rgba(217,115,13,.05) 0%,transparent 65%);pointer-events:none}
+.hero-top{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%}
 .hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--energy);display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
 .hero-eyebrow::before{content:"";width:32px;height:1px;background:var(--energy)}
-.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:.92;letter-spacing:-.04em;color:var(--ink);margin-bottom:.75rem}
+.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:.92;letter-spacing:-.04em;color:var(--ink);margin-bottom:.85rem}
 .hero-title em{font-style:italic;font-weight:300;color:var(--energy)}
-.hero-sub{font-size:14px;color:var(--ink3);line-height:1.7;max-width:520px;margin-bottom:2.5rem}
+.hero-sub{font-size:14.5px;color:var(--ink3);line-height:1.75;max-width:560px;margin-bottom:3rem}
 
-/* THREE BENCHMARK RINGS */
-.bench-rings{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;position:relative;z-index:1}
-@media(max-width:640px){.bench-rings{grid-template-columns:1fr}}
-.br-card{padding:1.5rem;border:1px solid var(--border);border-radius:16px;background:var(--surface);display:flex;flex-direction:column;align-items:center;gap:.85rem;transition:box-shadow .25s}
-.br-card:hover{box-shadow:0 6px 22px rgba(0,0,0,.08)}
-.br-ring-wrap{position:relative;width:80px;height:80px}
-.br-ring-wrap svg{position:absolute;inset:0;transform:rotate(-90deg)}
-.br-ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.br-ring-num{font-family:"Afacad Flux",sans-serif;font-size:1.4rem;font-weight:300;line-height:1;letter-spacing:-.04em}
-.br-ring-lbl{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4)}
-.br-name{font-family:"Afacad Flux",sans-serif;font-size:1.15rem;font-weight:400;color:var(--ink)}
-.br-tag{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);text-align:center}
-.br-stats{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:center}
-.brs{display:flex;flex-direction:column;align-items:center}
-.brs-v{font-family:"Afacad Flux",sans-serif;font-size:.95rem;color:var(--ink2);line-height:1}
-.brs-l{font-size:8px;letter-spacing:.06em;color:var(--ink4)}
-.br-insight{font-size:11.5px;color:var(--ink3);text-align:center;line-height:1.5;border-top:1px solid var(--border);padding-top:.75rem;width:100%;font-style:italic}
+/* BENCHMARK CARDS */
+.bench-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;max-width:1100px;margin:0 auto;width:100%}
+@media(max-width:760px){.bench-grid{grid-template-columns:1fr}}
+.bench-card{padding:1.5rem;border-radius:16px;border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.bench-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.bench-card.top::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--energy),#F5A030)}
+.bench-card.mid::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-mid))}
+.bench-card.low::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),#3DB87E)}
+.bench-score-row{display:flex;align-items:flex-end;gap:.5rem;margin-bottom:.25rem}
+.bench-score{font-family:"Afacad Flux",sans-serif;font-size:clamp(3rem,7vw,5rem);font-weight:300;line-height:1;letter-spacing:-.06em;color:var(--ink)}
+.bench-score-max{font-family:"Afacad Flux",sans-serif;font-size:1.25rem;color:var(--ink4);margin-bottom:.5rem}
+.bench-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:.35rem}
+.bench-name{font-family:"Afacad Flux",sans-serif;font-size:1.35rem;font-weight:400;color:var(--ink);line-height:1.1;margin-bottom:.65rem}
+.bench-metrics{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.85rem}
+.bench-metric{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);border-bottom:1px solid var(--border);padding-bottom:.3rem}
+.bench-metric:last-child{border-bottom:none;padding-bottom:0}
+.bench-metric-v{font-family:"Afacad Flux",sans-serif;font-size:1rem;color:var(--ink2);font-weight:400}
+.bench-tag{font-size:11px;color:var(--ink3);line-height:1.55;font-style:italic;padding-top:.65rem;border-top:1px solid var(--border)}
 
-/* ═══ LEZIONI INTERLUDE ═══ */
-.lessons{padding:4.5rem 1.5rem;background:#0A1628;position:relative;overflow:hidden}
-.lessons-bg{position:absolute;right:-3%;top:-15%;font-family:"Afacad Flux",sans-serif;font-size:clamp(12rem,35vw,32rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.03);pointer-events:none;user-select:none}
-.lessons-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto}
-.lessons-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.25rem}
-.lessons-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:rgba(255,255,255,.8);margin-bottom:2rem}
-.lessons-title strong{font-weight:500;color:#fff}
-.lessons-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
-@media(max-width:700px){.lessons-grid{grid-template-columns:1fr}}
-.lesson-card{padding:1.25rem;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(255,255,255,.04)}
-.lc-num{font-family:"Afacad Flux",sans-serif;font-size:2.5rem;font-weight:300;color:rgba(255,255,255,.1);line-height:1;margin-bottom:.4rem;letter-spacing:-.04em}
-.lc-title{font-size:13px;font-weight:500;color:rgba(255,255,255,.75);margin-bottom:.35rem;line-height:1.3}
-.lc-text{font-size:12px;color:rgba(255,255,255,.4);line-height:1.65}
-.lc-orbis{margin-top:.75rem;padding:.65rem .75rem;background:rgba(217,115,13,.1);border:1px solid rgba(217,115,13,.2);border-radius:8px}
-.lc-orbis-lbl{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(217,115,13,.7);margin-bottom:.2rem}
-.lc-orbis-text{font-size:11px;color:rgba(217,115,13,.65);line-height:1.55}
+/* INTERLUDE */
+.interlude{padding:5rem 1.5rem;background:var(--ink);position:relative;overflow:hidden}
+.int-bg{position:absolute;right:-2%;top:-15%;font-family:"Afacad Flux",sans-serif;font-size:clamp(14rem,40vw,44rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.025);pointer-events:none;user-select:none}
+.int-inner{position:relative;z-index:1;max-width:1000px;margin:0 auto}
+.int-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.5rem}
+.int-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.7rem,4.5vw,3.2rem);font-weight:300;line-height:1.1;color:rgba(255,255,255,.75);margin-bottom:2.5rem}
+.int-title strong{font-weight:500;color:#fff}
+.int-title em{font-style:italic;color:var(--energy)}
 
-/* ═══ SEZIONI ═══ */
-.section{padding:4rem 1.5rem;border-top:1px solid var(--border)}
+/* SEZIONI GENERALI */
+.section{padding:5rem 1.5rem;border-top:1px solid var(--border)}
 .section.white{background:var(--surface)}
 .section.grey{background:var(--bg)}
 .max-w{max-width:1100px;margin:0 auto}
-.sec-header{margin-bottom:2rem}
+.sec-header{margin-bottom:2.5rem}
 .sec-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
-.sec-tag::before{content:"";width:14px;height:1px;background:var(--stc,var(--blue))}
+.sec-tag::before{content:"";width:14px;height:1px;background:var(--blue)}
 .sec-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink)}
-.sec-sub{font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:560px;margin-top:.6rem}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:2rem 4rem;align-items:start}
-@media(max-width:700px){.g2{grid-template-columns:1fr}}
+.sec-title em{font-style:italic;font-weight:300;color:var(--blue)}
+.sec-sub{font-size:14px;color:var(--ink3);line-height:1.8;max-width:560px;margin-top:.65rem}
 
-/* ═══ GEWISS DEEP DIVE ═══ */
-.gewiss-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-@media(max-width:700px){.gewiss-grid{grid-template-columns:1fr}}
-.gw-card{padding:1.25rem;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
-.gw-card.featured{border-color:rgba(217,115,13,.3);background:var(--energy-light)}
-.gw-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem}
-.gw-title{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-weight:400;color:var(--ink);margin-bottom:.5rem}
-.gw-text{font-size:12.5px;color:var(--ink3);line-height:1.65}
-.gw-orbis{margin-top:.75rem;padding:.7rem .85rem;border-left:3px solid var(--energy);background:rgba(255,255,255,.6);border-radius:0 8px 8px 0}
-.gw-orbis-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--energy);margin-bottom:.2rem}
-.gw-orbis-text{font-size:12px;color:var(--ink2);line-height:1.6}
-/* Gewiss follower bar */
-.gw-followers{display:flex;flex-direction:column;gap:.5rem;margin:.75rem 0}
-.gwf-row{display:flex;align-items:center;gap:.65rem}
-.gwf-label{font-size:10px;color:var(--ink3);min-width:70px}
-.gwf-track{flex:1;height:5px;background:var(--surface2);border-radius:99px;overflow:hidden}
-.gwf-fill{height:100%;border-radius:99px;width:0;transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
-.gwf-val{font-family:"Afacad Flux",sans-serif;font-size:.85rem;color:var(--ink2);min-width:35px;text-align:right}
+/* LESSON GRID */
+.lesson-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.lesson-grid{grid-template-columns:1fr}}
+.lesson-card{padding:1.5rem;border-radius:14px;border:1px solid var(--border);background:var(--surface);display:grid;grid-template-columns:44px 1fr;gap:1.25rem;align-items:start}
+.lesson-num{font-family:"Afacad Flux",sans-serif;font-size:2.5rem;font-weight:300;line-height:1;color:rgba(0,80,160,.12);letter-spacing:-.05em}
+.lesson-title{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-weight:500;color:var(--ink);margin-bottom:.4rem;line-height:1.25}
+.lesson-body{font-size:12.5px;color:var(--ink3);line-height:1.7}
+.lesson-per{margin-top:.75rem;padding:.65rem .85rem;border-radius:8px;background:var(--blue-light);font-size:12px;color:var(--ink2);line-height:1.6;border-left:3px solid var(--blue)}
+.lesson-per strong{color:var(--blue);font-weight:600}
 
-/* ═══ WHITE SPACE CARDS ═══ */
-.ws-section{padding:4rem 1.5rem;border-top:1px solid var(--border)}
-.ws-card{border-radius:16px;overflow:hidden;margin-bottom:1.5rem;border:1px solid var(--border)}
-.ws-card:last-child{margin-bottom:0}
-.ws-header{padding:2rem 1.5rem;display:flex;gap:1.5rem;align-items:flex-start}
-.ws-num{font-family:"Afacad Flux",sans-serif;font-size:4rem;font-weight:300;line-height:.88;letter-spacing:-.06em;flex-shrink:0}
-.ws-header-right{}
-.ws-tag{font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.4rem}
-.ws-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:400;line-height:1.05;letter-spacing:-.02em;color:var(--ink)}
-.ws-body{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border)}
-@media(max-width:640px){.ws-body{grid-template-columns:1fr}}
-.ws-col{padding:1.5rem}
-.ws-col.vuoto{background:var(--surface2)}
-.ws-col.azione{background:var(--surface)}
-.ws-col-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem}
-.ws-col-text{font-size:13px;color:var(--ink2);line-height:1.7}
-.ws-col-text strong{font-weight:500;color:var(--ink)}
+/* GEWISS DETAIL SEZIONE */
+.gw-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+@media(max-width:700px){.gw-grid{grid-template-columns:1fr}}
+.gw-card{padding:1.4rem;border-radius:14px;border:1px solid var(--border);background:var(--surface)}
+.gw-card-title{font-family:"Afacad Flux",sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:.25rem}
+.gw-card-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--energy);margin-bottom:.75rem;font-weight:600}
+.gw-body{font-size:12.5px;color:var(--ink3);line-height:1.7}
+.gw-per{margin-top:.85rem;padding:.65rem .85rem;border-radius:8px;background:var(--energy-light);font-size:12px;color:var(--ink2);line-height:1.6;border-left:3px solid var(--energy)}
+.gw-per strong{color:var(--energy);font-weight:600}
+.gw-metrics{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.75rem}
+.gw-metric{display:flex;flex-direction:column}
+.gw-metric-v{font-family:"Afacad Flux",sans-serif;font-size:1.4rem;font-weight:300;color:var(--blue);line-height:1}
+.gw-metric-l{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-top:.15rem}
 
-/* ═══ TONO DI VOCE ═══ */
-.tone-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.5rem}
-@media(max-width:640px){.tone-grid{grid-template-columns:1fr}}
-.tone-card{padding:1.25rem;border-radius:12px;border:1px solid var(--border)}
-.tone-card.do{background:var(--green-light);border-color:rgba(26,148,98,.2)}
-.tone-card.dont{background:#FEF3F0;border-color:rgba(200,60,40,.15)}
-.tc-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem}
-.tc-label.do{color:var(--green)}
-.tc-label.dont{color:#C03020}
-.tc-items{display:flex;flex-direction:column;gap:.4rem}
-.tc-item{font-size:13px;color:var(--ink2);display:flex;gap:.5rem;line-height:1.45}
-.tc-item::before{flex-shrink:0;font-size:11px;margin-top:.05rem}
-.tone-card.do .tc-item::before{content:"✓";color:var(--green)}
-.tone-card.dont .tc-item::before{content:"✗";color:#C03020}
+/* WHITE SPACE */
+.ws-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+@media(max-width:700px){.ws-grid{grid-template-columns:1fr}}
+.ws-card{border-radius:16px;border:1px solid var(--border);background:var(--surface);overflow:hidden}
+.ws-top{padding:1.4rem 1.4rem 1rem;position:relative}
+.ws-num{font-family:"Afacad Flux",sans-serif;font-size:3.5rem;font-weight:300;line-height:1;letter-spacing:-.06em;color:rgba(0,80,160,.08);position:absolute;top:.75rem;right:1rem}
+.ws-format{display:inline-block;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:99px;margin-bottom:.6rem;font-weight:600}
+.ws-format.doc{background:var(--blue-light);color:var(--blue)}
+.ws-format.rub{background:var(--energy-light);color:var(--energy)}
+.ws-format.pill{background:var(--green-light);color:var(--green)}
+.ws-format.vis{background:rgba(120,100,140,.12);color:#6a5580}
+.ws-title{font-family:"Afacad Flux",sans-serif;font-size:1.3rem;font-weight:500;color:var(--ink);line-height:1.15;margin-bottom:.35rem}
+.ws-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem}
+.ws-void{padding:0 1.4rem;background:rgba(10,22,40,.03);margin:0 1rem .85rem;border-radius:8px;font-size:12px;color:var(--ink3);line-height:1.65;padding-top:.75rem;padding-bottom:.75rem;border-left:2px solid var(--border)}
+.ws-action{padding:.85rem 1.4rem 1.4rem}
+.ws-action-title{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem}
+.ws-action-body{font-size:12.5px;color:var(--ink2);line-height:1.65}
+.ws-action-body strong{color:var(--ink);font-weight:600}
 
-/* ═══ FORMAT PER TARGET ═══ */
-.format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem}
-@media(max-width:700px){.format-grid{grid-template-columns:1fr}}
-.fmt-card{padding:1.25rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);transition:border-color .25s,transform .25s}
-.fmt-card:hover{border-color:var(--fmt-c,var(--energy));transform:translateY(-2px)}
-.fmt-icon{font-size:1.4rem;margin-bottom:.6rem;display:block}
-.fmt-target{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fmt-c,var(--energy));margin-bottom:.35rem}
-.fmt-title{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-weight:400;color:var(--ink);margin-bottom:.4rem}
-.fmt-items{display:flex;flex-direction:column;gap:.25rem}
-.fmt-item{font-size:12px;color:var(--ink3);display:flex;gap:.4rem}
-.fmt-item::before{content:"→";color:var(--fmt-c,var(--energy));flex-shrink:0;font-size:10px;margin-top:.05rem}
-.fmt-kpi{margin-top:.75rem;padding:.5rem .75rem;border-radius:6px;font-size:11px}
+/* TONO DI VOCE */
+.voice-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media(max-width:700px){.voice-grid{grid-template-columns:1fr}}
+.voice-col-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;font-weight:600}
+.voice-col-title.yes{color:var(--green)}
+.voice-col-title.no{color:#C23B3B}
+.voice-col-title::before{content:"";width:8px;height:8px;border-radius:50%}
+.voice-col-title.yes::before{background:var(--green)}
+.voice-col-title.no::before{background:#C23B3B}
+.voice-item{display:flex;align-items:flex-start;gap:.6rem;padding:.65rem 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink3);line-height:1.55}
+.voice-item:last-child{border-bottom:none}
+.voice-item::before{content:"";width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.voice-col.yes .voice-item::before{background:var(--green)}
+.voice-col.no .voice-item::before{background:#C23B3B;opacity:.6}
+.voice-example{margin-top:2rem;padding:1.5rem;border-radius:14px;border:1px solid var(--border)}
+.voice-example-tag{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem}
+.voice-bad{background:rgba(194,59,59,.04);border-left:3px solid rgba(194,59,59,.25);padding:.85rem 1rem;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink3);line-height:1.6;margin-bottom:1rem}
+.voice-good{background:var(--green-light);border-left:3px solid var(--green);padding:.85rem 1rem;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink2);line-height:1.6;font-weight:500}
 
-/* ═══ POWERED BY BLOCK ═══ */
-.powered-section{padding:4rem 1.5rem;background:#0A1628;border-top:1px solid var(--border);position:relative;overflow:hidden}
-.pb-bg{position:absolute;left:-3%;bottom:-15%;font-family:"Afacad Flux",sans-serif;font-size:clamp(14rem,45vw,44rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.03);pointer-events:none;user-select:none}
-.pb-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto}
-.pb-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.5rem}
-.pb-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,4rem);font-weight:300;color:rgba(255,255,255,.8);margin-bottom:.75rem}
-.pb-title strong{font-weight:500;color:#fff}
-.pb-sub{font-size:14px;color:rgba(255,255,255,.4);line-height:1.75;max-width:560px;margin-bottom:2rem}
-.pb-models{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-@media(max-width:640px){.pb-models{grid-template-columns:1fr}}
-.pbm{padding:1.4rem;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04)}
-.pbm-top{display:flex;align-items:center;gap:.85rem;margin-bottom:.85rem}
-.pbm-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
-.pbm-name{font-family:"Afacad Flux",sans-serif;font-size:1.15rem;color:#fff}
-.pbm-endorsement{font-family:"Afacad Flux",sans-serif;font-size:1.4rem;font-weight:300;color:rgba(255,255,255,.6);margin-bottom:.5rem;letter-spacing:-.02em;font-style:italic}
-.pbm-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
+/* FORMAT CREATIVI */
+.fmt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:900px){.fmt-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.fmt-grid{grid-template-columns:1fr}}
+.fmt-card{padding:1.35rem;border-radius:14px;border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.fmt-card:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.07)}
+.fmt-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.fmt-card.c1::before{background:linear-gradient(90deg,var(--energy),#F5A030)}
+.fmt-card.c2::before{background:linear-gradient(90deg,var(--blue),var(--blue-mid))}
+.fmt-card.c3::before{background:linear-gradient(90deg,var(--green),#3DB87E)}
+.fmt-card.c4::before{background:linear-gradient(90deg,#7a5d4a,#B8956A)}
+.fmt-card.c5::before{background:linear-gradient(90deg,#6a5580,#9880B0)}
+.fmt-card.c6::before{background:linear-gradient(90deg,var(--blue-mid),var(--green))}
+.fmt-icon{font-size:1.5rem;margin-bottom:.75rem}
+.fmt-persona{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:.35rem;font-weight:600}
+.fmt-title{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-weight:500;color:var(--ink);line-height:1.2;margin-bottom:.6rem}
+.fmt-body{font-size:12px;color:var(--ink3);line-height:1.65;margin-bottom:.85rem}
+.fmt-meta{display:flex;flex-direction:column;gap:.25rem;padding-top:.75rem;border-top:1px solid var(--border)}
+.fmt-stat{display:flex;justify-content:space-between;font-size:11px;color:var(--ink4)}
+.fmt-stat-v{color:var(--ink2);font-weight:500}
+.fmt-kpi{margin-top:.5rem;padding:.45rem .65rem;border-radius:6px;background:var(--surface2);font-size:11px;color:var(--ink2);line-height:1.5}
+.fmt-kpi strong{color:var(--blue);font-weight:600}
 
-/* NAV */
-.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);gap:1rem;flex-wrap:wrap}
-.mnav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);transition:color .2s}
-.mnav-back:hover{color:var(--blue)}
-.mnav-next{display:inline-flex;align-items:center;gap:.5rem;background:var(--energy);color:#fff;padding:.7rem 1.6rem;border-radius:99px;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,transform .15s}
-.mnav-next:hover{background:#C0640A;transform:translateY(-1px)}
-.mnav-next span{transition:transform .2s}
-.mnav-next:hover span{transform:translateX(3px)}
+/* ARCHITETTURA POWERED BY */
+.arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:700px){.arch-grid{grid-template-columns:1fr}}
+.arch-card{border-radius:16px;border:1px solid var(--border);background:var(--surface);overflow:hidden}
+.arch-top{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--border);position:relative}
+.arch-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem}
+.arch-brand{font-family:"Afacad Flux",sans-serif;font-size:1.7rem;font-weight:500;color:var(--ink);letter-spacing:-.02em;line-height:1}
+.arch-powered{font-size:10px;letter-spacing:.08em;color:var(--ink4);margin-top:.2rem}
+.arch-powered strong{color:var(--blue);font-weight:600}
+.arch-body{padding:1.25rem 1.5rem}
+.arch-body p{font-size:13px;color:var(--ink3);line-height:1.75;margin-bottom:.85rem}
+.arch-body p:last-child{margin-bottom:0}
+.arch-body strong{color:var(--ink2);font-weight:600}
+.arch-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.85rem}
+.arch-tag{font-size:10px;padding:4px 10px;border-radius:99px;background:var(--surface2);color:var(--ink3)}
+.arch-tag.primary{background:var(--blue-light);color:var(--blue)}
+
+/* ─── PED SECTION ─── */
+.ped-section{padding:5rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden}
+.ped-section::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue) 30%,var(--energy) 70%,transparent);opacity:.35}
+.ped-inner{max-width:1100px;margin:0 auto}
+.ped-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--energy);display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;font-weight:600}
+.ped-tag::before{content:"";width:32px;height:1px;background:var(--energy)}
+.ped-h{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink);margin-bottom:1rem}
+.ped-h em{font-style:italic;font-weight:300;color:var(--energy)}
+.ped-lead{font-size:14px;color:var(--ink3);line-height:1.8;max-width:680px;margin-bottom:3rem}
+.ped-lead strong{color:var(--ink2);font-weight:500}
+.ped-lead em{font-style:italic;color:var(--blue)}
+.ped-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;align-items:start}
+@media(max-width:1024px){.ped-grid{grid-template-columns:1fr 1fr;gap:1.25rem}}
+@media(max-width:600px){.ped-grid{grid-template-columns:1fr}}
+.ped-card{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.ped-phone{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 0 0 1px rgba(10,22,40,.06),0 4px 18px rgba(10,22,40,.08),0 18px 44px rgba(10,22,40,.06);position:relative}
+.ped-sbar{background:#fff;padding:.4rem .8rem .25rem;display:flex;justify-content:space-between;align-items:center}
+.ped-time{font-size:8px;font-weight:700;color:#111}
+.ped-sbar-r{display:flex;gap:.3rem;align-items:center}
+.ped-ig-nav{background:#fff;padding:.3rem .65rem;display:flex;justify-content:space-between;align-items:center;border-bottom:.5px solid rgba(0,0,0,.07)}
+.ped-ig-wm{font-family:"Afacad Flux",sans-serif;font-style:italic;font-size:1rem;color:#111;font-weight:500;letter-spacing:-.01em}
+.ped-phd{background:#fff;padding:.4rem .65rem;display:flex;align-items:center;gap:.45rem}
+.ped-av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-mid));padding:1.5px;flex-shrink:0}
+.ped-av-inner{width:100%;height:100%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--blue);font-family:"Afacad Flux",sans-serif;font-weight:700;letter-spacing:-.05em}
+.ped-uname{font-size:8.5px;font-weight:700;color:#111}
+.ped-uname-sub{font-size:7px;color:#666;margin-top:1px}
+.ped-img-wrap{width:100%;position:relative;overflow:hidden}
+.ped-img-wrap.sq{aspect-ratio:1}
+.ped-img-wrap.p45{aspect-ratio:4/5}
+.ped-img-wrap.st{aspect-ratio:9/16}
+.ped-img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:.85rem;color:rgba(255,255,255,.92);background-size:cover;background-position:center}
+.ped-img-placeholder.viz1{background:linear-gradient(135deg,#0050A0 0%,#1A72C8 50%,#0A1628 100%)}
+.ped-img-placeholder.viz2{background:linear-gradient(155deg,#D9730D 0%,#F5A030 55%,#7a4a1a 100%)}
+.ped-img-placeholder.viz3{background:linear-gradient(140deg,#1A9462 0%,#3DB87E 50%,#0d4a30 100%)}
+.ped-img-placeholder.viz4{background:linear-gradient(150deg,#2E4060 0%,#5A7090 45%,#0A1628 100%)}
+.ped-img-pattern{position:absolute;inset:0;opacity:.07;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.ped-img-meta{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.ped-img-badge{font-size:6.5px;letter-spacing:.16em;text-transform:uppercase;padding:3px 7px;border-radius:99px;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);color:rgba(255,255,255,.85);font-weight:500;white-space:nowrap}
+.ped-img-format{font-size:6px;letter-spacing:.14em;text-transform:uppercase;padding:3px 7px;border-radius:99px;background:rgba(255,255,255,.18);backdrop-filter:blur(4px);color:#fff;font-weight:500}
+.ped-img-center{position:relative;z-index:2;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:.5rem}
+.ped-img-icon{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;margin-bottom:.6rem;border:1px solid rgba(255,255,255,.2)}
+.ped-img-icon svg{width:17px;height:17px;stroke:rgba(255,255,255,.9);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ped-img-concept{font-family:"Afacad Flux",sans-serif;font-size:.68rem;font-weight:400;line-height:1.3;color:rgba(255,255,255,.9);letter-spacing:.01em;max-width:92%}
+.ped-img-foot{position:relative;z-index:2;font-size:6px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.ped-st-ui{position:absolute;top:0;left:0;right:0;z-index:3;padding:.45rem .55rem .3rem}
+.ped-pb-row{display:flex;gap:2px;margin-bottom:.4rem}
+.ped-pb{flex:1;height:1.5px;border-radius:99px;background:rgba(255,255,255,.3);overflow:hidden}
+.ped-pb-fill{height:100%;background:#fff;width:55%}
+.ped-pb.done .ped-pb-fill{width:100%}
+.ped-pb.empty .ped-pb-fill{width:0}
+.ped-st-hdr{display:flex;align-items:center;gap:.35rem}
+.ped-st-av{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.85);background:var(--blue);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:6.5px;color:#fff;font-family:"Afacad Flux",sans-serif;font-weight:700}
+.ped-st-name{font-size:7.5px;font-weight:700;color:#fff}
+.ped-pact{background:#fff;padding:.45rem .65rem .25rem;display:flex;gap:.65rem;align-items:center}
+.ped-ai{width:15px;height:15px;stroke:#111;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ped-ai.sv{margin-left:auto}
+.ped-likes{padding:0 .65rem .25rem;background:#fff;font-size:8px;font-weight:700;color:#111}
+.ped-cap{padding:0 .65rem .35rem;background:#fff;font-size:7.5px;color:#111;line-height:1.45}
+.ped-cap-u{font-weight:700;margin-right:.25rem}
+.ped-cap-tags{color:var(--blue);display:block;margin-top:.2rem;font-weight:500}
+.ped-cmts{padding:.2rem .65rem .4rem;background:#fff}
+.ped-va{font-size:6.5px;color:#999;display:block;margin-bottom:.25rem}
+.ped-cmt{display:flex;gap:.28rem;align-items:baseline;margin-bottom:.2rem;line-height:1.4}
+.ped-cmt-u{font-size:7px;font-weight:700;color:#111;flex-shrink:0}
+.ped-cmt-t{font-size:7px;color:#111}
+.ped-pact-dk{background:#000;padding:.45rem .65rem;display:flex;gap:.5rem;align-items:center;border:none}
+.ped-st-input{flex:1;height:18px;border-radius:99px;border:.8px solid rgba(255,255,255,.35);display:flex;align-items:center;padding:0 .55rem;font-size:7px;color:rgba(255,255,255,.5)}
+.ped-st-react{font-size:11px;line-height:1}
+.ped-cmts-dk{background:#0a0a0a;border-top:1px solid rgba(255,255,255,.08);padding:.2rem .65rem .4rem}
+.ped-meta{padding:0 .1rem}
+.ped-format-badge{display:inline-block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--energy);font-weight:600;background:var(--energy-light);padding:4px 10px;border-radius:99px;margin-bottom:.55rem}
+.ped-concept-h{font-family:"Afacad Flux",sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);line-height:1.25;margin-bottom:.4rem;letter-spacing:-.015em}
+.ped-concept-d{font-size:12px;color:var(--ink3);line-height:1.65}
+.ped-concept-d strong{color:var(--ink2);font-weight:600}
+.ped-pills{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.65rem;padding-top:.65rem;border-top:1px solid var(--border)}
+.ped-pill-label{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);font-weight:500;align-self:center;margin-right:.15rem}
+.ped-pill{font-size:10px;padding:3px 9px;border-radius:99px;font-family:"DM Sans",sans-serif;font-weight:500}
+.ped-pill.marco{background:var(--energy-light);color:var(--energy)}
+.ped-pill.alessandro{background:var(--blue-light);color:var(--blue)}
+.ped-pill.lorenzo{background:var(--green-light);color:var(--green)}
+.ped-pill.stakeholder{background:var(--surface2);color:var(--ink2)}
+.ped-pill.team{background:rgba(154,125,106,.15);color:#7a5d4a}
+.ped-pill.architetti{background:rgba(120,100,140,.12);color:#6a5580}
+.ped-caveat{margin-top:2.5rem;padding:1.1rem 1.4rem;border-radius:12px;background:var(--surface2);border:1px dashed var(--border);font-size:12px;color:var(--ink3);line-height:1.7;display:flex;gap:.75rem;align-items:flex-start}
+.ped-caveat-icon{font-size:14px;flex-shrink:0;margin-top:1px;color:var(--blue)}
+.ped-caveat strong{color:var(--ink2);font-weight:600}
+
+/* MODULE NAV */
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:2.5rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);max-width:1100px;margin:0 auto}
+.mnav-back,.mnav-next{font-size:13px;color:var(--blue);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:gap .2s}
+.mnav-back:hover{gap:.75rem}
+.mnav-next{gap:.5rem}
+.mnav-next:hover{gap:.75rem}
+.mnav-next span{color:var(--energy)}
 </style>
 </head>
 <body>
+
 <div id="cur"></div>
-<div id="progress"><div id="progress-fill"></div></div>
 
 <header class="topbar">
   <div class="tb-l">
-    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis" class="tb-logo">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="tb-logo" alt="Orbis">
     <div class="tb-sep"></div>
-    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="tb-rlogo" alt="Ribrain">
   </div>
+  <span class="tb-badge">07 · Strategia Creativa</span>
   <div class="tb-r">
-    <span class="tb-badge">07 · Strategia Creativa</span>
     <span class="tb-date">Maggio 2026</span>
-    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu">
+      <span class="h1"></span><span class="h2"></span><span class="h3"></span>
+    </button>
   </div>
 </header>
 
+<div id="progress"><div id="progress-fill"></div></div>
+
 <!-- HERO -->
-<section class="hero" id="sHero">
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-blob" aria-hidden="true"></div>
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-blob"></div>
   <div class="hero-top">
-    <div class="hero-eyebrow" id="hE">Cruscotto Strategico · ORBIS Italia · Modulo 07</div>
+    <div class="hero-eyebrow" id="hE">07 · Strategia Creativa · Maggio 2026</div>
     <h1 class="hero-title" id="hT">Il tono di voce<br><em>che manca.</em><br>E come trovarlo.</h1>
     <p class="hero-sub" id="hS">Deep research su Gewiss, Schneider e ABB — i tre benchmark del settore elettrico italiano. Sei lezioni strategiche, quattro white space non presidiati, il tono di voce Orbis. Da qui nasce la creatività.</p>
   </div>
-  <!-- THREE BENCHMARK RINGS -->
-  <div class="bench-rings" id="benchRings">
-    <!-- GEWISS -->
-    <div class="br-card" style="border-color:rgba(217,115,13,.25)">
-      <div class="br-ring-wrap">
-        <svg viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="40" r="34" stroke="#D8E0EE" stroke-width="5"/>
-          <circle cx="40" cy="40" r="34" stroke="#D9730D" stroke-width="5" stroke-dasharray="0 214" stroke-linecap="round" class="ring-fill" data-score="192"/>
-        </svg>
-        <div class="br-ring-val">
-          <div class="br-ring-num" style="color:var(--energy)">9</div>
-          <div class="br-ring-lbl">/10</div>
-        </div>
+  <div class="bench-grid" id="benchGrid">
+    <div class="bench-card top">
+      <div class="bench-score-row">
+        <div class="bench-score">9</div>
+        <div class="bench-score-max">/10</div>
       </div>
-      <div class="br-name">Gewiss</div>
-      <div class="br-tag">Il benchmark dichiarato da Laura</div>
-      <div class="br-stats">
-        <div class="brs"><div class="brs-v" id="gw-fb">0</div><div class="brs-l">Facebook</div></div>
-        <div class="brs"><div class="brs-v" id="gw-li">0</div><div class="brs-l">LinkedIn</div></div>
-        <div class="brs"><div class="brs-v">19K</div><div class="brs-l">Instagram</div></div>
+      <div class="bench-label">Il benchmark dichiarato da Laura</div>
+      <div class="bench-name">Gewiss</div>
+      <div class="bench-metrics">
+        <div class="bench-metric"><span>Facebook</span><span class="bench-metric-v">0</span></div>
+        <div class="bench-metric"><span>LinkedIn</span><span class="bench-metric-v">84K</span></div>
+        <div class="bench-metric"><span>Instagram</span><span class="bench-metric-v">19K</span></div>
       </div>
-      <div class="br-insight">GW Mag + JOINON "Powered by" + Academy. Il modello più replicabile per Orbis.</div>
+      <div class="bench-tag">GW Mag + JOINON "Powered by" + Academy. Il modello più replicabile per Orbis.</div>
     </div>
-    <!-- SCHNEIDER -->
-    <div class="br-card" style="border-color:rgba(0,80,160,.2)">
-      <div class="br-ring-wrap">
-        <svg viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="40" r="34" stroke="#D8E0EE" stroke-width="5"/>
-          <circle cx="40" cy="40" r="34" stroke="#0050A0" stroke-width="5" stroke-dasharray="0 214" stroke-linecap="round" class="ring-fill" data-score="182"/>
-        </svg>
-        <div class="br-ring-val">
-          <div class="br-ring-num" style="color:var(--blue)">8,5</div>
-          <div class="br-ring-lbl">/10</div>
-        </div>
+    <div class="bench-card mid">
+      <div class="bench-score-row">
+        <div class="bench-score">8,5</div>
+        <div class="bench-score-max">/10</div>
       </div>
-      <div class="br-name">Schneider Electric</div>
-      <div class="br-tag">Il campione dell'ESG digitale</div>
-      <div class="br-stats">
-        <div class="brs"><div class="brs-v">96%</div><div class="brs-l">Video completion</div></div>
-        <div class="brs"><div class="brs-v">3×</div><div class="brs-l">Engagement Thought Leader</div></div>
+      <div class="bench-label">Il campione dell'ESG digitale</div>
+      <div class="bench-name">Schneider Electric</div>
+      <div class="bench-metrics">
+        <div class="bench-metric"><span>Video completion</span><span class="bench-metric-v">96%</span></div>
+        <div class="bench-metric"><span>Engagement TL</span><span class="bench-metric-v">3×</span></div>
       </div>
-      <div class="br-insight">Impact Makers + blockchain ESG + Connected TV. L'ESG come leva commerciale concreta.</div>
+      <div class="bench-tag">Impact Makers + blockchain ESG + Connected TV. L'ESG come leva commerciale concreta.</div>
     </div>
-    <!-- ABB -->
-    <div class="br-card" style="border-color:rgba(26,114,200,.2)">
-      <div class="br-ring-wrap">
-        <svg viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="40" r="34" stroke="#D8E0EE" stroke-width="5"/>
-          <circle cx="40" cy="40" r="34" stroke="#1A72C8" stroke-width="5" stroke-dasharray="0 214" stroke-linecap="round" class="ring-fill" data-score="171"/>
-        </svg>
-        <div class="br-ring-val">
-          <div class="br-ring-num" style="color:var(--blue-mid)">8</div>
-          <div class="br-ring-lbl">/10</div>
-        </div>
+    <div class="bench-card low">
+      <div class="bench-score-row">
+        <div class="bench-score">8</div>
+        <div class="bench-score-max">/10</div>
       </div>
-      <div class="br-name">ABB</div>
-      <div class="br-tag">Il maestro del B2H storytelling</div>
-      <div class="br-stats">
-        <div class="brs"><div class="brs-v">49M</div><div class="brs-l">Impression</div></div>
-        <div class="brs"><div class="brs-v">4,38%</div><div class="brs-l">CTR paid</div></div>
-        <div class="brs"><div class="brs-v">8M</div><div class="brs-l">Video views</div></div>
+      <div class="bench-label">Il maestro del B2H storytelling</div>
+      <div class="bench-name">ABB</div>
+      <div class="bench-metrics">
+        <div class="bench-metric"><span>Impression</span><span class="bench-metric-v">49M</span></div>
+        <div class="bench-metric"><span>CTR paid</span><span class="bench-metric-v">4,38%</span></div>
+        <div class="bench-metric"><span>Video views</span><span class="bench-metric-v">8M</span></div>
       </div>
-      <div class="br-insight">"Everyday Heroes" — Best B2B Content 2025. Il prodotto scompare: restano le persone.</div>
+      <div class="bench-tag">"Everyday Heroes" — Best B2B Content 2025. Il prodotto scompare: restano le persone.</div>
     </div>
   </div>
 </section>
 
-<!-- SEI LEZIONI DAL MERCATO -->
-<section class="lessons" id="sLessons">
-  <div class="lessons-bg" aria-hidden="true">6</div>
-  <div class="lessons-inner">
-    <div class="lessons-tag">Dalla ricerca · pattern strategici</div>
-    <h2 class="lessons-title">Sei lezioni che il mercato<br>ha già imparato. <strong>Orbis deve metabolizzarle.</strong></h2>
-    <div class="lessons-grid" id="lessGrid">
-      <div class="lesson-card">
-        <div class="lc-num">01</div>
-        <div class="lc-title">Il paradigma B2H sostituisce il prodotto</div>
-        <div class="lc-text">Il decisore B2B non risponde più alle specifiche tecniche. "Everyday Heroes" di ABB e "Impact Makers" di Schneider spostano l'inquadratura dall'hardware all'uomo che lo installa o ne beneficia.</div>
-        <div class="lc-orbis">
-          <div class="lc-orbis-lbl">Per Orbis</div>
-          <div class="lc-orbis-text">Glorificare il lavoro dell'installatore. Il prodotto è un facilitatore silente del suo successo — non il protagonista.</div>
-        </div>
-      </div>
-      <div class="lesson-card">
-        <div class="lc-num">02</div>
-        <div class="lc-title">L'ESG è leva commerciale, non "appendice verde"</div>
-        <div class="lc-text">Schneider certifica l'ESG su blockchain. Gewiss parcellizza il bilancio in decine di micro-contenuti. La sostenibilità è strumento di qualificazione fornitore nel B2B.</div>
-        <div class="lc-orbis">
-          <div class="lc-orbis-lbl">Per Orbis</div>
-          <div class="lc-orbis-text">Il Bilancio di Sostenibilità 2024 va decostruito in 24 micro-contenuti — uno al mese per due anni. Non un post, una serie.</div>
-        </div>
-      </div>
-      <div class="lesson-card">
-        <div class="lc-num">03</div>
-        <div class="lc-title">Formazione = premium lead generation</div>
-        <div class="lc-text">GEWISS Academy e ABB Experience Center dimostrano che il training tecnico è il più potente strumento di marketing. Chi ottiene un attestato Gewiss lo condivide su LinkedIn.</div>
-        <div class="lc-orbis">
-          <div class="lc-orbis-lbl">Per Orbis</div>
-          <div class="lc-orbis-text">Webinar VIARIS e tutorial FV brandizzati come "format televisivi" con certificato digitale condivisibile su LinkedIn.</div>
-        </div>
-      </div>
-      <div class="lesson-card">
-        <div class="lc-num">04</div>
-        <div class="lc-title">Il modello "Powered By" per le nicchie</div>
-        <div class="lc-text">JOINON opera in autonomia comunicativa ma è sempre "JOINON | Powered by GEWISS". Sub-brand verticale + credibilità del brand madre. Il risultato: reach giovane + fiducia istituzionale.</div>
-        <div class="lc-orbis">
-          <div class="lc-orbis-lbl">Per Orbis</div>
-          <div class="lc-orbis-text">VIARIS e Orbis Energy come palinsesti autonomi, sempre affiancati da "Powered by ORBIS". Due pubblici, un'unica reputazione.</div>
-        </div>
-      </div>
-      <div class="lesson-card">
-        <div class="lc-num">05</div>
-        <div class="lc-title">Digital Syndication amplifica il canale indiretto</div>
-        <div class="lc-text">ABB e Schneider consegnano ai grossisti "Digital Toolkit" completi: immagini lifestyle, BIM, video pillole, testi per Facebook. Il distributore diventa un media channel co-branded.</div>
-        <div class="lc-orbis">
-          <div class="lc-orbis-lbl">Per Orbis</div>
-          <div class="lc-orbis-text">Kit creativo mensile per Alessandro (il grossista): 5 post pronti da pubblicare, coerenti con il piano editoriale Orbis.</div>
-        </div>
-      </div>
-      <div class="lesson-card">
-        <div class="lc-num">06</div>
-        <div class="lc-title">Il presidio territoriale genera notiziabilità</div>
-        <div class="lc-text">GEWISS in Campania con progetto INSITE (Federico II di Napoli). Schneider a Casavatore. ABB a Frosinone. Il locale scatena risonanza nazionale e l'apprezzamento delle istituzioni.</div>
-        <div class="lc-orbis">
-          <div class="lc-orbis-lbl">Per Orbis</div>
-          <div class="lc-orbis-text">Documentare ogni installazione VIARIS o Orbis Energy significativa: la villa con fotovoltaico+wallbox in Campania è un caso studio social pronto.</div>
-        </div>
-      </div>
-    </div>
+<!-- INTERLUDE 1 -->
+<section class="interlude">
+  <div class="int-bg">6</div>
+  <div class="int-inner">
+    <div class="int-tag">Dalla ricerca · pattern strategici</div>
+    <div class="int-title">Sei lezioni che il mercato<br>ha già imparato. <strong>Orbis<br>deve metabolizzarle.</strong></div>
   </div>
 </section>
 
-<!-- GEWISS DEEP DIVE -->
-<section class="section white" id="sGewiss">
+<!-- SEZIONE: SEI LEZIONI -->
+<section class="section white" id="secLezioni">
   <div class="max-w">
-    <div class="sec-header" id="shGw">
+    <div class="sec-header">
+      <div class="sec-tag">Benchmark · pattern strategici</div>
+      <h2 class="sec-title">Quello che funziona.<br><em>Trasportato su Orbis.</em></h2>
+    </div>
+    <div class="lesson-grid" id="lessonGrid">
+      <div class="lesson-card">
+        <div class="lesson-num">01</div>
+        <div>
+          <div class="lesson-title">Il paradigma B2H sostituisce il prodotto</div>
+          <div class="lesson-body">Il decisore B2B non risponde più alle specifiche tecniche. "Everyday Heroes" di ABB e "Impact Makers" di Schneider spostano l'inquadratura dall'hardware all'uomo che lo installa o ne beneficia.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Glorificare il lavoro dell'installatore. Il prodotto è un facilitatore silente del suo successo — non il protagonista.</div>
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-num">02</div>
+        <div>
+          <div class="lesson-title">L'ESG è leva commerciale, non "appendice verde"</div>
+          <div class="lesson-body">Schneider certifica l'ESG su blockchain. Gewiss parcellizza il bilancio in decine di micro-contenuti. La sostenibilità è strumento di qualificazione fornitore nel B2B.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Il Bilancio di Sostenibilità 2024 va decostruito in 24 micro-contenuti — uno al mese per due anni. Non un post, una serie.</div>
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-num">03</div>
+        <div>
+          <div class="lesson-title">Formazione = premium lead generation</div>
+          <div class="lesson-body">GEWISS Academy e ABB Experience Center dimostrano che il training tecnico è il più potente strumento di marketing. Chi ottiene un attestato Gewiss lo condivide su LinkedIn.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Webinar VIARIS e tutorial FV brandizzati come "format televisivi" con certificato digitale condivisibile su LinkedIn.</div>
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-num">04</div>
+        <div>
+          <div class="lesson-title">Il modello "Powered By" per le nicchie</div>
+          <div class="lesson-body">JOINON opera in autonomia comunicativa ma è sempre "JOINON | Powered by GEWISS". Sub-brand verticale + credibilità del brand madre. Il risultato: reach giovane + fiducia istituzionale.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> VIARIS e Orbis Energy come palinsesti autonomi, sempre affiancati da "Powered by ORBIS". Due pubblici, un'unica reputazione.</div>
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-num">05</div>
+        <div>
+          <div class="lesson-title">Digital Syndication amplifica il canale indiretto</div>
+          <div class="lesson-body">ABB e Schneider consegnano ai grossisti "Digital Toolkit" completi: immagini lifestyle, BIM, video pillole, testi per Facebook. Il distributore diventa un media channel co-branded.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Kit creativo mensile per Alessandro: 5 post pronti da pubblicare, coerenti con il piano editoriale Orbis.</div>
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-num">06</div>
+        <div>
+          <div class="lesson-title">Il presidio territoriale genera notiziabilità</div>
+          <div class="lesson-body">GEWISS in Campania con progetto INSITE (Federico II di Napoli). Schneider a Casavatore. ABB a Frosinone. Il locale scatena risonanza nazionale e l'apprezzamento delle istituzioni.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Documentare ogni installazione VIARIS o Orbis Energy significativa: la villa con fotovoltaico+wallbox in Campania è un caso studio social pronto.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE: GEWISS DETTAGLIO -->
+<section class="section grey" id="secGewiss">
+  <div class="max-w">
+    <div class="sec-header">
       <div class="sec-tag" style="--stc:var(--energy)">Il benchmark · Gewiss</div>
-      <h2 class="sec-title">Come comunica Gewiss.<br>E dove Orbis può fare meglio.</h2>
-      <p class="sec-sub">Gewiss è il competitor più simile ad Orbis per target, mercato e dimensione. Non è una gara da vincere — è una scuola da frequentare con spirito critico. Ciò che Gewiss fa bene va metabolizzato. Ciò che non fa (ancora) è il territorio di Orbis.</p>
+      <h2 class="sec-title">Come comunica Gewiss.<br><em>E dove Orbis può fare meglio.</em></h2>
+      <p class="sec-sub">Gewiss è il competitor più simile ad Orbis per target, mercato e dimensione. Non è una gara da vincere — è una scuola da frequentare con spirito critico.</p>
     </div>
-    <div class="gw-followers" id="gwF">
-      <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.35rem">Presenza social Gewiss · dati maggio 2026</div>
-      <div class="gwf-row"><div class="gwf-label">Facebook</div><div class="gwf-track"><div class="gwf-fill" data-w="100" style="background:#1877F2"></div></div><div class="gwf-val" id="gw-fbbar">0</div></div>
-      <div class="gwf-row"><div class="gwf-label">LinkedIn</div><div class="gwf-track"><div class="gwf-fill" data-w="73" style="background:#0A66C2"></div></div><div class="gwf-val">84K</div></div>
-      <div class="gwf-row"><div class="gwf-label">Instagram</div><div class="gwf-track"><div class="gwf-fill" data-w="17" style="background:#E1306C"></div></div><div class="gwf-val">19K</div></div>
-      <div class="gwf-row" style="margin-top:.4rem">
-        <div class="gwf-label" style="color:var(--energy);font-weight:500">Orbis oggi</div>
-        <div class="gwf-track"><div class="gwf-fill" data-w="0.6" style="background:var(--energy)"></div></div>
-        <div class="gwf-val" style="color:var(--energy)">→</div>
-      </div>
-    </div>
-    <div class="gewiss-grid" id="gGrid" style="margin-top:1.5rem">
-      <div class="gw-card featured">
-        <div class="gw-tag" style="color:var(--energy)">★ La lezione più importante</div>
-        <div class="gw-title">JOINON "Powered by GEWISS"</div>
-        <div class="gw-text">Sub-brand verticale per EV charging con comunicazione autonoma. L'endorsement esplicito trasferisce l'affidabilità del brand madre senza appesantire la comunicazione di nicchia. JOINON attrae un pubblico giovane e dinamico; GEWISS garantisce 50 anni di storia.</div>
-        <div class="gw-orbis">
-          <div class="gw-orbis-lbl">Trasposizione VIARIS</div>
-          <div class="gw-orbis-text"><strong>"VIARIS · Powered by ORBIS"</strong> — identità visiva dedicata, palinsesto autonomo su Instagram, ma sempre con il sigillo istituzionale del brand madre.</div>
-        </div>
+    <div class="gw-grid" id="gwGrid">
+      <div class="gw-card" style="grid-column:1/-1">
+        <div class="gw-card-title">★ La lezione più importante</div>
+        <div class="gw-card-sub">JOINON "Powered by GEWISS"</div>
+        <div class="gw-body">Sub-brand verticale per EV charging con comunicazione autonoma. L'endorsement esplicito trasferisce l'affidabilità del brand madre senza appesantire la comunicazione di nicchia. JOINON attrae un pubblico giovane e dinamico; GEWISS garantisce 50 anni di storia.</div>
+        <div class="gw-per"><strong>Trasposizione VIARIS:</strong> "VIARIS · Powered by ORBIS" — identità visiva dedicata, palinsesto autonomo su Instagram, ma sempre con il sigillo istituzionale del brand madre.</div>
       </div>
       <div class="gw-card">
-        <div class="gw-tag">Architettura editoriale</div>
-        <div class="gw-title">GW Mag + 4 pillar verticali</div>
-        <div class="gw-text">Installation, Energy, Building, Mobility. Il magazine digitale proprietario aggrega case study complessi, poi li parcellizza sui social. LinkedIn per il B2B corporate; Facebook per gli installatori (tono colloquiale); Instagram per il design e l'estetica.</div>
-        <div class="gw-orbis">
-          <div class="gw-orbis-lbl">Per Orbis</div>
-          <div class="gw-orbis-text">La struttura a 4 pillar è già in M5. Manca il "long form anchor" (magazine o blog) da cui derivare i contenuti social. Da pianificare al Q2.</div>
-        </div>
+        <div class="gw-card-title">Architettura editoriale</div>
+        <div class="gw-card-sub">GW Mag + 4 pillar verticali</div>
+        <div class="gw-body">Installation, Energy, Building, Mobility. Il magazine digitale proprietario aggrega case study complessi, poi li parcellizza sui social. LinkedIn per il B2B corporate; Facebook per gli installatori; Instagram per design e estetica.</div>
+        <div class="gw-per"><strong>Per Orbis:</strong> La struttura a 4 pillar è già in M5. Manca il "long form anchor" da cui derivare i contenuti social. Da pianificare al Q2.</div>
       </div>
       <div class="gw-card">
-        <div class="gw-tag">Formazione e filiera</div>
-        <div class="gw-title">GEWISS Academy come leva premium</div>
-        <div class="gw-text">Oltre 40 "Training Day Live Experience" all'anno. Formazione non solo tecnica ma commerciale (servitization, pricing, cross-selling). Chi ottiene la certificazione KNX Partner la condivide sui social — ogni attestato è marketing organico.</div>
-        <div class="gw-orbis">
-          <div class="gw-orbis-lbl">Per Orbis</div>
-          <div class="gw-orbis-text">Webinar mensili VIARIS e Orbis Energy con attestato digitale condivisibile su LinkedIn. Costo quasi zero, lead generation qualificata, fidelizzazione installatori.</div>
-        </div>
+        <div class="gw-card-title">Formazione e filiera</div>
+        <div class="gw-card-sub">GEWISS Academy come leva premium</div>
+        <div class="gw-body">Oltre 40 "Training Day Live Experience" all'anno. Chi ottiene la certificazione KNX Partner la condivide sui social — ogni attestato è marketing organico.</div>
+        <div class="gw-per"><strong>Per Orbis:</strong> Webinar mensili VIARIS e Orbis Energy con attestato digitale condivisibile su LinkedIn. Costo quasi zero, lead generation qualificata.</div>
       </div>
       <div class="gw-card">
-        <div class="gw-tag">ESG · certificazione UNI PdR 125</div>
-        <div class="gw-title">Dati ESG come asset editoriale</div>
-        <div class="gw-text">Il Bilancio di Sostenibilità viene parcellizzato: risparmio di 1.410 MWh, 40% produzione da rinnovabili, 96% rifiuti non pericolosi. Ogni dato è un contenuto. La certificazione parità di genere diventa employer branding su Instagram.</div>
-        <div class="gw-orbis">
-          <div class="gw-orbis-lbl">Per Orbis</div>
-          <div class="gw-orbis-text">Orbis ha già il Bilancio di Sostenibilità (2° anno). Non è un documento: è una serie da 12 episodi. Un dato ESG al mese per tutto il 2026.</div>
-        </div>
+        <div class="gw-card-title">ESG · certificazione UNI PdR 125</div>
+        <div class="gw-card-sub">Dati ESG come asset editoriale</div>
+        <div class="gw-body">Il Bilancio di Sostenibilità viene parcellizzato: risparmio di 1.410 MWh, 40% produzione da rinnovabili, 96% rifiuti non pericolosi. Ogni dato è un contenuto. La certificazione parità di genere diventa employer branding su Instagram.</div>
+        <div class="gw-per"><strong>Per Orbis:</strong> Orbis ha già il Bilancio di Sostenibilità (2° anno). Non è un documento: è una serie da 12 episodi. Un dato ESG al mese per tutto il 2026.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- I 4 WHITE SPACE -->
-<section class="ws-section grey" id="sWS">
+<!-- INTERLUDE 2 -->
+<section class="interlude">
+  <div class="int-bg">4</div>
+  <div class="int-inner">
+    <div class="int-tag">I quattro white space</div>
+    <div class="int-title">Dove Gewiss non è.<br><strong>Dove Orbis<br>può essere <em>prima.</em></strong></div>
+  </div>
+</section>
+
+<!-- SEZIONE: WHITE SPACE -->
+<section class="section white" id="secWS">
   <div class="max-w">
-    <div class="sec-header" id="shWS">
-      <div class="sec-tag" style="--stc:var(--energy)">I quattro white space</div>
-      <h2 class="sec-title">Dove Gewiss non è.<br>Dove Orbis può essere prima.</h2>
+    <div class="sec-header">
+      <div class="sec-tag">Territori narrativi scoperti</div>
+      <h2 class="sec-title">Quattro territori.<br><em>Zero rivali.</em></h2>
       <p class="sec-sub">Quattro territori narrativi lasciati scoperti dai tre benchmark. Non opportunità generiche: territori specifici, azionabili, con un'identità creativa già definita.</p>
     </div>
-
-    <!-- WS 1 -->
-    <div class="ws-card" id="ws1">
-      <div class="ws-header" style="background:var(--energy-light)">
-        <div class="ws-num" style="color:rgba(217,115,13,.25)">01</div>
-        <div class="ws-header-right">
-          <div class="ws-tag" style="color:var(--energy)">Format: docu-serie · LinkedIn + YouTube</div>
-          <div class="ws-title">"L'Anatomia della Qualità"<br>European Design & Manufacture</div>
+    <div class="ws-grid" id="wsGrid">
+      <div class="ws-card">
+        <div class="ws-top">
+          <div class="ws-num">01</div>
+          <span class="ws-format doc">Format: docu-serie · LinkedIn + YouTube</span>
+          <h3 class="ws-title">"L'Anatomia della Qualità"</h3>
+          <div class="ws-tag">European Design &amp; Manufacture</div>
+        </div>
+        <div class="ws-void">Gewiss fa leva sul "Made in Italy". Schneider e ABB comunicano da colossi globali. <strong>Nessuno presidia la trasparenza della filiera corta europea</strong> in contrapposizione all'invasione asiatica. La Direttiva EU sulla due diligence è imminente.</div>
+        <div class="ws-action">
+          <div class="ws-action-title">L'azione Orbis</div>
+          <div class="ws-action-body">Docu-serie social: apertura degli stabilimenti, condizioni etiche, qualità dei materiali, test di laboratorio. <strong>Ogni episodio racconta un pezzo del prodotto dall'interno</strong>. Titolo: "L'Anatomia della Qualità". 2 episodi/mese. Posizionamento inattaccabile.</div>
         </div>
       </div>
-      <div class="ws-body">
-        <div class="ws-col vuoto">
-          <div class="ws-col-label" style="color:var(--ink4)">Il vuoto</div>
-          <div class="ws-col-text">Gewiss fa leva sul "Made in Italy". Schneider e ABB comunicano da colossi globali. <strong>Nessuno dei tre presidia la trasparenza della filiera corta europea</strong> in contrapposizione all'invasione di prodotti asiatici non certificati. La Direttiva EU sulla due diligence della catena di fornitura è imminente — e il tema non è ancora presidiato comunicativamente.</div>
+      <div class="ws-card">
+        <div class="ws-top">
+          <div class="ws-num">02</div>
+          <span class="ws-format rub">Format: rubrica · LinkedIn + Instagram</span>
+          <h3 class="ws-title">"Le Voci di Orbis"</h3>
+          <div class="ws-tag">UNI PdR 125 · Parità di Genere</div>
         </div>
-        <div class="ws-col azione">
-          <div class="ws-col-label" style="color:var(--energy)">L'azione Orbis</div>
-          <div class="ws-col-text">Docu-serie social: apertura degli stabilimenti, condizioni etiche di lavoro, qualità dei materiali, test di laboratorio. <strong>Ogni episodio racconta un pezzo del prodotto dall'interno</strong>: le plastiche ignifughe, i test di carico, la catena di fornitura europea. Titolo: "L'Anatomia della Qualità". Cadenza: 2 episodi/mese su YouTube (5–7 min) + derivati su LinkedIn. Messaggio: produzione europea = sicurezza, tutela ambientale, protezione del consumatore. Posizionamento inattaccabile.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WS 2 -->
-    <div class="ws-card" id="ws2">
-      <div class="ws-header" style="background:var(--green-light)">
-        <div class="ws-num" style="color:rgba(26,148,98,.2)">02</div>
-        <div class="ws-header-right">
-          <div class="ws-tag" style="color:var(--green)">Format: rubrica · LinkedIn + Instagram</div>
-          <div class="ws-title">"Le Voci di Orbis"<br>UNI PdR 125 · Parità di Genere</div>
+        <div class="ws-void">Gewiss e Schneider citano la certificazione UNI PdR 125 con un comunicato stampa e un logo. <strong>La comunicazione si ferma all'istituzionale</strong>, manca di empatia e continuità. In un settore profondamente maschile, la parità di genere rimane facciata.</div>
+        <div class="ws-action">
+          <div class="ws-action-title">L'azione Orbis</div>
+          <div class="ws-action-body">Rubrica mensile: <strong>micro-interviste e reel che raccontano la quotidianità delle dipendenti Orbis</strong>, dagli uffici manageriali alle linee di montaggio. Non solo employer branding: è differenziazione culturale che genera engagement organico altissimo su LinkedIn.</div>
         </div>
       </div>
-      <div class="ws-body">
-        <div class="ws-col vuoto">
-          <div class="ws-col-label" style="color:var(--ink4)">Il vuoto</div>
-          <div class="ws-col-text">Gewiss e Schneider citano la certificazione UNI PdR 125 con un comunicato stampa e un logo nelle slide corporate. <strong>La comunicazione si ferma all'istituzionale</strong>, manca di empatia e continuità. In un settore percepito come profondamente maschile, la parità di genere rimane un tema di facciata, non di sostanza narrativa.</div>
+      <div class="ws-card">
+        <div class="ws-top">
+          <div class="ws-num">03</div>
+          <span class="ws-format pill">Format: asset condivisibile · WhatsApp + Facebook</span>
+          <h3 class="ws-title">"Energia Intelligente B2B2C"</h3>
+          <div class="ws-tag">Trasformare l'Installatore in Educatore</div>
         </div>
-        <div class="ws-col azione">
-          <div class="ws-col-label" style="color:var(--green)">L'azione Orbis</div>
-          <div class="ws-col-text">Rubrica mensile "Le Voci di Orbis" o "Women in Tech": <strong>micro-interviste e reel che raccontano la quotidianità delle dipendenti Orbis</strong>, dagli uffici manageriali alle linee di montaggio. Mostrare le policy di flessibilità, il supporto alla genitorialità, la riduzione del gender pay gap. Non solo employer branding: è differenziazione culturale che genera engagement organico altissimo su LinkedIn e acquisisce fiducia degli stakeholder istituzionali.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WS 3 -->
-    <div class="ws-card" id="ws3">
-      <div class="ws-header" style="background:var(--blue-light)">
-        <div class="ws-num" style="color:rgba(0,80,160,.12)">03</div>
-        <div class="ws-header-right">
-          <div class="ws-tag" style="color:var(--blue)">Format: asset condivisibile · WhatsApp + Facebook</div>
-          <div class="ws-title">"Energia Intelligente B2B2C"<br>Trasformare l'Installatore in Educatore</div>
+        <div class="ws-void">Tutta la comunicazione dei tre benchmark è "da azienda B2B a professionista B2B". <strong>Mancano strumenti per facilitare la comunicazione tra l'installatore e il consumatore finale</strong>. L'installatore non ha contenuti pronti da condividere con i clienti.</div>
+        <div class="ws-action">
+          <div class="ws-action-title">L'azione Orbis</div>
+          <div class="ws-action-body">Pillole visive con linguaggio semplice: <strong>"Come funziona VIARIS Solar con il tuo fotovoltaico"</strong>. Formati ottimizzati per essere condivisi dall'installatore via WhatsApp al proprio cliente. Orbis eleva Marco a consulente agli occhi di Lorenzo.</div>
         </div>
       </div>
-      <div class="ws-body">
-        <div class="ws-col vuoto">
-          <div class="ws-col-label" style="color:var(--ink4)">Il vuoto</div>
-          <div class="ws-col-text">Tutta la comunicazione dei tre benchmark è strutturata "da azienda B2B a professionista B2B". <strong>Mancano strumenti per facilitare la comunicazione tra l'installatore e il consumatore finale</strong>, che è spesso confuso da normative e tecnologie. L'installatore non ha contenuti pronti da condividere con i clienti.</div>
+      <div class="ws-card">
+        <div class="ws-top">
+          <div class="ws-num">04</div>
+          <span class="ws-format vis">Format: visual lifestyle · Instagram + Pinterest</span>
+          <h3 class="ws-title">VIARIS Boutique Residenziale</h3>
+          <div class="ws-tag">L'EV Charging come oggetto di design</div>
         </div>
-        <div class="ws-col azione">
-          <div class="ws-col-label" style="color:var(--blue)">L'azione Orbis</div>
-          <div class="ws-col-text">Pillole visive con linguaggio semplice: <strong>"Come funziona VIARIS Solar con il tuo fotovoltaico"</strong>, "Come risparmi in bolletta con il tuo cronotermostato ORBIS". Formati ottimizzati per essere condivisi dall'installatore via WhatsApp al proprio cliente. In co-branding o white-label. Orbis eleva Marco a consulente illuminato agli occhi di Lorenzo. Ogni condivisione è un endorsement gratuito del brand.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WS 4 -->
-    <div class="ws-card" id="ws4">
-      <div class="ws-header" style="background:rgba(107,79,187,.07)">
-        <div class="ws-num" style="color:rgba(107,79,187,.15)">04</div>
-        <div class="ws-header-right">
-          <div class="ws-tag" style="color:#6B4FBB">Format: visual lifestyle · Instagram + Pinterest</div>
-          <div class="ws-title">VIARIS Boutique Residenziale<br>L'EV Charging come oggetto di design</div>
-        </div>
-      </div>
-      <div class="ws-body">
-        <div class="ws-col vuoto">
-          <div class="ws-col-label" style="color:var(--ink4)">Il vuoto</div>
-          <div class="ws-col-text">JOINON (Gewiss) e Terra (ABB) sono fortemente dominati dall'immaginario infrastrutturale: parcheggi pubblici, flotte aziendali, ambienti ruvidi. <strong>L'EV charging domestico è trattato come appendice tecnica minore</strong>. Nessuno ha ancora fatto dell'EV charging residenziale un elemento di lifestyle e design premium.</div>
-        </div>
-        <div class="ws-col azione">
-          <div class="ws-col-label" style="color:#6B4FBB">L'azione Orbis</div>
-          <div class="ws-col-text"><strong>VIARIS come pezzo di design tecnologico europeo</strong> che impreziosisce la domotica della villa moderna. Scatti fotografici in garage curati, palette colori raffinata, ambientazioni architetturali premium. Target su Instagram e Pinterest: architetti, interior designer, sviluppatori immobiliari. VIARIS non è uno "scatolo elettrico da nascondere" — è un oggetto del desiderio al pari degli elettrodomestici Miele o Bosh. Zero rivali su questo posizionamento.</div>
+        <div class="ws-void">JOINON e Terra (ABB) sono fortemente dominati dall'immaginario infrastrutturale: parcheggi pubblici, flotte aziendali. <strong>L'EV charging domestico è trattato come appendice tecnica minore</strong>. Nessuno ha ancora fatto dell'EV charging residenziale un lifestyle premium.</div>
+        <div class="ws-action">
+          <div class="ws-action-title">L'azione Orbis</div>
+          <div class="ws-action-body"><strong>VIARIS come pezzo di design tecnologico europeo</strong> che impreziosisce la domotica della villa moderna. Target: architetti, interior designer, sviluppatori immobiliari. VIARIS non è uno "scatolo elettrico da nascondere" — è un oggetto del desiderio. Zero rivali.</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TONO DI VOCE -->
-<section class="section white" id="sTone">
+<!-- SEZIONE: TONO DI VOCE -->
+<section class="section grey" id="secVoice">
   <div class="max-w">
-    <div class="sec-header" id="shTone">
-      <div class="sec-tag" style="--stc:var(--energy)">Il tono di voce Orbis</div>
-      <h2 class="sec-title">Esperto ma umano.<br>Tecnico ma accessibile.</h2>
-      <p class="sec-sub">Orbis conosce i prodotti meglio di chiunque. Ma la voce giusta non è quella del catalogo tecnico né quella del brand premium freddo. È la voce dell'esperto di fiducia: precisa, diretta, italiana, che rispetta il tempo di chi ascolta.</p>
+    <div class="sec-header">
+      <div class="sec-tag">Il tono di voce Orbis</div>
+      <h2 class="sec-title">Esperto ma umano.<br><em>Tecnico ma accessibile.</em></h2>
+      <p class="sec-sub">Orbis conosce i prodotti meglio di chiunque. Ma la voce giusta non è quella del catalogo tecnico né quella del brand premium freddo. È la voce dell'esperto di fiducia: precisa, diretta, italiana.</p>
     </div>
-    <div class="tone-grid" id="toneGrid">
-      <div class="tone-card do">
-        <div class="tc-label do">✓ La voce Orbis è</div>
-        <div class="tc-items">
-          <div class="tc-item">Tecnica ma spiegata in modo che un non-tecnico capisca al primo ascolto</div>
-          <div class="tc-item">Italiana — non traduzione dall'inglese, non anglismi inutili, dialogo reale</div>
-          <div class="tc-item">Concreta: dati reali, misure vere, esempi da cantieri italiani</div>
-          <div class="tc-item">Umana: nomi reali, volti veri, situazioni quotidiane riconoscibili</div>
-          <div class="tc-item">Diretta: il problema in 5 parole, la soluzione in 10, la CTA in 3</div>
-          <div class="tc-item">Ottimista senza essere commerciale: apre opportunità, non punta il dito</div>
-        </div>
+    <div class="voice-grid" id="voiceGrid">
+      <div class="voice-col yes">
+        <div class="voice-col-title yes">✓ La voce Orbis è</div>
+        <div class="voice-item">Tecnica ma spiegata in modo che un non-tecnico capisca al primo ascolto</div>
+        <div class="voice-item">Italiana — non traduzione dall'inglese, non anglismi inutili, dialogo reale</div>
+        <div class="voice-item">Concreta: dati reali, misure vere, esempi da cantieri italiani</div>
+        <div class="voice-item">Umana: nomi reali, volti veri, situazioni quotidiane riconoscibili</div>
+        <div class="voice-item">Diretta: il problema in 5 parole, la soluzione in 10, la CTA in 3</div>
+        <div class="voice-item">Ottimista senza essere commerciale: apre opportunità, non punta il dito</div>
       </div>
-      <div class="tone-card dont">
-        <div class="tc-label dont">✗ La voce Orbis non è</div>
-        <div class="tc-items">
-          <div class="tc-item">Il comunicato stampa: "Orbis è lieta di annunciare che..."</div>
-          <div class="tc-item">Il catalogo tecnico: tabelle di specifiche senza contesto d'uso</div>
-          <div class="tc-item">Il brand globale freddo: claim in inglese, fotografie di stock, rendering 3D senza anima</div>
-          <div class="tc-item">La lista di funzionalità: ciò che un prodotto fa non è ciò che un cliente compra</div>
-          <div class="tc-item">Il brand che si lamenta: mai dire "siamo ancora poco conosciuti" — dire invece "chi ci conosce non ci cambia"</div>
-          <div class="tc-item">L'esperto arrogante: Orbis insegna, non pontifica</div>
-        </div>
+      <div class="voice-col no">
+        <div class="voice-col-title no">✗ La voce Orbis non è</div>
+        <div class="voice-item">Il comunicato stampa: "Orbis è lieta di annunciare che..."</div>
+        <div class="voice-item">Il catalogo tecnico: tabelle di specifiche senza contesto d'uso</div>
+        <div class="voice-item">Il brand globale freddo: claim in inglese, fotografie di stock, rendering 3D senza anima</div>
+        <div class="voice-item">La lista di funzionalità: ciò che un prodotto fa non è ciò che un cliente compra</div>
+        <div class="voice-item">Il brand che si lamenta: mai dire "siamo ancora poco conosciuti"</div>
+        <div class="voice-item">L'esperto arrogante: Orbis insegna, non pontifica</div>
       </div>
     </div>
-    <!-- ESEMPIO CONCRETO -->
-    <div style="margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem" id="toneEx">
-      <div style="padding:1.25rem;background:var(--surface2);border-radius:12px;border:1px solid var(--border)">
-        <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem">✗ Linguaggio da evitare</div>
-        <p style="font-size:13px;color:var(--ink3);line-height:1.65;font-style:italic">"La soluzione VIARIS Solar è dotata di un algoritmo di gestione dinamica dei carichi che ottimizza la distribuzione energetica in funzione della potenza contrattuale disponibile, prevenendo il raggiungimento della soglia massima e il conseguente intervento del limitatore."</p>
-      </div>
-      <div style="padding:1.25rem;background:var(--energy-light);border-radius:12px;border:1px solid rgba(217,115,13,.2)">
-        <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--energy);margin-bottom:.6rem">✓ Linguaggio Orbis</div>
-        <p style="font-size:13px;color:var(--ink2);line-height:1.65;font-style:italic">"Anche se la lavatrice è in funzione e la pompa di calore è accesa, VIARIS Solar gestisce da sola la ricarica. Il contatore non salta. Il cliente non ti chiama la domenica."</p>
-      </div>
+    <div class="voice-example" id="voiceEx">
+      <div class="voice-example-tag">✗ Linguaggio da evitare</div>
+      <div class="voice-bad">"La soluzione VIARIS Solar è dotata di un algoritmo di gestione dinamica dei carichi che ottimizza la distribuzione energetica in funzione della potenza contrattuale disponibile, prevenendo il raggiungimento della soglia massima."</div>
+      <div class="voice-example-tag">✓ Linguaggio Orbis</div>
+      <div class="voice-good">"Anche se la lavatrice è in funzione e la pompa di calore è accesa, VIARIS Solar gestisce da sola la ricarica. Il contatore non salta. Il cliente non ti chiama la domenica."</div>
     </div>
   </div>
 </section>
 
-<!-- FORMAT PER TARGET -->
-<section class="section grey" id="sFormat">
+<!-- SEZIONE: FORMAT CREATIVI -->
+<section class="section white" id="secFormats">
   <div class="max-w">
-    <div class="sec-header" id="shFmt">
-      <div class="sec-tag" style="--stc:var(--energy)">I format creativi</div>
-      <h2 class="sec-title">Il contenuto giusto<br>alla persona giusta.</h2>
+    <div class="sec-header">
+      <div class="sec-tag">I format creativi</div>
+      <h2 class="sec-title">Il contenuto giusto<br><em>alla persona giusta.</em></h2>
       <p class="sec-sub">Ogni formato è pensato per il momento esatto in cui il target è ricettivo. Marco il venerdì a pranzo in furgone. Alessandro il martedì mattina su LinkedIn. Lorenzo la domenica sera sul divano.</p>
     </div>
-    <div class="format-grid" id="fmtGrid">
-      <div class="fmt-card" style="--fmt-c:var(--energy)">
-        <span class="fmt-icon">⚡</span>
-        <div class="fmt-target">Marco · Installatore</div>
+    <div class="fmt-grid" id="fmtGrid">
+      <div class="fmt-card c1">
+        <div class="fmt-icon">⚡</div>
+        <div class="fmt-persona">Marco · Installatore</div>
         <div class="fmt-title">Video Problema-Soluzione</div>
-        <div class="fmt-items">
-          <div class="fmt-item">Hook in 2 secondi: il problema in cantiere</div>
-          <div class="fmt-item">Dimostrazione VIARIS o Orbis Energy live</div>
-          <div class="fmt-item">CTA: schema elettrico da scaricare</div>
-          <div class="fmt-item">Durata: 15–30 secondi · verticale</div>
-          <div class="fmt-item">Canali: YouTube Shorts, Reels, FB</div>
-        </div>
-        <div class="fmt-kpi" style="background:var(--energy-light);border:1px solid rgba(217,115,13,.15)">
-          <div style="font-size:9px;color:var(--energy);margin-bottom:.2rem">KPI atteso</div>
-          <div style="font-size:12px;color:var(--ink2)">CTR ≥ 4% · Salvataggio video</div>
+        <div class="fmt-body">Hook in 2 secondi: il problema in cantiere. Dimostrazione VIARIS o Orbis Energy live. CTA: schema elettrico da scaricare.</div>
+        <div class="fmt-meta">
+          <div class="fmt-stat"><span>Durata</span><span class="fmt-stat-v">15–30 sec · verticale</span></div>
+          <div class="fmt-stat"><span>Canali</span><span class="fmt-stat-v">YouTube Shorts, Reels, FB</span></div>
+          <div class="fmt-kpi"><strong>KPI atteso:</strong> CTR ≥ 4% · Salvataggio video</div>
         </div>
       </div>
-      <div class="fmt-card" style="--fmt-c:var(--blue)">
-        <span class="fmt-icon">📊</span>
-        <div class="fmt-target">Alessandro · Grossista</div>
+      <div class="fmt-card c2">
+        <div class="fmt-icon">📊</div>
+        <div class="fmt-persona">Alessandro · Grossista</div>
         <div class="fmt-title">Carousel Dati di Mercato</div>
-        <div class="fmt-items">
-          <div class="fmt-item">Slide 1: dato di mercato impattante (BEV +39%)</div>
-          <div class="fmt-item">Slide 2–5: implicazione per il canale</div>
-          <div class="fmt-item">Slide 6: VIARIS come risposta concreta</div>
-          <div class="fmt-item">Durata lettura: 45 secondi</div>
-          <div class="fmt-item">Canale: LinkedIn · martedì 10:30</div>
-        </div>
-        <div class="fmt-kpi" style="background:var(--blue-light);border:1px solid rgba(0,80,160,.12)">
-          <div style="font-size:9px;color:var(--blue);margin-bottom:.2rem">KPI atteso</div>
-          <div style="font-size:12px;color:var(--ink2)">Salvataggio ≥ 3% · Commenti qualificati</div>
+        <div class="fmt-body">Slide 1: dato di mercato impattante (BEV +39%). Slide 2–5: implicazione per il canale. Slide 6: VIARIS come risposta concreta.</div>
+        <div class="fmt-meta">
+          <div class="fmt-stat"><span>Durata lettura</span><span class="fmt-stat-v">45 secondi</span></div>
+          <div class="fmt-stat"><span>Canale</span><span class="fmt-stat-v">LinkedIn · martedì 10:30</span></div>
+          <div class="fmt-kpi"><strong>KPI atteso:</strong> Salvataggio ≥ 3% · Commenti qualificati</div>
         </div>
       </div>
-      <div class="fmt-card" style="--fmt-c:var(--green)">
-        <span class="fmt-icon">🔍</span>
-        <div class="fmt-target">Lorenzo · Early Adopter</div>
+      <div class="fmt-card c3">
+        <div class="fmt-icon">🔍</div>
+        <div class="fmt-persona">Lorenzo · Early Adopter</div>
         <div class="fmt-title">Guida Tecnica Long-Form</div>
-        <div class="fmt-items">
-          <div class="fmt-item">Titolo: risponde alla sua query Google esatta</div>
-          <div class="fmt-item">Contenuto: risponde a ogni dubbio pre-acquisto</div>
-          <div class="fmt-item">CTA: calcolatore ROI scaricabile</div>
-          <div class="fmt-item">Formato: PDF + video YouTube 7 min</div>
-          <div class="fmt-item">Canali: Google Search + YouTube + LinkedIn</div>
-        </div>
-        <div class="fmt-kpi" style="background:var(--green-light);border:1px solid rgba(26,148,98,.15)">
-          <div style="font-size:9px;color:var(--green);margin-bottom:.2rem">KPI atteso</div>
-          <div style="font-size:12px;color:var(--ink2)">Lead qualificato · CPC ≤ €2,50</div>
+        <div class="fmt-body">Titolo: risponde alla sua query Google esatta. Contenuto: risponde a ogni dubbio pre-acquisto. CTA: calcolatore ROI scaricabile.</div>
+        <div class="fmt-meta">
+          <div class="fmt-stat"><span>Formato</span><span class="fmt-stat-v">PDF + video YouTube 7 min</span></div>
+          <div class="fmt-stat"><span>Canali</span><span class="fmt-stat-v">Google Search + YouTube</span></div>
+          <div class="fmt-kpi"><strong>KPI atteso:</strong> Lead qualificato · CPC ≤ €2,50</div>
         </div>
       </div>
-      <div class="fmt-card" style="--fmt-c:#6B4FBB">
-        <span class="fmt-icon">🌱</span>
-        <div class="fmt-target">Tutti · ESG mensile</div>
+      <div class="fmt-card c4">
+        <div class="fmt-icon">🌱</div>
+        <div class="fmt-persona">Tutti · ESG mensile</div>
         <div class="fmt-title">Episodio Sostenibilità</div>
-        <div class="fmt-items">
-          <div class="fmt-item">Un dato dal Bilancio di Sostenibilità</div>
-          <div class="fmt-item">Contestualizzato in una storia reale</div>
-          <div class="fmt-item">Infografica condivisibile</div>
-          <div class="fmt-item">Formato: carousel + reel derivato</div>
-          <div class="fmt-item">Canali: LinkedIn + Instagram</div>
-        </div>
-        <div class="fmt-kpi" style="background:#F0EDFB;border:1px solid rgba(107,79,187,.15)">
-          <div style="font-size:9px;color:#6B4FBB;margin-bottom:.2rem">KPI atteso</div>
-          <div style="font-size:12px;color:var(--ink2)">Engagement ≥ 5% · Brand trust</div>
+        <div class="fmt-body">Un dato dal Bilancio di Sostenibilità contestualizzato in una storia reale. Infografica condivisibile + reel derivato.</div>
+        <div class="fmt-meta">
+          <div class="fmt-stat"><span>Canali</span><span class="fmt-stat-v">LinkedIn + Instagram</span></div>
+          <div class="fmt-stat"><span>Frequenza</span><span class="fmt-stat-v">1×/mese</span></div>
+          <div class="fmt-kpi"><strong>KPI atteso:</strong> Engagement ≥ 5% · Brand trust</div>
         </div>
       </div>
-      <div class="fmt-card" style="--fmt-c:var(--energy)">
-        <span class="fmt-icon">👤</span>
-        <div class="fmt-target">Tutti · Employee Advocacy</div>
+      <div class="fmt-card c5">
+        <div class="fmt-icon">👤</div>
+        <div class="fmt-persona">Tutti · Employee Advocacy</div>
         <div class="fmt-title">People Post Personale</div>
-        <div class="fmt-items">
-          <div class="fmt-item">Stefano, commerciali, tecnici postano in prima persona</div>
-          <div class="fmt-item">Tono: autentico, non brandizzato</div>
-          <div class="fmt-item">Contenuto: una cosa imparata, una sfida risolta</div>
-          <div class="fmt-item">Frequenza: 2×/settimana per persona</div>
-          <div class="fmt-item">Canale: LinkedIn profile (non pagina)</div>
-        </div>
-        <div class="fmt-kpi" style="background:var(--energy-light);border:1px solid rgba(217,115,13,.15)">
-          <div style="font-size:9px;color:var(--energy);margin-bottom:.2rem">KPI atteso</div>
-          <div style="font-size:12px;color:var(--ink2)">Reach 3–5× pagina corporate</div>
+        <div class="fmt-body">Stefano, commerciali, tecnici postano in prima persona. Tono: autentico, non brandizzato. Contenuto: una cosa imparata, una sfida risolta.</div>
+        <div class="fmt-meta">
+          <div class="fmt-stat"><span>Frequenza</span><span class="fmt-stat-v">2×/settimana per persona</span></div>
+          <div class="fmt-stat"><span>Canale</span><span class="fmt-stat-v">LinkedIn profile (non pagina)</span></div>
+          <div class="fmt-kpi"><strong>KPI atteso:</strong> Reach 3–5× pagina corporate</div>
         </div>
       </div>
-      <div class="fmt-card" style="--fmt-c:var(--blue-mid)">
-        <span class="fmt-icon">🎓</span>
-        <div class="fmt-target">Marco · Webinar formativo</div>
+      <div class="fmt-card c6">
+        <div class="fmt-icon">🎓</div>
+        <div class="fmt-persona">Marco · Webinar formativo</div>
         <div class="fmt-title">Tutorial Brandizzato + Attestato</div>
-        <div class="fmt-items">
-          <div class="fmt-item">Webinar live mensile (45 min)</div>
-          <div class="fmt-item">Tema: installazione VIARIS / Orbis Energy</div>
-          <div class="fmt-item">Attestato digitale condivisibile su LinkedIn</div>
-          <div class="fmt-item">Registrazione → tutorial YouTube evergreen</div>
-          <div class="fmt-item">Canali: YouTube + LinkedIn + email list</div>
-        </div>
-        <div class="fmt-kpi" style="background:var(--blue-light);border:1px solid rgba(0,80,160,.12)">
-          <div style="font-size:9px;color:var(--blue-mid);margin-bottom:.2rem">KPI atteso</div>
-          <div style="font-size:12px;color:var(--ink2)">Lead gen qualificata · fidelizzazione</div>
+        <div class="fmt-body">Webinar live mensile (45 min). Attestato digitale condivisibile su LinkedIn. Registrazione → tutorial YouTube evergreen.</div>
+        <div class="fmt-meta">
+          <div class="fmt-stat"><span>Canali</span><span class="fmt-stat-v">YouTube + LinkedIn + email</span></div>
+          <div class="fmt-stat"><span>Frequenza</span><span class="fmt-stat-v">1×/mese</span></div>
+          <div class="fmt-kpi"><strong>KPI atteso:</strong> Lead gen qualificata · fidelizzazione</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- POWERED BY BLOCK -->
-<section class="powered-section" id="sPowered">
-  <div class="pb-bg" aria-hidden="true">PB</div>
-  <div class="pb-inner">
-    <div class="pb-tag">Il modello architetturale</div>
-    <h2 class="pb-title">Due brand. <strong>Una sola reputazione.</strong></h2>
-    <p class="pb-sub">Il modello JOINON | Powered by GEWISS è il framework più replicabile per Orbis. Comunicazione verticale autonoma per le nicchie, credibilità istituzionale sempre presente. Due palinsesti, un cappello.</p>
-    <div class="pb-models" id="pbModels">
-      <div class="pbm">
-        <div class="pbm-top">
-          <div class="pbm-tag" style="background:rgba(217,115,13,.15);color:rgba(217,115,13,.8)">Sub-brand · EV Charging</div>
-          <div class="pbm-name">VIARIS</div>
+<!-- ═══════════ PED SECTION ═══════════ -->
+<section class="ped-section" id="secPED">
+  <div class="ped-inner">
+    <div class="ped-tag">Spunti creativi · Ribrain × Orbis</div>
+    <h2 class="ped-h">Quattro spunti.<br>Per i <em>quattro white space.</em></h2>
+    <p class="ped-lead">Per mostrarvi concretamente come la strategia diventa post pubblicato, abbiamo già abbozzato <strong>quattro spunti PED dallo studio Ribrain</strong> — uno per ciascuno dei territori narrativi non presidiati. Non sono mockup di esempio: sono il <em>punto di partenza creativo</em> della nostra proposta editoriale. Ogni spunto risponde a un white space e parla a una persona target precisa.</p>
+
+    <div class="ped-grid" id="pedGrid">
+
+      <!-- PED 1: L'ANATOMIA DELLA QUALITÀ -->
+      <div class="ped-card">
+        <div class="ped-phone">
+          <div class="ped-sbar">
+            <span class="ped-time">14:32</span>
+            <div class="ped-sbar-r">
+              <svg width="11" height="7" viewBox="0 0 10 7" fill="#111"><rect x="0" y="3.5" width="1.8" height="3.5" rx=".4"/><rect x="2.8" y="2.5" width="1.8" height="4.5" rx=".4"/><rect x="5.6" y="1" width="1.8" height="6" rx=".4"/><rect x="8.2" y="0" width="1.8" height="7" rx=".4"/></svg>
+              <svg width="14" height="7" viewBox="0 0 14 7" fill="none"><rect x=".3" y=".3" width="12" height="6.4" rx="1.8" stroke="#111" stroke-width=".7"/><rect x="1" y="1" width="9.5" height="5" rx="1.2" fill="#111"/></svg>
+            </div>
+          </div>
+          <div class="ped-img-wrap st">
+            <div class="ped-img-placeholder viz1">
+              <div class="ped-img-pattern"></div>
+              <div class="ped-st-ui">
+                <div class="ped-pb-row">
+                  <div class="ped-pb done"><div class="ped-pb-fill"></div></div>
+                  <div class="ped-pb"><div class="ped-pb-fill"></div></div>
+                  <div class="ped-pb empty"><div class="ped-pb-fill"></div></div>
+                </div>
+                <div class="ped-st-hdr">
+                  <div class="ped-st-av">O</div>
+                  <span class="ped-st-name">orbisitalia &middot; 2h</span>
+                </div>
+              </div>
+              <div class="ped-img-meta" style="margin-top:1.5rem">
+                <span class="ped-img-format">Reel · 9:16</span>
+                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
+              </div>
+              <div class="ped-img-center">
+                <div class="ped-img-icon">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                </div>
+                <div class="ped-img-concept">Interno stabilimento · mani che assemblano · macro su componente ignifugo · luce industriale calda</div>
+              </div>
+              <div class="ped-img-foot">L'Anatomia della Qualit&agrave; · Ep. 01</div>
+            </div>
+          </div>
+          <div class="ped-pact-dk">
+            <div class="ped-st-input">Invia un messaggio&hellip;</div>
+            <span class="ped-st-react">❤️</span>
+            <span class="ped-st-react">🔥</span>
+          </div>
+          <div class="ped-cmts-dk">
+            <span class="ped-va" style="color:rgba(255,255,255,.4)">Risposte alla stories</span>
+            <div class="ped-cmt"><span class="ped-cmt-u" style="color:rgba(255,255,255,.85)">marco.elettricista_rm</span><span class="ped-cmt-t" style="color:rgba(255,255,255,.65)">"Finalmente uno che lo fa vedere davvero 👏"</span></div>
+            <div class="ped-cmt"><span class="ped-cmt-u" style="color:rgba(255,255,255,.85)">studio_progetti_mi</span><span class="ped-cmt-t" style="color:rgba(255,255,255,.65)">"È QUESTA la differenza, grazie."</span></div>
+          </div>
         </div>
-        <div class="pbm-endorsement">"VIARIS · Powered by ORBIS"</div>
-        <div class="pbm-desc">Comunicazione autonoma su Instagram, YouTube Shorts, TikTok (futuro). Linguaggio: dinamico, giovane, lifestyle-oriented. Target: Lorenzo early adopter + Marco in modalità "scoperta". Palinsesto indipendente ma marchio di origine sempre visibile. Come JOINON, può attirare un pubblico che non avrebbe mai cercato "Orbis" direttamente.</div>
+        <div class="ped-meta">
+          <span class="ped-format-badge">Reel · 9:16 · 25 sec</span>
+          <h3 class="ped-concept-h">Trasparenza come vantaggio competitivo</h3>
+          <p class="ped-concept-d">Telecamera dentro lo stabilimento. Il prodotto si racconta dall'interno — <strong>Asia vs Europa diventa un'immagine, non uno slogan.</strong> Primo episodio della docu-serie.</p>
+          <div class="ped-pills">
+            <span class="ped-pill-label">Target</span>
+            <span class="ped-pill alessandro">Alessandro</span>
+            <span class="ped-pill lorenzo">Lorenzo</span>
+          </div>
+        </div>
       </div>
-      <div class="pbm">
-        <div class="pbm-top">
-          <div class="pbm-tag" style="background:rgba(0,80,160,.15);color:rgba(100,160,220,.8)">Sub-brand · Fotovoltaico</div>
-          <div class="pbm-name">Orbis Energy</div>
+
+      <!-- PED 2: LE VOCI DI ORBIS -->
+      <div class="ped-card">
+        <div class="ped-phone">
+          <div class="ped-sbar">
+            <span class="ped-time">09:18</span>
+            <div class="ped-sbar-r">
+              <svg width="11" height="7" viewBox="0 0 10 7" fill="#111"><rect x="0" y="3.5" width="1.8" height="3.5" rx=".4"/><rect x="2.8" y="2.5" width="1.8" height="4.5" rx=".4"/><rect x="5.6" y="1" width="1.8" height="6" rx=".4"/><rect x="8.2" y="0" width="1.8" height="7" rx=".4"/></svg>
+              <svg width="14" height="7" viewBox="0 0 14 7" fill="none"><rect x=".3" y=".3" width="12" height="6.4" rx="1.8" stroke="#111" stroke-width=".7"/><rect x="1" y="1" width="9.5" height="5" rx="1.2" fill="#111"/></svg>
+            </div>
+          </div>
+          <div class="ped-ig-nav">
+            <span class="ped-ig-wm">Instagram</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="ped-phd">
+            <div class="ped-av"><div class="ped-av-inner">O</div></div>
+            <div><div class="ped-uname">orbisitalia</div><div class="ped-uname-sub">Le Voci di Orbis · Ep. 02</div></div>
+          </div>
+          <div class="ped-img-wrap sq">
+            <div class="ped-img-placeholder viz2">
+              <div class="ped-img-pattern"></div>
+              <div class="ped-img-meta">
+                <span class="ped-img-format">Carousel · 1:1</span>
+                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
+              </div>
+              <div class="ped-img-center">
+                <div class="ped-img-icon">
+                  <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="ped-img-concept">Ritratto Maria · catena di montaggio · luce naturale · quote sovrimpresso</div>
+              </div>
+              <div class="ped-img-foot">Le Voci di Orbis · 1 di 5</div>
+            </div>
+          </div>
+          <div class="ped-pact">
+            <svg class="ped-ai" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="ped-ai" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg class="ped-ai" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg class="ped-ai sv" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="ped-likes">312 Mi piace</div>
+          <div class="ped-cap">
+            <span class="ped-cap-u">orbisitalia</span>Maria, 12 anni in Orbis. Capolinea della linea cronotermostati. "Quando arriva un pezzo che non mi convince, lo fermo." Questa è la differenza tra UNI PdR 125 sulla carta e la cultura dentro un'azienda. →
+            <span class="ped-cap-tags">#LeVociDiOrbis #ParitàDiGenere #MadeInItaly</span>
+          </div>
+          <div class="ped-cmts">
+            <span class="ped-va">47 commenti</span>
+            <div class="ped-cmt"><span class="ped-cmt-u">unindustria_bg</span><span class="ped-cmt-t">Esempio concreto, non solo certificazione. Bravi 👏</span></div>
+            <div class="ped-cmt"><span class="ped-cmt-u">laura.bersini</span><span class="ped-cmt-t">Maria è il cuore di Orbis. Grazie ❤️</span></div>
+          </div>
         </div>
-        <div class="pbm-endorsement">"Orbis Energy · Powered by ORBIS"</div>
-        <div class="pbm-desc">Comunicazione verticalizzata su strutture FV e accessori. Linguaggio: tecnico-pratico, orientato all'installatore professionale. Target: Marco in modalità "lavoro" + Alessandro per la gestione catalogo. YouTube come canale primario (tutorial su tetti italiani). LinkedIn per aggiornamenti normativi GSE e PNIEC.</div>
+        <div class="ped-meta">
+          <span class="ped-format-badge">Carousel IG · 1:1 · People</span>
+          <h3 class="ped-concept-h">ESG che si vede in faccia</h3>
+          <p class="ped-concept-d">Volti reali sulla catena di montaggio. <strong>La certificazione UNI PdR 125 diventa narrativa empatica</strong> invece di logo nel comunicato stampa.</p>
+          <div class="ped-pills">
+            <span class="ped-pill-label">Target</span>
+            <span class="ped-pill stakeholder">Istituzionali</span>
+            <span class="ped-pill team">Team Orbis</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PED 3: ENERGIA INTELLIGENTE B2B2C -->
+      <div class="ped-card">
+        <div class="ped-phone">
+          <div class="ped-sbar">
+            <span class="ped-time">19:47</span>
+            <div class="ped-sbar-r">
+              <svg width="11" height="7" viewBox="0 0 10 7" fill="#111"><rect x="0" y="3.5" width="1.8" height="3.5" rx=".4"/><rect x="2.8" y="2.5" width="1.8" height="4.5" rx=".4"/><rect x="5.6" y="1" width="1.8" height="6" rx=".4"/><rect x="8.2" y="0" width="1.8" height="7" rx=".4"/></svg>
+              <svg width="14" height="7" viewBox="0 0 14 7" fill="none"><rect x=".3" y=".3" width="12" height="6.4" rx="1.8" stroke="#111" stroke-width=".7"/><rect x="1" y="1" width="9.5" height="5" rx="1.2" fill="#111"/></svg>
+            </div>
+          </div>
+          <div class="ped-ig-nav">
+            <span class="ped-ig-wm" style="font-family:'DM Sans',sans-serif;font-style:normal;font-weight:700;font-size:.85rem;letter-spacing:-.01em">facebook</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="ped-phd">
+            <div class="ped-av" style="background:linear-gradient(135deg,var(--green),#3DB87E)"><div class="ped-av-inner" style="color:var(--green);font-style:normal">VS</div></div>
+            <div><div class="ped-uname">VIARIS by Orbis</div><div class="ped-uname-sub">Sponsorizzato · Energia Intelligente</div></div>
+          </div>
+          <div class="ped-img-wrap p45">
+            <div class="ped-img-placeholder viz3">
+              <div class="ped-img-pattern"></div>
+              <div class="ped-img-meta">
+                <span class="ped-img-format">Post · 4:5</span>
+                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
+              </div>
+              <div class="ped-img-center">
+                <div class="ped-img-icon">
+                  <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="ped-img-concept">Infografica clean · diagramma 3 step "Sole → Pannello → Auto" · palette verde+bianco · zero brand pesante</div>
+              </div>
+              <div class="ped-img-foot">Energia Intelligente B2B2C</div>
+            </div>
+          </div>
+          <div class="ped-pact">
+            <svg class="ped-ai" viewBox="0 0 24 24"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/></svg>
+            <svg class="ped-ai" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg class="ped-ai sv" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </div>
+          <div class="ped-likes">189 reazioni · 47 condivisioni</div>
+          <div class="ped-cap">
+            <span class="ped-cap-u">VIARIS by Orbis</span>Spiegato facile: come VIARIS Solar usa il TUO fotovoltaico per ricaricare l'auto SENZA far saltare il contatore. (Installatore: salva e manda al tuo cliente 👇)
+            <span class="ped-cap-tags">#VIARISbyOrbis #fotovoltaico #ricaricaauto</span>
+          </div>
+          <div class="ped-cmts">
+            <span class="ped-va">23 commenti · 47 condivisioni</span>
+            <div class="ped-cmt"><span class="ped-cmt-u">elettrotec_lazio</span><span class="ped-cmt-t">Salvato. Lo mando a tutti i clienti FV 🙏</span></div>
+            <div class="ped-cmt"><span class="ped-cmt-u">famiglia.bonetti</span><span class="ped-cmt-t">Era esattamente la mia domanda all'installatore!</span></div>
+          </div>
+        </div>
+        <div class="ped-meta">
+          <span class="ped-format-badge">Post Facebook · 4:5 · Educativo</span>
+          <h3 class="ped-concept-h">L'installatore come educatore</h3>
+          <p class="ped-concept-d">Infografica white-label che <strong>Marco scarica e gira al cliente Lorenzo via WhatsApp</strong>. Orbis viaggia gratis sulle conversazioni di filiera.</p>
+          <div class="ped-pills">
+            <span class="ped-pill-label">Target</span>
+            <span class="ped-pill marco">Marco</span>
+            <span class="ped-pill lorenzo">Lorenzo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PED 4: VIARIS BOUTIQUE -->
+      <div class="ped-card">
+        <div class="ped-phone">
+          <div class="ped-sbar">
+            <span class="ped-time">21:24</span>
+            <div class="ped-sbar-r">
+              <svg width="11" height="7" viewBox="0 0 10 7" fill="#111"><rect x="0" y="3.5" width="1.8" height="3.5" rx=".4"/><rect x="2.8" y="2.5" width="1.8" height="4.5" rx=".4"/><rect x="5.6" y="1" width="1.8" height="6" rx=".4"/><rect x="8.2" y="0" width="1.8" height="7" rx=".4"/></svg>
+              <svg width="14" height="7" viewBox="0 0 14 7" fill="none"><rect x=".3" y=".3" width="12" height="6.4" rx="1.8" stroke="#111" stroke-width=".7"/><rect x="1" y="1" width="9.5" height="5" rx="1.2" fill="#111"/></svg>
+            </div>
+          </div>
+          <div class="ped-ig-nav">
+            <span class="ped-ig-wm">Instagram</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="ped-phd">
+            <div class="ped-av" style="background:linear-gradient(135deg,#2E4060,#5A7090)"><div class="ped-av-inner" style="color:var(--ink2);font-style:italic">V</div></div>
+            <div><div class="ped-uname">viaris.boutique</div><div class="ped-uname-sub">Powered by ORBIS</div></div>
+          </div>
+          <div class="ped-img-wrap sq">
+            <div class="ped-img-placeholder viz4">
+              <div class="ped-img-pattern"></div>
+              <div class="ped-img-meta">
+                <span class="ped-img-format">Post · 1:1</span>
+                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
+              </div>
+              <div class="ped-img-center">
+                <div class="ped-img-icon">
+                  <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div class="ped-img-concept">VIARIS in garage di villa moderna · palette beige+travertino · luce naturale dorata · auto premium sfocata</div>
+              </div>
+              <div class="ped-img-foot">VIARIS Boutique Residenziale</div>
+            </div>
+          </div>
+          <div class="ped-pact">
+            <svg class="ped-ai" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="ped-ai" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg class="ped-ai" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg class="ped-ai sv" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="ped-likes">874 Mi piace</div>
+          <div class="ped-cap">
+            <span class="ped-cap-u">viaris.boutique</span>Cura del dettaglio fino al box auto. VIARIS si integra con la palette della tua casa — non la interrompe. Design italiano, manifattura europea.
+            <span class="ped-cap-tags">#VIARISbyOrbis #InteriorDesign #EVcharging #ArchitetturaItaliana</span>
+          </div>
+          <div class="ped-cmts">
+            <span class="ped-va">68 commenti</span>
+            <div class="ped-cmt"><span class="ped-cmt-u">studio_archi_torino</span><span class="ped-cmt-t">Finalmente qualcuno che pensa al design 🙌</span></div>
+            <div class="ped-cmt"><span class="ped-cmt-u">villa_design_lake</span><span class="ped-cmt-t">Prenotato per la prossima villa ✨</span></div>
+          </div>
+        </div>
+        <div class="ped-meta">
+          <span class="ped-format-badge">Post IG · 1:1 · Lifestyle</span>
+          <h3 class="ped-concept-h">EV charging come oggetto di desiderio</h3>
+          <p class="ped-concept-d">Fotografia di interni curata. <strong>VIARIS dalla cassetta degli attrezzi al living dell'architetto.</strong> Zero competitor su questo posizionamento.</p>
+          <div class="ped-pills">
+            <span class="ped-pill-label">Target</span>
+            <span class="ped-pill lorenzo">Lorenzo</span>
+            <span class="ped-pill architetti">Architetti</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /ped-grid -->
+
+    <div class="ped-caveat" id="pedCaveat">
+      <span class="ped-caveat-icon">◆</span>
+      <span><strong>Nota di lettura.</strong> I visual qui sono placeholder gradient — verranno sostituiti con immagini fotografiche generate ad alta fedeltà nel passaggio successivo (GPT Image 2.0 + approvazione). Copy, caption, commenti e architettura del post sono invece <strong>la proposta creativa definitiva</strong> di Ribrain per il primo trimestre di pubblicazione.</span>
+    </div>
+  </div>
+</section>
+<!-- ═══════════ FINE PED ═══════════ -->
+
+<!-- SEZIONE: MODELLO ARCHITETTURALE -->
+<section class="section grey" id="secArch">
+  <div class="max-w">
+    <div class="sec-header">
+      <div class="sec-tag">Il modello architetturale</div>
+      <h2 class="sec-title">Due brand.<br><em>Una sola reputazione.</em></h2>
+      <p class="sec-sub">Il modello JOINON | Powered by GEWISS è il framework più replicabile per Orbis. Comunicazione verticale autonoma per le nicchie, credibilità istituzionale sempre presente.</p>
+    </div>
+    <div class="arch-grid" id="archGrid">
+      <div class="arch-card">
+        <div class="arch-top">
+          <div class="arch-label">Sub-brand · EV Charging</div>
+          <div class="arch-brand">VIARIS</div>
+          <div class="arch-powered">"VIARIS · Powered by <strong>ORBIS</strong>"</div>
+        </div>
+        <div class="arch-body">
+          <p>Comunicazione autonoma su Instagram, YouTube Shorts, TikTok (futuro). Linguaggio: dinamico, giovane, lifestyle-oriented. Target: Lorenzo early adopter + Marco in modalità "scoperta".</p>
+          <p>Palinsesto indipendente ma marchio di origine sempre visibile. Come JOINON, può attirare un pubblico che non avrebbe mai cercato "Orbis" direttamente.</p>
+          <div class="arch-tags">
+            <span class="arch-tag primary">Instagram</span>
+            <span class="arch-tag primary">YouTube Shorts</span>
+            <span class="arch-tag">TikTok (futuro)</span>
+            <span class="arch-tag">Lorenzo · Marco</span>
+          </div>
+        </div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-top">
+          <div class="arch-label">Sub-brand · Fotovoltaico</div>
+          <div class="arch-brand">Orbis Energy</div>
+          <div class="arch-powered">"Orbis Energy · Powered by <strong>ORBIS</strong>"</div>
+        </div>
+        <div class="arch-body">
+          <p>Comunicazione verticalizzata su strutture FV e accessori. Linguaggio: tecnico-pratico, orientato all'installatore professionale. Target: Marco in modalità "lavoro" + Alessandro per la gestione catalogo.</p>
+          <p>YouTube come canale primario (tutorial su tetti italiani). LinkedIn per aggiornamenti normativi GSE e PNIEC.</p>
+          <div class="arch-tags">
+            <span class="arch-tag primary">YouTube</span>
+            <span class="arch-tag primary">LinkedIn</span>
+            <span class="arch-tag">Marco · Alessandro</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<nav class="mod-nav">
-  <a href="m6.html" class="mnav-back">← M6 Piano Media</a>
-  <a href="m0.html" class="mnav-next">M0 Executive Summary <span>→</span></a>
-</nav>
+<!-- MODULE NAV -->
+<div style="background:var(--surface);border-top:1px solid var(--border)">
+  <nav class="mod-nav">
+    <a href="m6.html" class="mnav-back">&larr; M6 Piano Media</a>
+    <a href="m0.html" class="mnav-next">M0 Executive Summary <span>&rarr;</span></a>
+  </nav>
+</div>
 
 <script>
 gsap.registerPlugin(ScrollTrigger);
 var cur=document.getElementById("cur");
 document.addEventListener("mousemove",function(e){gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.1,ease:"none"});});
 document.querySelectorAll("a,button").forEach(function(el){
-  el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#0050A0",duration:.15});});
-  el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#D9730D",duration:.15});});
+  el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#D9730D",duration:.15});});
+  el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#0050A0",duration:.15});});
 });
 ScrollTrigger.create({trigger:"body",start:"top top",end:"bottom bottom",onUpdate:function(self){document.getElementById("progress-fill").style.width=(self.progress*100)+"%";}});
-
-/* hero */
 gsap.fromTo("#hE",{opacity:0,y:10},{opacity:1,y:0,duration:.7,delay:.2,ease:"power3.out"});
 gsap.fromTo("#hT",{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.35,ease:"power3.out"});
 gsap.fromTo("#hS",{opacity:0,y:18},{opacity:1,y:0,duration:.8,delay:.6,ease:"power3.out"});
-gsap.fromTo("#benchRings .br-card",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.15,delay:.9,ease:"power3.out"});
-
-/* benchmark rings animate */
-ScrollTrigger.create({trigger:"#benchRings",start:"top 80%",once:true,onEnter:function(){
-  var scores=[192,182,171];
-  document.querySelectorAll("#benchRings .ring-fill").forEach(function(r,i){
-    var s=scores[i];
-    gsap.fromTo(r,{strokeDasharray:"0 214"},{strokeDasharray:s+" 214",duration:1.2,delay:.5+i*.15,ease:"power3.out"});
-  });
-  /* hero counter Gewiss */
-  var o1={v:0},e1=document.getElementById("gw-fb"),o2={v:0},e2=document.getElementById("gw-li");
-  gsap.to(o1,{v:115,duration:1.3,delay:1,ease:"power2.out",onUpdate:function(){if(e1)e1.textContent=Math.round(o1.v)+"K";}});
-  gsap.to(o2,{v:84,duration:1.2,delay:1.1,ease:"power2.out",onUpdate:function(){if(e2)e2.textContent=Math.round(o2.v)+"K";}});
-}});
-
-/* lessons */
-ScrollTrigger.create({trigger:"#lessGrid",start:"top 75%",once:true,onEnter:function(){
-  gsap.fromTo("#lessGrid .lesson-card",{opacity:0,y:18},{opacity:1,y:0,duration:.55,stagger:.08,ease:"power3.out"});
-}});
-
-/* gewiss */
-ScrollTrigger.create({trigger:"#sGewiss",start:"top 75%",once:true,onEnter:function(){
-  gsap.fromTo("#shGw",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
-  document.querySelectorAll("#gwF .gwf-fill").forEach(function(f,i){
-    gsap.fromTo(f,{width:"0%"},{width:f.getAttribute("data-w")+"%",duration:1.2,delay:.2+i*.12,ease:"power3.out"});
-  });
-  var o={v:0},e=document.getElementById("gw-fbbar");
-  gsap.to(o,{v:115,duration:1.3,delay:.3,ease:"power2.out",onUpdate:function(){if(e)e.textContent=Math.round(o.v)+"K";}});
-  gsap.fromTo("#gGrid .gw-card",{opacity:0,y:16},{opacity:1,y:0,duration:.55,stagger:.1,ease:"power3.out",delay:.3});
-}});
-
-/* white spaces */
-["#ws1","#ws2","#ws3","#ws4"].forEach(function(sel,i){
-  ScrollTrigger.create({trigger:sel,start:"top 80%",once:true,onEnter:function(){
-    gsap.fromTo(sel,{opacity:0,y:16},{opacity:1,y:0,duration:.65,ease:"power3.out"});
-  }});
-});
-
-/* tone */
-ScrollTrigger.create({trigger:"#toneGrid",start:"top 75%",once:true,onEnter:function(){
-  gsap.fromTo("#shTone",{opacity:0,y:16},{opacity:1,y:0,duration:.7,ease:"power3.out"});
-  gsap.fromTo("#toneGrid .tone-card",{opacity:0,y:18},{opacity:1,y:0,duration:.6,stagger:.15,ease:"power3.out",delay:.1});
-  gsap.fromTo("#toneEx >div",{opacity:0,y:12},{opacity:1,y:0,duration:.5,stagger:.1,delay:.4,ease:"power3.out"});
-}});
-
-/* format */
-ScrollTrigger.create({trigger:"#fmtGrid",start:"top 75%",once:true,onEnter:function(){
-  gsap.fromTo("#fmtGrid .fmt-card",{opacity:0,y:18},{opacity:1,y:0,duration:.5,stagger:.08,ease:"power3.out"});
-}});
-
-/* powered by */
-ScrollTrigger.create({trigger:"#sPowered",start:"top 75%",once:true,onEnter:function(){
-  gsap.fromTo("#pbModels .pbm",{opacity:0,y:18},{opacity:1,y:0,duration:.6,stagger:.15,ease:"power3.out"});
-}});
+gsap.fromTo("#benchGrid .bench-card",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.15,delay:.9,ease:"power3.out"});
+ScrollTrigger.create({trigger:"#lessonGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#lessonGrid .lesson-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.1,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#gwGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#gwGrid .gw-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.12,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#wsGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#wsGrid .ws-card",{opacity:0,y:24},{opacity:1,y:0,duration:.6,stagger:.12,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#voiceGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#voiceGrid .voice-item",{opacity:0,x:-12},{opacity:1,x:0,duration:.4,stagger:.05,ease:"power3.out"});gsap.fromTo("#voiceEx",{opacity:0,y:16},{opacity:1,y:0,duration:.6,delay:.4,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#fmtGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#fmtGrid .fmt-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.1,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#pedGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#pedGrid .ped-card",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.12,ease:"power3.out"});gsap.fromTo("#pedCaveat",{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:.6,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#archGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#archGrid .arch-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.15,ease:"power3.out"});}});
 </script>
 
 <script>
@@ -768,7 +1009,7 @@ var M=[
   {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
   {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
   {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
-  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilit\u00e0',url:'m5.html',color:'#0050A0'},
   {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
   {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
 ];
@@ -778,8 +1019,8 @@ st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;displa
 document.head.appendChild(st);
 var ov=document.createElement('div');ov.className='rbov';
 var ih='';
-for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
-ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">\u2192</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia \u00d7 Ribrain</span><span class="rbov-fr">Maggio 2026 \u00b7 Confidenziale</span></div>';
 document.body.appendChild(ov);
 var mo=false,btn=document.getElementById('rbHamBtn');
 function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
@@ -794,71 +1035,25 @@ nb.innerHTML=nbH;document.body.appendChild(nb);
 </script>
 
 <script>
-/* ── FONTI DRAWER · ORBIS ─────────────── */
 (function(){
-var FONTI_DATA = {"index": [], "m0": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "Analisi Mercato Energetico Italiano 2024-2025 · Gemini Deep Research", "url": "https://www.gse.it"}, {"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research", "url": "https://www.gewiss.com"}, {"label": "Creazione Personas Orbis Italia · Gemini Deep Research", "url": "https://www.motus-e.org"}, {"label": "Analisi Social Media Player Energetici B2B · Gemini Deep Research", "url": "https://www.schneider-electric.it"}], "m1": [{"label": "GSE · Rapporto Statistico Solare Fotovoltaico 2024", "url": "https://www.gse.it/dati-e-scenari/statistiche"}, {"label": "MOTUS-E · Osservatorio Mobilità Elettrica Italia 2025", "url": "https://www.motus-e.org/osservatorio/"}, {"label": "ANIE Rinnovabili · Dati FV Italia 2024", "url": "https://www.anie.it/settori/rinnovabili/"}, {"label": "PNIEC 2024 · Piano Nazionale Integrato Energia e Clima", "url": "https://www.mase.gov.it/energia/pniec"}, {"label": "FME · Federazione Materiale Elettrico, dati grossisti 2023", "url": "https://www.fmeitalia.it"}, {"label": "SVETIM/FME · Osservatorio Q1 2026", "url": "https://www.fmeitalia.it/osservatorio-svetim/"}, {"label": "Osservatorio IoT · Politecnico di Milano 2024", "url": "https://www.osservatori.net/it/ricerche/osservatori-attivi/internet-of-things"}, {"label": "Confartigianato Impianti · Rapporto imprese impiantistiche 2024", "url": "https://www.confartigianato.it"}, {"label": "Analisi Mercato Energetico Italiano 2024-2025 · Gemini Deep Research", "url": "https://www.gse.it"}], "m2": [{"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research, aprile 2026", "url": "https://www.gewiss.com"}, {"label": "M2 Competitor Map · ChatGPT Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "ABB Italia · Profilo LinkedIn e sito istituzionale", "url": "https://new.abb.com/it"}, {"label": "BTicino · Canali social e sito istituzionale", "url": "https://www.bticino.it"}, {"label": "K2 Systems · Sito, LinkedIn, YouTube ufficiali", "url": "https://www.k2-systems.com/it/"}, {"label": "Juice Technology · TikTok, Instagram, YouTube ufficiali", "url": "https://www.juice-world.com"}, {"label": "Mennekes Italia · LinkedIn, YouTube, sito ufficiale", "url": "https://www.mennekes.it"}, {"label": "Carel Industries · Case study employee advocacy LinkedIn", "url": "https://www.carel.com"}, {"label": "Ariston Group · Strategia digitale e app Ariston Net", "url": "https://www.ariston.com/it-it/"}, {"label": "Würth Italia · Canali social e video B2B", "url": "https://www.wurth.it"}], "m3": [{"label": "LinkedIn Analytics Export · Orbis Italia S.p.A., maggio 2025 – aprile 2026", "url": "https://www.linkedin.com/company/orbis-italia-s-p-a/"}, {"label": "Facebook Insights · Orbis Italia, maggio 2025 – maggio 2026 (screenshot)", "url": "https://www.facebook.com/orbisitalia/"}, {"label": "Instagram Insights · Orbis Italia, maggio 2025 – maggio 2026 (screenshot)", "url": "https://www.instagram.com/orbisitalia/"}, {"label": "orbisitalias.p.a._content_1777877805114.xls · Export contenuti LinkedIn ufficiale", "url": "https://www.linkedin.com/analytics/"}, {"label": "Brief Strategico Orbis Italia · sezione dati social, Ribrain Studio", "url": "https://www.orbisitalia.it"}], "m4": [{"label": "Creazione Personas per Orbis Italia S.p.A. · Gemini Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "M4 Persona 1 · ChatGPT Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "Scheda Profilo ORBIS 2025 · documento interno Orbis Italia", "url": "https://www.orbisitalia.it"}, {"label": "FME · Profilo grossisti materiale elettrico Italia 2023", "url": "https://www.fmeitalia.it"}, {"label": "Confartigianato CNA · Profilo installatori elettrici italiani 2024", "url": "https://www.cna.it/cna-impianti/"}, {"label": "MOTUS-E · Comportamento d'acquisto wallbox residenziale 2024", "url": "https://www.motus-e.org"}], "m5": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "LinkedIn Analytics Export · Orbis Italia, dati distribuzione tematica 2025-2026", "url": "https://www.linkedin.com/company/orbis-italia-s-p-a/"}, {"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research", "url": "https://www.gewiss.com"}, {"label": "Creazione Personas Orbis Italia · Gemini Deep Research", "url": "https://www.orbisitalia.it"}, {"label": "ORBIS Catalogo Generale 2024 · documento ufficiale Orbis Italia", "url": "https://www.orbisitalia.it/download/"}, {"label": "ORBIS Catalogo VIARIS Mobilità Elettrica 2025 · documento ufficiale", "url": "https://www.orbisitalia.it/viaris/"}, {"label": "ORBIS Catalogo Energy Fotovoltaico 2025 · documento ufficiale", "url": "https://www.orbisitalia.it/energy/"}], "m6": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "MOTUS-E · Dati mercato EV Italia 2025, stime 2030", "url": "https://www.motus-e.org"}, {"label": "Nielsen Research · Brand recall frequency 2024 (regola delle 5 esposizioni)", "url": "https://www.nielsen.com"}, {"label": "LinkedIn Marketing Solutions · B2B Italy Benchmark Report 2025", "url": "https://business.linkedin.com/it-it/marketing-solutions"}, {"label": "Meta Business · CPM benchmark Italia B2B 2025", "url": "https://www.facebook.com/business/"}, {"label": "Google Ads · CPC long-tail EV charging Italy 2025", "url": "https://ads.google.com"}], "m7": [{"label": "Analisi Social Media Player Energetici B2B · Gemini Deep Research, maggio 2026", "url": "https://www.gewiss.com"}, {"label": "Gewiss · Sito istituzionale, GW Mag, canali social ufficiali", "url": "https://www.gewiss.com/ww/it/"}, {"label": "Gewiss · Bilancio di Sostenibilità 2024", "url": "https://www.gewiss.com/it/it/gw-mag/corporate-news/pubblicato-il-bilancio-di-sostenibilita-2024"}, {"label": "Schneider Electric Italia · Canali social, blog e campagne B2B 2025-2026", "url": "https://www.se.com/it/it/"}, {"label": "ABB Italia · \"Everyday Heroes\" – Best B2B Branded Content Campaign 2025", "url": "https://new.abb.com/it"}, {"label": "ABB · Content Marketing Awards 2025 – risultati campagna (49M impression, 4,38% CTR)", "url": "https://new.abb.com/it/electrification"}, {"label": "Schneider Electric · Sustainability Impact Score 2024 (7,55/10)", "url": "https://www.se.com/it/it/about-us/sustainability/"}, {"label": "JOINON by Gewiss · Sub-brand EV charging, modello \"Powered by GEWISS\"", "url": "https://www.joinon.it"}]};
-var _pm=window.location.href.match(/\/(m\d+|index)(?:\.html)?(?:[?#].*)?$/);
-var currentPath=_pm?_pm[1]:'index';
-var srcs=FONTI_DATA[currentPath]||[];
+var FONTI_DATA={"m7":[{"label":"Analisi Social Media Player Energetici B2B · Gemini Deep Research, maggio 2026","url":"https://www.gewiss.com"},{"label":"Gewiss · Sito istituzionale, GW Mag, canali social ufficiali","url":"https://www.gewiss.com/ww/it/"},{"label":"Gewiss · Bilancio di Sostenibilità 2024","url":"https://www.gewiss.com/it/it/gw-mag/corporate-news/pubblicato-il-bilancio-di-sostenibilita-2024"},{"label":"Schneider Electric Italia · Canali social, blog e campagne B2B 2025-2026","url":"https://www.se.com/it/it/"},{"label":"ABB Italia · \"Everyday Heroes\" – Best B2B Branded Content Campaign 2025","url":"https://new.abb.com/it"},{"label":"ABB · Content Marketing Awards 2025 (49M impression, 4,38% CTR)","url":"https://new.abb.com/it/electrification"},{"label":"Schneider Electric · Sustainability Impact Score 2024 (7,55/10)","url":"https://www.se.com/it/it/about-us/sustainability/"},{"label":"JOINON by Gewiss · Sub-brand EV charging, modello \"Powered by GEWISS\"","url":"https://www.joinon.it"}]};
+var srcs=FONTI_DATA["m7"]||[];
 if(!srcs.length)return;
-
 var fdStyle=document.createElement('style');
-fdStyle.textContent=[
-  '.src-toggle{position:fixed;bottom:60px;right:14px;z-index:7900;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.97);border:1px solid #D8E0EE;backdrop-filter:blur(16px);padding:5px 12px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#5A7090;transition:all .25s;border-radius:99px;box-shadow:0 2px 12px rgba(0,80,160,.1)}',
-  '.src-toggle:hover{border-color:#1A72C8;color:#0050A0;box-shadow:0 4px 16px rgba(0,80,160,.15)}',
-  '.src-toggle .st-dot{width:5px;height:5px;border-radius:50%;background:#D9730D;flex-shrink:0}',
-  '.src-toggle .st-n{background:#E8F1FB;color:#0050A0;padding:1px 6px;border-radius:10px;font-size:8px;font-weight:500}',
-  '.src-drawer{position:fixed;bottom:48px;left:0;right:0;z-index:7800;background:rgba(255,255,255,.98);backdrop-filter:blur(24px);border-top:1px solid #D8E0EE;box-shadow:0 -4px 32px rgba(0,80,160,.08);max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(0.16,1,0.3,1),opacity .35s;opacity:0;pointer-events:none}',
-  '.src-drawer.open{max-height:320px;opacity:1;pointer-events:auto}',
-  '.src-drawer-inner{padding:16px 40px 20px;overflow-y:auto;max-height:280px}',
-  '.src-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}',
-  '.src-drawer-title{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#8FA4BC}',
-  '.src-close-btn{background:none;border:none;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;transition:color .2s;padding:0}',
-  '.src-close-btn:hover{color:#0050A0}',
-  '.src-list{display:grid;grid-template-columns:1fr 1fr;gap:6px}',
-  '.src-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid #EBF0F8;border-radius:8px;background:#F8FAFD;transition:border-color .2s}',
-  '.src-item:hover{border-color:#D8E0EE}',
-  '.src-item-num{font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.1em;color:#8FA4BC;flex-shrink:0;min-width:18px;padding-top:1px}',
-  '.src-item-label{font-size:11.5px;color:#2E4060;line-height:1.45;margin-bottom:2px;font-family:"DM Sans",sans-serif}',
-  '.src-item-url{font-family:"DM Sans",sans-serif;font-size:8px;color:#1A72C8;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.7}',
-  '.src-item-url:hover{opacity:1}',
-  '@media(max-width:640px){.src-drawer-inner{padding:12px 16px}.src-list{grid-template-columns:1fr}}'
-].join('');
+fdStyle.textContent=['.src-toggle{position:fixed;bottom:60px;right:14px;z-index:7900;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.97);border:1px solid #D8E0EE;backdrop-filter:blur(16px);padding:5px 12px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#5A7090;transition:all .25s;border-radius:99px;box-shadow:0 2px 12px rgba(0,80,160,.1)}','.src-toggle:hover{border-color:#1A72C8;color:#0050A0}','.src-toggle .st-dot{width:5px;height:5px;border-radius:50%;background:#D9730D;flex-shrink:0}','.src-toggle .st-n{background:#E8F1FB;color:#0050A0;padding:1px 6px;border-radius:10px;font-size:8px;font-weight:500}','.src-drawer{position:fixed;bottom:48px;left:0;right:0;z-index:7800;background:rgba(255,255,255,.98);backdrop-filter:blur(24px);border-top:1px solid #D8E0EE;box-shadow:0 -4px 32px rgba(0,80,160,.08);max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(0.16,1,0.3,1),opacity .35s;opacity:0;pointer-events:none}','.src-drawer.open{max-height:320px;opacity:1;pointer-events:auto}','.src-drawer-inner{padding:16px 40px 20px;overflow-y:auto;max-height:280px}','.src-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}','.src-drawer-title{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#8FA4BC}','.src-close-btn{background:none;border:none;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;padding:0}','.src-close-btn:hover{color:#0050A0}','.src-list{display:grid;grid-template-columns:1fr 1fr;gap:6px}','.src-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid #EBF0F8;border-radius:8px;background:#F8FAFD}','.src-item-num{font-size:8px;letter-spacing:.1em;color:#8FA4BC;flex-shrink:0;min-width:18px;padding-top:1px;font-family:"DM Sans",sans-serif}','.src-item-label{font-size:11.5px;color:#2E4060;line-height:1.45;margin-bottom:2px;font-family:"DM Sans",sans-serif}','.src-item-url{font-family:"DM Sans",sans-serif;font-size:8px;color:#1A72C8;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.7}','@media(max-width:640px){.src-drawer-inner{padding:12px 16px}.src-list{grid-template-columns:1fr}}'].join('');
 document.head.appendChild(fdStyle);
-
 var ih='';
-for(var i=0;i<srcs.length;i++){
-  ih+='<div class="src-item">'
-    +'<span class="src-item-num">'+String(i+1).padStart(2,'0')+'</span>'
-    +'<div><div class="src-item-label">'+srcs[i].label+'</div>'
-    +'<a href="'+srcs[i].url+'" target="_blank" rel="noopener noreferrer" class="src-item-url">'+srcs[i].url+'</a>'
-    +'</div></div>';
-}
-
-var drawer=document.createElement('div');
-drawer.className='src-drawer';
-drawer.innerHTML='<div class="src-drawer-inner">'
-  +'<div class="src-drawer-head">'
-  +'<span class="src-drawer-title">Fonti &middot; '+srcs.length+' riferimenti &middot; '+currentPath.toUpperCase()+'</span>'
-  +'<button class="src-close-btn" id="srcCloseBtn">Chiudi &times;</button>'
-  +'</div><div class="src-list">'+ih+'</div></div>';
+for(var i=0;i<srcs.length;i++){ih+='<div class="src-item"><span class="src-item-num">'+String(i+1).padStart(2,'0')+'</span><div><div class="src-item-label">'+srcs[i].label+'</div><a href="'+srcs[i].url+'" target="_blank" rel="noopener noreferrer" class="src-item-url">'+srcs[i].url+'</a></div></div>';}
+var drawer=document.createElement('div');drawer.className='src-drawer';
+drawer.innerHTML='<div class="src-drawer-inner"><div class="src-drawer-head"><span class="src-drawer-title">Fonti &middot; '+srcs.length+' riferimenti &middot; M7</span><button class="src-close-btn" id="srcCloseBtn">Chiudi &times;</button></div><div class="src-list">'+ih+'</div></div>';
 document.body.appendChild(drawer);
-
-var toggle=document.createElement('button');
-toggle.className='src-toggle';
+var toggle=document.createElement('button');toggle.className='src-toggle';
 toggle.innerHTML='<span class="st-dot"></span>Fonti <span class="st-n">'+srcs.length+'</span>';
 document.body.appendChild(toggle);
-
 var fdOpen=false;
-function toggleDrawer(){
-  fdOpen=!fdOpen;
-  drawer.classList.toggle('open',fdOpen);
-  toggle.style.borderColor=fdOpen?'#1A72C8':'';
-  toggle.style.color=fdOpen?'#0050A0':'';
-}
+function toggleDrawer(){fdOpen=!fdOpen;drawer.classList.toggle('open',fdOpen);toggle.style.borderColor=fdOpen?'#1A72C8':'';toggle.style.color=fdOpen?'#0050A0':'';}
 toggle.addEventListener('click',toggleDrawer);
-var cb=document.getElementById('srcCloseBtn');
-if(cb)cb.addEventListener('click',function(){if(fdOpen)toggleDrawer();});
+var cb=document.getElementById('srcCloseBtn');if(cb)cb.addEventListener('click',function(){if(fdOpen)toggleDrawer();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&fdOpen)toggleDrawer();});
 })();
 </script>
