@@ -729,5 +729,76 @@ for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" c
 nb.innerHTML=nbH;document.body.appendChild(nb);
 })();
 </script>
+
+<script>
+/* ── FONTI DRAWER · ORBIS ─────────────── */
+(function(){
+var FONTI_DATA = {"index": [], "m0": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "Analisi Mercato Energetico Italiano 2024-2025 · Gemini Deep Research", "url": "https://www.gse.it"}, {"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research", "url": "https://www.gewiss.com"}, {"label": "Creazione Personas Orbis Italia · Gemini Deep Research", "url": "https://www.motus-e.org"}, {"label": "Analisi Social Media Player Energetici B2B · Gemini Deep Research", "url": "https://www.schneider-electric.it"}], "m1": [{"label": "GSE · Rapporto Statistico Solare Fotovoltaico 2024", "url": "https://www.gse.it/dati-e-scenari/statistiche"}, {"label": "MOTUS-E · Osservatorio Mobilità Elettrica Italia 2025", "url": "https://www.motus-e.org/osservatorio/"}, {"label": "ANIE Rinnovabili · Dati FV Italia 2024", "url": "https://www.anie.it/settori/rinnovabili/"}, {"label": "PNIEC 2024 · Piano Nazionale Integrato Energia e Clima", "url": "https://www.mase.gov.it/energia/pniec"}, {"label": "FME · Federazione Materiale Elettrico, dati grossisti 2023", "url": "https://www.fmeitalia.it"}, {"label": "SVETIM/FME · Osservatorio Q1 2026", "url": "https://www.fmeitalia.it/osservatorio-svetim/"}, {"label": "Osservatorio IoT · Politecnico di Milano 2024", "url": "https://www.osservatori.net/it/ricerche/osservatori-attivi/internet-of-things"}, {"label": "Confartigianato Impianti · Rapporto imprese impiantistiche 2024", "url": "https://www.confartigianato.it"}, {"label": "Analisi Mercato Energetico Italiano 2024-2025 · Gemini Deep Research", "url": "https://www.gse.it"}], "m2": [{"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research, aprile 2026", "url": "https://www.gewiss.com"}, {"label": "M2 Competitor Map · ChatGPT Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "ABB Italia · Profilo LinkedIn e sito istituzionale", "url": "https://new.abb.com/it"}, {"label": "BTicino · Canali social e sito istituzionale", "url": "https://www.bticino.it"}, {"label": "K2 Systems · Sito, LinkedIn, YouTube ufficiali", "url": "https://www.k2-systems.com/it/"}, {"label": "Juice Technology · TikTok, Instagram, YouTube ufficiali", "url": "https://www.juice-world.com"}, {"label": "Mennekes Italia · LinkedIn, YouTube, sito ufficiale", "url": "https://www.mennekes.it"}, {"label": "Carel Industries · Case study employee advocacy LinkedIn", "url": "https://www.carel.com"}, {"label": "Ariston Group · Strategia digitale e app Ariston Net", "url": "https://www.ariston.com/it-it/"}, {"label": "Würth Italia · Canali social e video B2B", "url": "https://www.wurth.it"}], "m3": [{"label": "LinkedIn Analytics Export · Orbis Italia S.p.A., maggio 2025 – aprile 2026", "url": "https://www.linkedin.com/company/orbis-italia-s-p-a/"}, {"label": "Facebook Insights · Orbis Italia, maggio 2025 – maggio 2026 (screenshot)", "url": "https://www.facebook.com/orbisitalia/"}, {"label": "Instagram Insights · Orbis Italia, maggio 2025 – maggio 2026 (screenshot)", "url": "https://www.instagram.com/orbisitalia/"}, {"label": "orbisitalias.p.a._content_1777877805114.xls · Export contenuti LinkedIn ufficiale", "url": "https://www.linkedin.com/analytics/"}, {"label": "Brief Strategico Orbis Italia · sezione dati social, Ribrain Studio", "url": "https://www.orbisitalia.it"}], "m4": [{"label": "Creazione Personas per Orbis Italia S.p.A. · Gemini Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "M4 Persona 1 · ChatGPT Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "Scheda Profilo ORBIS 2025 · documento interno Orbis Italia", "url": "https://www.orbisitalia.it"}, {"label": "FME · Profilo grossisti materiale elettrico Italia 2023", "url": "https://www.fmeitalia.it"}, {"label": "Confartigianato CNA · Profilo installatori elettrici italiani 2024", "url": "https://www.cna.it/cna-impianti/"}, {"label": "MOTUS-E · Comportamento d'acquisto wallbox residenziale 2024", "url": "https://www.motus-e.org"}], "m5": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "LinkedIn Analytics Export · Orbis Italia, dati distribuzione tematica 2025-2026", "url": "https://www.linkedin.com/company/orbis-italia-s-p-a/"}, {"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research", "url": "https://www.gewiss.com"}, {"label": "Creazione Personas Orbis Italia · Gemini Deep Research", "url": "https://www.orbisitalia.it"}, {"label": "ORBIS Catalogo Generale 2024 · documento ufficiale Orbis Italia", "url": "https://www.orbisitalia.it/download/"}, {"label": "ORBIS Catalogo VIARIS Mobilità Elettrica 2025 · documento ufficiale", "url": "https://www.orbisitalia.it/viaris/"}, {"label": "ORBIS Catalogo Energy Fotovoltaico 2025 · documento ufficiale", "url": "https://www.orbisitalia.it/energy/"}], "m6": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "MOTUS-E · Dati mercato EV Italia 2025, stime 2030", "url": "https://www.motus-e.org"}, {"label": "Nielsen Research · Brand recall frequency 2024 (regola delle 5 esposizioni)", "url": "https://www.nielsen.com"}, {"label": "LinkedIn Marketing Solutions · B2B Italy Benchmark Report 2025", "url": "https://business.linkedin.com/it-it/marketing-solutions"}, {"label": "Meta Business · CPM benchmark Italia B2B 2025", "url": "https://www.facebook.com/business/"}, {"label": "Google Ads · CPC long-tail EV charging Italy 2025", "url": "https://ads.google.com"}], "m7": [{"label": "Analisi Social Media Player Energetici B2B · Gemini Deep Research, maggio 2026", "url": "https://www.gewiss.com"}, {"label": "Gewiss · Sito istituzionale, GW Mag, canali social ufficiali", "url": "https://www.gewiss.com/ww/it/"}, {"label": "Gewiss · Bilancio di Sostenibilità 2024", "url": "https://www.gewiss.com/it/it/gw-mag/corporate-news/pubblicato-il-bilancio-di-sostenibilita-2024"}, {"label": "Schneider Electric Italia · Canali social, blog e campagne B2B 2025-2026", "url": "https://www.se.com/it/it/"}, {"label": "ABB Italia · \"Everyday Heroes\" – Best B2B Branded Content Campaign 2025", "url": "https://new.abb.com/it"}, {"label": "ABB · Content Marketing Awards 2025 – risultati campagna (49M impression, 4,38% CTR)", "url": "https://new.abb.com/it/electrification"}, {"label": "Schneider Electric · Sustainability Impact Score 2024 (7,55/10)", "url": "https://www.se.com/it/it/about-us/sustainability/"}, {"label": "JOINON by Gewiss · Sub-brand EV charging, modello \"Powered by GEWISS\"", "url": "https://www.joinon.it"}]};
+var _pm=window.location.href.match(/\/(m\d+|index)(?:\.html)?(?:[?#].*)?$/);
+var currentPath=_pm?_pm[1]:'index';
+var srcs=FONTI_DATA[currentPath]||[];
+if(!srcs.length)return;
+
+var fdStyle=document.createElement('style');
+fdStyle.textContent=[
+  '.src-toggle{position:fixed;bottom:60px;right:14px;z-index:7900;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.97);border:1px solid #D8E0EE;backdrop-filter:blur(16px);padding:5px 12px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#5A7090;transition:all .25s;border-radius:99px;box-shadow:0 2px 12px rgba(0,80,160,.1)}',
+  '.src-toggle:hover{border-color:#1A72C8;color:#0050A0;box-shadow:0 4px 16px rgba(0,80,160,.15)}',
+  '.src-toggle .st-dot{width:5px;height:5px;border-radius:50%;background:#D9730D;flex-shrink:0}',
+  '.src-toggle .st-n{background:#E8F1FB;color:#0050A0;padding:1px 6px;border-radius:10px;font-size:8px;font-weight:500}',
+  '.src-drawer{position:fixed;bottom:48px;left:0;right:0;z-index:7800;background:rgba(255,255,255,.98);backdrop-filter:blur(24px);border-top:1px solid #D8E0EE;box-shadow:0 -4px 32px rgba(0,80,160,.08);max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(0.16,1,0.3,1),opacity .35s;opacity:0;pointer-events:none}',
+  '.src-drawer.open{max-height:320px;opacity:1;pointer-events:auto}',
+  '.src-drawer-inner{padding:16px 40px 20px;overflow-y:auto;max-height:280px}',
+  '.src-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}',
+  '.src-drawer-title{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#8FA4BC}',
+  '.src-close-btn{background:none;border:none;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;transition:color .2s;padding:0}',
+  '.src-close-btn:hover{color:#0050A0}',
+  '.src-list{display:grid;grid-template-columns:1fr 1fr;gap:6px}',
+  '.src-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid #EBF0F8;border-radius:8px;background:#F8FAFD;transition:border-color .2s}',
+  '.src-item:hover{border-color:#D8E0EE}',
+  '.src-item-num{font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.1em;color:#8FA4BC;flex-shrink:0;min-width:18px;padding-top:1px}',
+  '.src-item-label{font-size:11.5px;color:#2E4060;line-height:1.45;margin-bottom:2px;font-family:"DM Sans",sans-serif}',
+  '.src-item-url{font-family:"DM Sans",sans-serif;font-size:8px;color:#1A72C8;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.7}',
+  '.src-item-url:hover{opacity:1}',
+  '@media(max-width:640px){.src-drawer-inner{padding:12px 16px}.src-list{grid-template-columns:1fr}}'
+].join('');
+document.head.appendChild(fdStyle);
+
+var ih='';
+for(var i=0;i<srcs.length;i++){
+  ih+='<div class="src-item">'
+    +'<span class="src-item-num">'+String(i+1).padStart(2,'0')+'</span>'
+    +'<div><div class="src-item-label">'+srcs[i].label+'</div>'
+    +'<a href="'+srcs[i].url+'" target="_blank" rel="noopener noreferrer" class="src-item-url">'+srcs[i].url+'</a>'
+    +'</div></div>';
+}
+
+var drawer=document.createElement('div');
+drawer.className='src-drawer';
+drawer.innerHTML='<div class="src-drawer-inner">'
+  +'<div class="src-drawer-head">'
+  +'<span class="src-drawer-title">Fonti &middot; '+srcs.length+' riferimenti &middot; '+currentPath.toUpperCase()+'</span>'
+  +'<button class="src-close-btn" id="srcCloseBtn">Chiudi &times;</button>'
+  +'</div><div class="src-list">'+ih+'</div></div>';
+document.body.appendChild(drawer);
+
+var toggle=document.createElement('button');
+toggle.className='src-toggle';
+toggle.innerHTML='<span class="st-dot"></span>Fonti <span class="st-n">'+srcs.length+'</span>';
+document.body.appendChild(toggle);
+
+var fdOpen=false;
+function toggleDrawer(){
+  fdOpen=!fdOpen;
+  drawer.classList.toggle('open',fdOpen);
+  toggle.style.borderColor=fdOpen?'#1A72C8':'';
+  toggle.style.color=fdOpen?'#0050A0':'';
+}
+toggle.addEventListener('click',toggleDrawer);
+var cb=document.getElementById('srcCloseBtn');
+if(cb)cb.addEventListener('click',function(){if(fdOpen)toggleDrawer();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&fdOpen)toggleDrawer();});
+})();
+</script>
+
 </body>
 </html>
