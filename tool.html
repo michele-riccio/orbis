@@ -376,6 +376,7 @@ for(var i=0;i<M.length;i++){
   var isTool=m.id==='tool';
   nbH+='<a href="'+m.url+'" class="rnav-a'+(a?' active':'')+(isTool?' tool-item':'')+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+(isTool?'⚡ ':'')+m.code+' '+m.label.split(' ')[0]+'</span></a>';
 }
+nbH+='<a href="come.html" class="rnav-a"><div class="rnav-dot"></div><span class="rnav-lbl">↗ Come</span></a>';
 nb.innerHTML=nbH;document.body.appendChild(nb);
 })();
 </script>
