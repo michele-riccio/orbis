@@ -12,10 +12,11 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 :root{
-  --bg:#F2F5FA;--surface:#FFFFFF;--surface2:#EBF0F8;--border:#D8E0EE;
+  --bg:#F2F5FA;--surface:#FFF;--surface2:#EBF0F8;--border:#D8E0EE;
   --blue:#0050A0;--blue-mid:#1A72C8;--blue-light:#E8F1FB;
   --energy:#D9730D;--energy-light:#FDF0E4;
-  --green:#1A9462;--ink:#0A1628;--ink2:#2E4060;--ink3:#5A7090;--ink4:#8FA4BC;
+  --green:#1A9462;--green-light:#E4F5EE;
+  --ink:#0A1628;--ink2:#2E4060;--ink3:#5A7090;--ink4:#8FA4BC;
 }
 body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden;padding-bottom:48px;cursor:none}
 @media(hover:none){body{cursor:auto}#cur{display:none}}
@@ -26,418 +27,119 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 .tb-sep{width:1px;height:16px;background:var(--border)}
 .tb-rlogo{height:11px;opacity:.3}
 .tb-r{display:flex;align-items:center;gap:.75rem}
-.tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
-.tb-conf{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border);color:var(--ink3);padding:3px 8px;border-radius:4px}
-#progress{position:fixed;top:52px;left:0;right:0;z-index:801;height:2px;background:var(--border)}
-#progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--energy));width:0%;transition:width .1s linear}
+.tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(217,115,13,.3);color:var(--energy);padding:3px 9px;border-radius:4px;background:var(--energy-light)}
 .rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
 .rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
 .rb-ham .h1{width:20px}.rb-ham .h2{width:14px}.rb-ham .h3{width:20px}
 .rb-ham.open .h1{width:20px;transform:translateY(6.5px) rotate(-45deg)}
 .rb-ham.open .h2{opacity:0;width:0}
 .rb-ham.open .h3{width:20px;transform:translateY(-6.5px) rotate(45deg)}
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:calc(52px + 4rem) 1.5rem 5rem;position:relative;overflow:hidden;background:var(--surface)}
-.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(0,80,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,80,160,.04) 1px,transparent 1px);background-size:48px 48px}
-.hero-blob{position:absolute;top:-15%;right:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(26,114,200,.07) 0%,transparent 65%);pointer-events:none}
-.hero-blob2{position:absolute;bottom:-20%;left:-5%;width:40vw;height:40vw;border-radius:50%;background:radial-gradient(circle,rgba(217,115,13,.05) 0%,transparent 65%);pointer-events:none}
-.hero-bg-num{position:absolute;right:-2%;bottom:-5%;font-family:"Afacad Flux",sans-serif;font-size:clamp(20rem,45vw,46rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(0,80,160,.04);pointer-events:none;user-select:none}
-.hero-body{position:relative;z-index:1}
-.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem}
-.hero-eyebrow::before{content:"";width:32px;height:1px;background:var(--blue-mid)}
-.hero-h1{font-family:"Afacad Flux",sans-serif;font-size:clamp(4.5rem,14vw,12rem);font-weight:400;line-height:.9;letter-spacing:-.05em;margin-bottom:2.5rem}
-.hero-h1 span{display:block;overflow:hidden}
-.hero-h1 .w1,.hero-h1 .w2{color:var(--ink)}
-.hero-h1 .w3{font-style:italic;font-weight:300;color:var(--blue)}
-.hero-tagline{font-size:clamp(.9rem,2vw,1.1rem);color:var(--ink3);line-height:1.75;max-width:480px;margin-bottom:3rem}
-.hero-chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:4rem}
-.hchip{font-size:10px;letter-spacing:.08em;border:1px solid var(--border);padding:.3rem .85rem;border-radius:99px;color:var(--ink3);background:var(--surface);transition:all .2s}
-.hchip:hover{border-color:var(--blue-mid);color:var(--blue)}
-.hchip.en{border-color:rgba(217,115,13,.28);color:var(--energy);background:var(--energy-light)}
-.hero-scroll{display:flex;align-items:center;gap:.75rem;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink4)}
-.hero-scroll::before{content:"";width:40px;height:1px;background:var(--border)}
-.hero-scroll .arr{animation:sb 1.8s ease-in-out infinite}
-@keyframes sb{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
-.cap{min-height:90svh;display:flex;flex-direction:column;justify-content:center;padding:6rem 1.5rem;position:relative;overflow:hidden;border-top:1px solid var(--border)}
-.cap:nth-child(even){background:var(--surface)}
-.cap:nth-child(odd){background:var(--bg)}
-.cap-ghost{position:absolute;pointer-events:none;user-select:none;font-family:"Afacad Flux",sans-serif;font-weight:700;line-height:.85;letter-spacing:-.07em;color:rgba(0,80,160,.04)}
-.cap-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:3rem 6rem;align-items:center}
-@media(max-width:700px){.cap-inner{grid-template-columns:1fr;gap:2.5rem}}
-.cap-inner.rev{direction:rtl}.cap-inner.rev>*{direction:ltr}
-.cap-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
-.cap-tag::before{content:"";width:16px;height:1px;background:var(--cap-color,var(--blue-mid))}
-.cap-num{font-family:"Afacad Flux",sans-serif;font-size:4rem;font-weight:300;line-height:1;letter-spacing:-.06em;margin-bottom:.5rem;color:var(--cap-color,var(--blue))}
-.cap-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,4.5vw,3.4rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;margin-bottom:1.25rem;color:var(--ink)}
-.cap-insight{font-family:"Afacad Flux",sans-serif;font-size:clamp(1rem,2.2vw,1.3rem);font-style:italic;font-weight:300;color:var(--cap-color,var(--blue));line-height:1.4;padding-left:1rem;border-left:2px solid var(--cap-color,var(--blue));margin-bottom:1.25rem}
-.cap-body{font-size:13.5px;color:var(--ink3);line-height:1.85;max-width:420px}
-.cap-cta{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--cap-color,var(--blue));padding:.6rem 1.4rem;border-radius:99px;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cap-color,var(--blue));margin-top:1.75rem;transition:all .25s}
-.cap-cta:hover{background:var(--cap-color,var(--blue));color:#fff}
-.cap-cta span{transition:transform .25s}
-.cap-cta:hover span{transform:translateX(4px)}
-.vb-head{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.6rem}
-.vb-row{display:grid;grid-template-columns:90px 1fr 70px;gap:.5rem;align-items:center;margin-bottom:.5rem}
-.vb-label{font-size:10px;color:var(--ink3)}
-.vb-track{height:4px;background:var(--surface2);border-radius:99px;overflow:hidden}
-.vb-fill{height:100%;border-radius:99px;width:0;transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
-.vb-val{font-family:"Afacad Flux",sans-serif;font-size:.8rem;color:var(--ink3);text-align:right}
-.vis-card{margin-top:1.25rem;padding:1rem 1.15rem;background:var(--blue-light);border-radius:10px;border:1px solid rgba(0,80,160,.12)}
-.vis-card-lbl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:.3rem}
-.vis-card-val{font-family:"Afacad Flux",sans-serif;font-size:1.7rem;color:var(--energy);line-height:1.1}
-.vis-card-sub{font-size:11px;color:var(--ink3);margin-top:.25rem;line-height:1.5}
-.vis-paradox{display:flex;flex-direction:column;gap:1.75rem}
-.vp-item{display:flex;flex-direction:column}
-.vp-v{font-family:"Afacad Flux",sans-serif;font-size:clamp(3rem,9vw,7rem);font-weight:300;line-height:.88;letter-spacing:-.06em}
-.vp-l{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-top:.35rem}
-.vp-sep{width:40px;height:1px;background:var(--border)}
-.vp-note{margin-top:.75rem;padding:.85rem 1rem;border-left:3px solid var(--border);background:var(--surface2);border-radius:0 8px 8px 0}
-.vp-note p{font-size:12px;color:var(--ink3);font-style:italic;line-height:1.6}
-.vis-personas-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:.75rem}
-.vp-card{padding:.9rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--surface);transition:border-color .25s,box-shadow .25s}
-.vp-card:hover{border-color:var(--pc-color,var(--blue-mid));box-shadow:0 4px 16px rgba(0,80,160,.08)}
-.vp-dot{width:7px;height:7px;border-radius:50%;margin-bottom:.5rem}
-.vp-name{font-family:"Afacad Flux",sans-serif;font-size:.95rem;font-weight:500;color:var(--ink);margin-bottom:2px}
-.vp-role{font-size:9px;color:var(--ink4);line-height:1.4}
-.vis-insight{margin-top:.85rem;padding:.85rem 1rem;border:1px solid rgba(217,115,13,.2);border-radius:10px;background:var(--energy-light)}
-.vis-insight-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--energy);margin-bottom:.25rem}
-.vis-insight-txt{font-size:12px;color:var(--ink2);font-style:italic;line-height:1.6}
-.vis-conv{display:flex;flex-direction:column;gap:.6rem}
-.vc-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.2rem}
-.vc-band{height:8px;border-radius:99px;width:0;transition:width 1.1s cubic-bezier(0.16,1,0.3,1)}
-.vc-now{margin-top:1rem;font-family:"Afacad Flux",sans-serif;font-size:.9rem;font-style:italic;color:var(--blue);opacity:0;transition:opacity .5s .9s;display:flex;align-items:center;gap:.5rem}
-.vc-now.show{opacity:1}
-.vc-now::before{content:"★";font-style:normal;font-size:.75rem}
-.vis-items{display:flex;flex-direction:column}
-.vi-head{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.65rem}
-.vi-item{display:flex;align-items:center;gap:.75rem;padding:.65rem 0;border-bottom:1px solid var(--border)}
-.vi-item:last-child{border-bottom:none}
-.vi-num{font-size:9px;letter-spacing:.08em;color:var(--ink4);min-width:32px}
-.vi-name{font-family:"Afacad Flux",sans-serif;font-size:1.05rem;font-weight:400;color:var(--ink2)}
-.vi-tag{font-size:8px;letter-spacing:.08em;padding:2px 8px;border-radius:99px;margin-left:auto;white-space:nowrap}
-.vis-names{display:flex;flex-direction:column;gap:.05rem}
-.vn-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.85rem}
-.vn-item{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.5rem,3.5vw,2.7rem);font-weight:300;color:rgba(10,22,40,.12);line-height:1.05;letter-spacing:-.02em;transition:color .3s,transform .3s;cursor:default}
-.vn-item:hover{color:var(--ink);transform:translateX(6px)}
-.vn-item.bright{color:rgba(217,115,13,.5)}
-.finale{min-height:65svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:6rem 1.5rem;position:relative;overflow:hidden;border-top:1px solid var(--border);background:var(--surface)}
-.finale-blob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70vw;height:70vw;border-radius:50%;background:radial-gradient(circle,rgba(0,80,160,.05) 0%,transparent 60%);pointer-events:none}
-.finale-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:1.75rem}
-.finale-h{font-family:"Afacad Flux",sans-serif;font-size:clamp(3rem,8vw,7rem);font-weight:400;line-height:.95;letter-spacing:-.04em;color:var(--ink);margin-bottom:1rem}
-.finale-h em{font-style:italic;font-weight:300;color:var(--blue)}
-.finale-sub{font-size:14px;color:var(--ink3);max-width:420px;line-height:1.8;margin-bottom:3rem}
-.finale-ctas{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
-.btn-p{display:inline-flex;align-items:center;gap:.6rem;background:var(--blue);color:#fff;padding:.9rem 2rem;border-radius:99px;text-decoration:none;font-family:"Afacad Flux",sans-serif;font-size:15px;font-weight:500;transition:background .2s,transform .15s}
-.btn-p:hover{background:#0062C4;transform:translateY(-2px)}
-.btn-s{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--border);color:var(--ink3);padding:.9rem 1.8rem;border-radius:99px;text-decoration:none;font-family:"Afacad Flux",sans-serif;font-size:15px;font-weight:400;background:var(--surface);transition:all .2s}
-.btn-s:hover{border-color:var(--blue-mid);color:var(--blue)}
-.footer-min{padding:1.75rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;background:var(--bg)}
-.fml{display:flex;gap:1.5rem;flex-wrap:wrap}
-.fml a{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);text-decoration:none;transition:color .2s}
-.fml a:hover{color:var(--blue)}
-.fmr{font-size:10px;color:var(--ink4)}
+.tb-tool-btn{display:inline-flex;align-items:center;gap:5px;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#0891B2;background:rgba(8,145,178,.08);padding:4px 11px;border-radius:99px;text-decoration:none;border:1px solid rgba(8,145,178,.22);transition:all .2s;white-space:nowrap;font-weight:600}
+.tb-tool-btn::before{content:"⚡";font-size:10px}
+.rbov-tool-row{padding:12px 40px;border-top:1px solid #EBF0F8;display:flex;align-items:center;gap:12px}
+.rbov-tool-link{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-family:"DM Sans",sans-serif;font-size:12px;color:#0891B2;font-weight:500}
+.rbov-tool-sep{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8FA4BC}
+
+/* HERO */
+.hero{min-height:100svh;background:var(--surface);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:calc(52px + 4rem) 1.5rem 4rem;position:relative;overflow:hidden;text-align:center}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(217,115,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(217,115,13,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-blob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70vw;height:70vw;border-radius:50%;background:radial-gradient(circle,rgba(0,80,160,.05) 0%,transparent 65%);pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:800px}
+.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--energy);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.75rem}
+.hero-eyebrow::before,.hero-eyebrow::after{content:"";width:24px;height:1px;background:var(--energy)}
+.hero-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(3rem,10vw,8rem);font-weight:400;line-height:.9;letter-spacing:-.04em;color:var(--ink);margin-bottom:1.25rem}
+.hero-title em{font-style:italic;font-weight:300;color:var(--energy)}
+.hero-sub{font-size:16px;color:var(--ink3);line-height:1.75;max-width:560px;margin:0 auto 3rem}
+.hero-cta{display:inline-flex;align-items:center;gap:.6rem;background:var(--blue);color:#fff;padding:.9rem 2rem;border-radius:99px;text-decoration:none;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;transition:background .2s,transform .15s}
+.hero-cta:hover{background:#0062C4;transform:translateY(-2px)}
+.hero-cta span{transition:transform .2s}
+.hero-cta:hover span{transform:translateX(4px)}
+
+/* MODULES GRID */
+.mods-section{padding:4rem 1.5rem;background:var(--bg);border-top:1px solid var(--border)}
+.mods-inner{max-width:1100px;margin:0 auto}
+.mods-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.mods-tag::before{content:"";width:14px;height:1px;background:var(--ink4)}
+.mods-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;letter-spacing:-.025em;color:var(--ink);margin-bottom:2rem}
+.mods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+@media(max-width:900px){.mods-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.mods-grid{grid-template-columns:1fr}}
+.mod-card{padding:1.25rem;border-radius:14px;border:1px solid var(--border);background:var(--surface);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.4rem;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.mod-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--mc,var(--blue))}
+.mod-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.mod-code{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink4)}
+.mod-label{font-family:"Afacad Flux",sans-serif;font-size:1.1rem;font-weight:400;color:var(--ink);line-height:1.2}
+.mod-sub{font-size:11px;color:var(--ink4)}
+
+/* TOOL CARD */
+.tool-card{background:linear-gradient(135deg,rgba(8,145,178,.06),rgba(8,145,178,.02));border-color:rgba(8,145,178,.2)}
+.tool-card::before{background:linear-gradient(90deg,#0891B2,#06B6D4)}
+.tool-code{color:#0891B2}
 </style>
 </head>
 <body>
 <div id="cur"></div>
-<div id="progress"><div id="progress-fill"></div></div>
 
 <header class="topbar">
   <div class="tb-l">
-    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis Italia" class="tb-logo">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="tb-logo" alt="Orbis">
     <div class="tb-sep"></div>
-    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="tb-rlogo" alt="Ribrain">
   </div>
+  <span class="tb-badge">Cruscotto Strategico</span>
   <div class="tb-r">
-    <span class="tb-date">Maggio 2026</span>
-    <span class="tb-conf">Confidenziale</span>
-    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+    <a href="tool.html" class="tb-tool-btn">Strumenti</a>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu">
+      <span class="h1"></span><span class="h2"></span><span class="h3"></span>
+    </button>
   </div>
 </header>
 
-<section class="hero" id="hero">
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-blob" aria-hidden="true"></div>
-  <div class="hero-blob2" aria-hidden="true"></div>
-  <div class="hero-bg-num" aria-hidden="true">OI</div>
-  <div class="hero-body">
-    <div class="hero-eyebrow" id="hE">Cruscotto Strategico · Maggio 2026 · Confidenziale</div>
-    <h1 class="hero-h1">
-      <span class="w1" id="hW1">Social</span>
-      <span class="w2" id="hW2">Strategy</span>
-      <span class="w3" id="hW3">ORBIS Italia.</span>
-    </h1>
-    <p class="hero-tagline" id="hT">Sette moduli di analisi strategica per il mercato elettrico ed energetico italiano. Dal dato di mercato alla creatività editoriale: tutto quello che serve per decidere dove investire e come comunicare.</p>
-    <div class="hero-chips" id="hC">
-      <span class="hchip">75 anni di storia</span>
-      <span class="hchip">25 persone in Italia</span>
-      <span class="hchip en">⚡ Energia Intelligente</span>
-      <span class="hchip">VIARIS · FV · Efficienza</span>
-      <span class="hchip">7 moduli · Piano 12 mesi</span>
-    </div>
-    <div class="hero-scroll" id="hS">Scorri per esplorare <span class="arr">↓</span></div>
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-inner" id="heroInner">
+    <div class="hero-eyebrow">Cruscotto Strategico · Maggio 2026</div>
+    <h1 class="hero-title" id="hT">ORBIS Italia<br><em>× Ribrain</em></h1>
+    <p class="hero-sub" id="hS">Analisi di mercato, competitor, audience e strategia creativa — tutto in un unico cruscotto per guidare le decisioni di comunicazione digitale.</p>
+    <a href="m1.html" class="hero-cta" id="hCTA">Inizia il percorso <span>→</span></a>
   </div>
 </section>
 
-<!-- M1 MERCATO -->
-<section class="cap" id="cap1" style="--cap-color:#0050A0">
-  <div class="cap-ghost" style="font-size:clamp(16rem,35vw,34rem);right:-3%;bottom:-18%">01</div>
-  <div class="cap-inner">
-    <div>
-      <div class="cap-tag">01 — Mercato</div>
-      <div class="cap-num" id="cntM1">0</div>
-      <h2 class="cap-title">La transizione<br>energetica italiana.</h2>
-      <div class="cap-insight">"Il mercato cresce. La comunicazione è ancora ferma."</div>
-      <p class="cap-body">37 GW fotovoltaico installato a fine 2024. 365.000 BEV circolanti. 3.600 grossisti per €10,5 miliardi di giro d'affari. Un settore in piena accelerazione con un gap comunicativo enorme: nessun brand di medie dimensioni ha occupato il territorio digitale B2B.</p>
-      <a href="m1.html" class="cap-cta">Apri M1 Mercato <span>→</span></a>
-    </div>
-    <div id="vb1">
-      <div class="vb-head">Mix fatturato Orbis Italia</div>
-      <div class="vb-row"><div class="vb-label">Fotovoltaico</div><div class="vb-track"><div class="vb-fill" data-w="40" style="background:#0050A0"></div></div><div class="vb-val" style="color:#0050A0;font-weight:500">~40%</div></div>
-      <div class="vb-row"><div class="vb-label">Mobilità EV</div><div class="vb-track"><div class="vb-fill" data-w="30" style="background:#1A72C8"></div></div><div class="vb-val" style="color:#1A72C8;font-weight:500">~30%</div></div>
-      <div class="vb-row"><div class="vb-label">Efficienza</div><div class="vb-track"><div class="vb-fill" data-w="30" style="background:#7AAED8"></div></div><div class="vb-val" style="color:#7AAED8;font-weight:500">~30%</div></div>
-      <div class="vis-card"><div class="vis-card-lbl">Priorità commerciale 2026</div><div class="vis-card-val">Mobilità Elettrica</div><div class="vis-card-sub">VIARIS — indicato da Stefano Lucini come focus principale</div></div>
+<section class="mods-section">
+  <div class="mods-inner">
+    <div class="mods-tag">I moduli del cruscotto</div>
+    <h2 class="mods-title">8 moduli. Un solo posizionamento.</h2>
+    <div class="mods-grid">
+      <a href="m1.html" class="mod-card" style="--mc:#0050A0"><span class="mod-code">01</span><span class="mod-label">Mercato</span><span class="mod-sub">FV · EV · Efficienza</span></a>
+      <a href="m2.html" class="mod-card" style="--mc:#1A72C8"><span class="mod-code">02</span><span class="mod-label">Competitor Map</span><span class="mod-sub">ABB · BTicino · Vimar</span></a>
+      <a href="m3.html" class="mod-card" style="--mc:#1A9462"><span class="mod-code">03</span><span class="mod-label">Social Audit</span><span class="mod-sub">LinkedIn · IG · Facebook</span></a>
+      <a href="m4.html" class="mod-card" style="--mc:#D9730D"><span class="mod-code">04</span><span class="mod-label">Personas</span><span class="mod-sub">Marco · Alessandro · Lorenzo</span></a>
+      <a href="m5.html" class="mod-card" style="--mc:#0050A0"><span class="mod-code">05</span><span class="mod-label">Architettura Editoriale</span><span class="mod-sub">Pillar · VIARIS · ESG</span></a>
+      <a href="m6.html" class="mod-card" style="--mc:#1A72C8"><span class="mod-code">06</span><span class="mod-label">Piano Media</span><span class="mod-sub">Budget · KPI · Scenari</span></a>
+      <a href="m7.html" class="mod-card" style="--mc:#D9730D"><span class="mod-code">07</span><span class="mod-label">Strategia Creativa</span><span class="mod-sub">Format · Campagne · PED</span></a>
+      <a href="tool.html" class="mod-card tool-card"><span class="mod-code tool-code">⚡ AI</span><span class="mod-label">Calcolatore Risparmio</span><span class="mod-sub">Strumento per il cliente</span></a>
     </div>
   </div>
 </section>
-
-<!-- M2 COMPETITOR -->
-<section class="cap" id="cap2" style="--cap-color:#1A72C8">
-  <div class="cap-ghost" style="font-size:clamp(16rem,35vw,34rem);left:-4%;top:-12%">02</div>
-  <div class="cap-inner rev">
-    <div>
-      <div class="cap-tag">02 — Competitor Map</div>
-      <div class="cap-num">○</div>
-      <h2 class="cap-title">Il panorama<br>digitale.</h2>
-      <div class="cap-insight">"I big trasmettono. Non dialogano. Il territorio è libero."</div>
-      <p class="cap-body">ABB ha 4,2 milioni di follower su LinkedIn ma engagement allo 0,01%. BTicino 86K follower. Vimar e Scame praticamente assenti. Il white space è la comunicazione B2B locale: tecnica, umana, specifica. Nessuno lo occupa.</p>
-      <a href="m2.html" class="cap-cta">Apri M2 Competitor <span>→</span></a>
-    </div>
-    <div id="vb2">
-      <div class="vb-head">LinkedIn follower · benchmark settore</div>
-      <div class="vb-row"><div class="vb-label">ABB Italia</div><div class="vb-track"><div class="vb-fill" data-w="100" style="background:#CBD8E8"></div></div><div class="vb-val">4,2M</div></div>
-      <div class="vb-row"><div class="vb-label">BTicino</div><div class="vb-track"><div class="vb-fill" data-w="3" style="background:#A0B8D0"></div></div><div class="vb-val">86K</div></div>
-      <div class="vb-row"><div class="vb-label">Gewiss</div><div class="vb-track"><div class="vb-fill" data-w="1.5" style="background:#88A8C4"></div></div><div class="vb-val">n.d.</div></div>
-      <div class="vb-row"><div class="vb-label">Vimar / Scame</div><div class="vb-track"><div class="vb-fill" data-w="0.5" style="background:#C8D8E8"></div></div><div class="vb-val">assenti</div></div>
-      <div class="vb-row" style="margin-top:.35rem"><div class="vb-label" style="color:var(--energy);font-weight:500">Orbis oggi</div><div class="vb-track"><div class="vb-fill" data-w="0.3" style="background:var(--energy)"></div></div><div class="vb-val" style="color:var(--energy);font-weight:500">→</div></div>
-      <p style="margin-top:.85rem;font-size:11px;color:var(--ink3);font-style:italic;border-left:2px solid var(--border);padding-left:.75rem">White space: B2B locale + voce umana. Non occupato.</p>
-    </div>
-  </div>
-</section>
-
-<!-- M3 SOCIAL AUDIT -->
-<section class="cap" id="cap3" style="--cap-color:#1A9462">
-  <div class="cap-ghost" style="font-size:clamp(16rem,35vw,34rem);right:-3%;top:-10%">03</div>
-  <div class="cap-inner">
-    <div>
-      <div class="cap-tag">03 — Social Audit</div>
-      <div class="cap-num">%</div>
-      <h2 class="cap-title">Il canale che<br>funziona, a vuoto.</h2>
-      <div class="cap-insight">"LinkedIn vive. Facebook è spento. Instagram non esiste."</div>
-      <p class="cap-body">Il post della fiera KEY ha raggiunto 4.342 impressioni con engagement al 12,4%. Instagram conta 170 follower totali. Facebook in calo del 60% negli ultimi 6 mesi. Zero budget media su tutti i canali nell'ultimo anno.</p>
-      <a href="m3.html" class="cap-cta">Apri M3 Social Audit <span>→</span></a>
-    </div>
-    <div class="vis-paradox" id="vp3">
-      <div class="vp-item">
-        <div class="vp-v" id="cntKEY" style="color:#1A9462">0</div>
-        <div class="vp-l">impressioni top post — fiera KEY 2026</div>
-      </div>
-      <div class="vp-sep"></div>
-      <div class="vp-item">
-        <div class="vp-v" id="cntIG" style="color:var(--ink4)">0</div>
-        <div class="vp-l">follower Instagram totali</div>
-      </div>
-      <div class="vp-note"><p>Facebook: interazioni –60% ultimi 6 mesi. LinkedIn unico canale attivo, solo organico, zero sponsorizzato.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- M4 PERSONAS -->
-<section class="cap" id="cap4" style="--cap-color:#D9730D">
-  <div class="cap-ghost" style="font-size:clamp(16rem,35vw,34rem);left:-4%;bottom:-15%">04</div>
-  <div class="cap-inner rev">
-    <div>
-      <div class="cap-tag">04 — Personas</div>
-      <div class="cap-num">3</div>
-      <h2 class="cap-title">Tre persone.<br>Tre grammatiche.</h2>
-      <div class="cap-insight">"L'installatore non segue brand. Segue chi gli semplifica il cantiere."</div>
-      <p class="cap-body">Alessandro il grossista decide con TCO e rotazione a scaffale. Marco l'installatore sceglie il brand che non lo fa chiamare la domenica. Lorenzo l'early adopter arriva dal grossista già con il brand scelto dopo mesi di ricerca autonoma.</p>
-      <a href="m4.html" class="cap-cta">Apri M4 Personas <span>→</span></a>
-    </div>
-    <div id="visP4">
-      <div class="vis-personas-grid">
-        <div class="vp-card" style="--pc-color:#0050A0;grid-column:1/-1">
-          <div class="vp-dot" style="background:#0050A0"></div>
-          <div class="vp-name">Alessandro Rinaldi</div>
-          <div class="vp-role">Grossista · Resp. Acquisti · Nord Italia · 48 anni</div>
-        </div>
-        <div class="vp-card" style="--pc-color:#1A72C8">
-          <div class="vp-dot" style="background:#1A72C8"></div>
-          <div class="vp-name">Marco Fabbris</div>
-          <div class="vp-role">Installatore · Titolare PMI · 42 anni</div>
-        </div>
-        <div class="vp-card" style="--pc-color:#D9730D">
-          <div class="vp-dot" style="background:#D9730D"></div>
-          <div class="vp-name">Lorenzo Altieri</div>
-          <div class="vp-role">Early Adopter Green · 52 anni</div>
-        </div>
-      </div>
-      <div class="vis-insight">
-        <div class="vis-insight-lbl">Query reale di Lorenzo su Google</div>
-        <div class="vis-insight-txt">"wallbox trifase gestione dinamica carichi integrazione inverter fotovoltaico app italiano" — arriva all'installatore già con il brand scelto.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- M5 ARCHITETTURA -->
-<section class="cap" id="cap5" style="--cap-color:#0050A0">
-  <div class="cap-ghost" style="font-size:clamp(16rem,35vw,34rem);right:-3%;bottom:-12%">05</div>
-  <div class="cap-inner">
-    <div>
-      <div class="cap-tag">05 — Architettura Editoriale</div>
-      <div class="cap-num">◇</div>
-      <h2 class="cap-title">Un cappello unico.<br>Quattro pillar.</h2>
-      <div class="cap-insight">"Energia Intelligente non è uno slogan. È la struttura narrativa."</div>
-      <p class="cap-body">Il payoff "Energia Intelligente" tiene insieme fotovoltaico, mobilità elettrica ed efficienza. Quattro pillar: VIARIS (priorità), Orbis Energy, Efficienza Casa, Persone Orbis. Gli installatori non hanno ancora un touchpoint digitale dedicato. Territorio vergine.</p>
-      <a href="m5.html" class="cap-cta">Apri M5 Architettura <span>→</span></a>
-    </div>
-    <div id="visC5">
-      <p style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:1rem">Peso editoriale per pillar</p>
-      <div class="vis-conv">
-        <div><div class="vc-lbl">VIARIS · Mobilità Elettrica · priorità</div><div class="vc-band" data-w="95" style="background:var(--energy)"></div></div>
-        <div style="margin-top:.65rem"><div class="vc-lbl">Orbis Energy · Fotovoltaico</div><div class="vc-band" data-w="75" style="background:#0050A0"></div></div>
-        <div style="margin-top:.65rem"><div class="vc-lbl">Efficienza Casa · Building Automation</div><div class="vc-band" data-w="55" style="background:#1A72C8"></div></div>
-        <div style="margin-top:.65rem"><div class="vc-lbl">Persone Orbis · ESG · Sostenibilità</div><div class="vc-band" data-w="70" style="background:var(--green)"></div></div>
-      </div>
-      <div class="vc-now" id="vcNow">Installatori: zero touchpoint digitali oggi · Territorio aperto</div>
-    </div>
-  </div>
-</section>
-
-<!-- M6 PIANO MEDIA -->
-<section class="cap" id="cap6" style="--cap-color:#1A72C8">
-  <div class="cap-ghost" style="font-size:clamp(16rem,35vw,34rem);left:-4%;top:-8%">06</div>
-  <div class="cap-inner rev">
-    <div>
-      <div class="cap-tag">06 — Piano Media</div>
-      <div class="cap-num">€</div>
-      <h2 class="cap-title">Il budget che<br>muove la macchina.</h2>
-      <div class="cap-insight">"Posso fare la macchina migliore. Senza benzina non arriva a Milano."</div>
-      <p class="cap-body">Reverse engineering del budget: obiettivo reach, frequenza necessaria, costo per impression B2B italiano. Tre scenari con KPI definiti. LinkedIn per grossisti e installatori. Meta per l'early adopter. YouTube per il tutorial tecnico che genera fiducia prima del preventivo.</p>
-      <a href="m6.html" class="cap-cta">Apri M6 Piano Media <span>→</span></a>
-    </div>
-    <div class="vis-items" id="visI6">
-      <div class="vi-head">Tre scenari di investimento mensile</div>
-      <div class="vi-item"><div class="vi-num">BASE</div><div class="vi-name">LinkedIn organico + boostato</div><div class="vi-tag" style="background:var(--blue-light);color:var(--blue-mid)">Entry</div></div>
-      <div class="vi-item"><div class="vi-num">MID</div><div class="vi-name">LinkedIn + Meta installatori</div><div class="vi-tag" style="background:#E4F5EE;color:var(--green)">Consigliato</div></div>
-      <div class="vi-item"><div class="vi-num">FULL</div><div class="vi-name">LinkedIn + Meta + YouTube</div><div class="vi-tag" style="background:var(--energy-light);color:var(--energy)">Full reach</div></div>
-      <div class="vi-item"><div class="vi-num">KPI</div><div class="vi-name">CPM · CTR · Lead installatori</div></div>
-      <div class="vi-item"><div class="vi-num">ROI</div><div class="vi-name">Reverse engineering obiettivi</div><div class="vi-tag" style="background:#E4F5EE;color:var(--green)">Misurabile</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- M7 STRATEGIA -->
-<section class="cap" id="cap7" style="--cap-color:#D9730D">
-  <div class="cap-ghost" style="font-size:clamp(16rem,35vw,34rem);right:-3%;bottom:-12%">07</div>
-  <div class="cap-inner">
-    <div>
-      <div class="cap-tag">07 — Strategia Creativa</div>
-      <div class="cap-num">✶</div>
-      <h2 class="cap-title">Il tono di voce<br>che manca.</h2>
-      <div class="cap-insight">"Gewiss comunica bene. Orbis ha i prodotti migliori. Manca la voce."</div>
-      <p class="cap-body">Benchmark Gewiss come riferimento dichiarato da Laura. Tono: esperto-ma-umano. Format: video brevi per installatori, carousel dati per grossisti, calcolatore ROI per Lorenzo. Il bilancio di sostenibilità da documento scaricabile a serie narrativa mensile.</p>
-      <a href="m7.html" class="cap-cta">Apri M7 Strategia Creativa <span>→</span></a>
-    </div>
-    <div class="vis-names" id="visN7">
-      <div class="vn-lbl">Format per target · architettura creativa</div>
-      <div class="vn-item bright">Video tecnico 6–15s · installatori</div>
-      <div class="vn-item bright">Carousel dati B2B · grossisti</div>
-      <div class="vn-item bright">Calcolatore ROI · early adopter</div>
-      <div class="vn-item">People post · team Orbis</div>
-      <div class="vn-item">Serie ESG mensile · sostenibilità</div>
-      <div class="vn-item">Tutorial configuratore FV · YouTube</div>
-      <div class="vn-item">Normativa update · LinkedIn</div>
-    </div>
-  </div>
-</section>
-
-<section class="finale" id="finale">
-  <div class="finale-blob" aria-hidden="true"></div>
-  <div class="finale-lbl" id="fLbl">Cruscotto Strategico · ORBIS Italia × Ribrain</div>
-  <h2 class="finale-h" id="fH">Inizia la<br><em>strategia.</em></h2>
-  <p class="finale-sub" id="fS">Sette moduli. Un piano per il mercato elettrico italiano. Dal dato alla creatività: tutto quello che serve per decidere.</p>
-  <div class="finale-ctas" id="fC">
-    <a href="m1.html" class="btn-p">Inizia dal Mercato →</a>
-    <a href="m3.html" class="btn-s">Il Social Audit</a>
-    <a href="m6.html" class="btn-s">Il Piano Media</a>
-  </div>
-</section>
-
-<footer class="footer-min">
-  <nav class="fml">
-    <a href="m1.html">01 Mercato</a><a href="m2.html">02 Competitor</a><a href="m3.html">03 Audit</a>
-    <a href="m4.html">04 Personas</a><a href="m5.html">05 Editoriale</a><a href="m6.html">06 Media</a><a href="m7.html">07 Creativa</a>
-  </nav>
-  <span class="fmr">Ribrain Studio · Maggio 2026</span>
-</footer>
 
 <script>
-gsap.registerPlugin(ScrollTrigger);
 var cur=document.getElementById("cur");
 document.addEventListener("mousemove",function(e){gsap.to(cur,{x:e.clientX,y:e.clientY,duration:.1,ease:"none"});});
 document.querySelectorAll("a,button").forEach(function(el){
   el.addEventListener("mouseenter",function(){gsap.to(cur,{width:18,height:18,background:"#D9730D",duration:.15});});
   el.addEventListener("mouseleave",function(){gsap.to(cur,{width:7,height:7,background:"#0050A0",duration:.15});});
 });
-ScrollTrigger.create({trigger:"body",start:"top top",end:"bottom bottom",onUpdate:function(self){document.getElementById("progress-fill").style.width=(self.progress*100)+"%";}});
-gsap.fromTo("#hE",{opacity:0,y:10},{opacity:1,y:0,duration:.7,delay:.2,ease:"power3.out"});
-gsap.fromTo("#hW1",{opacity:0,y:55},{opacity:1,y:0,duration:1.1,delay:.35,ease:"power3.out"});
-gsap.fromTo("#hW2",{opacity:0,y:55},{opacity:1,y:0,duration:1.1,delay:.5,ease:"power3.out"});
-gsap.fromTo("#hW3",{opacity:0,y:55},{opacity:1,y:0,duration:1.1,delay:.65,ease:"power3.out"});
-gsap.fromTo("#hT",{opacity:0,y:20},{opacity:1,y:0,duration:.85,delay:.95,ease:"power3.out"});
-gsap.fromTo("#hC",{opacity:0,y:14},{opacity:1,y:0,duration:.7,delay:1.15,ease:"power3.out"});
-gsap.fromTo("#hS",{opacity:0},{opacity:1,duration:.5,delay:1.5,ease:"power2.out"});
-gsap.fromTo(".hero-bg-num",{opacity:0},{opacity:1,duration:2,delay:.3,ease:"power2.out"});
-document.querySelectorAll(".cap").forEach(function(el){
-  gsap.fromTo(el.querySelector(".cap-inner"),{opacity:0,y:28},{opacity:1,y:0,duration:.85,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 80%",once:true}});
-});
-ScrollTrigger.create({trigger:"#cap1",start:"top 65%",once:true,onEnter:function(){
-  var o={v:0},e=document.getElementById("cntM1");
-  gsap.to(o,{v:37,duration:1.5,ease:"power2.out",onUpdate:function(){if(e)e.textContent=Math.round(o.v)+"GW";}});
-  document.querySelectorAll("#vb1 .vb-fill").forEach(function(f,i){gsap.fromTo(f,{width:"0%"},{width:f.getAttribute("data-w")+"%",duration:1.2,delay:.3+i*.15,ease:"power3.out"});});
-}});
-ScrollTrigger.create({trigger:"#cap2",start:"top 65%",once:true,onEnter:function(){
-  document.querySelectorAll("#vb2 .vb-fill").forEach(function(f,i){gsap.fromTo(f,{width:"0%"},{width:f.getAttribute("data-w")+"%",duration:1.2,delay:.2+i*.12,ease:"power3.out"});});
-}});
-ScrollTrigger.create({trigger:"#cap3",start:"top 65%",once:true,onEnter:function(){
-  var o1={v:0},e1=document.getElementById("cntKEY");
-  gsap.to(o1,{v:4342,duration:1.5,ease:"power2.out",onUpdate:function(){if(e1)e1.textContent=Math.round(o1.v).toLocaleString("it");}});
-  var o2={v:0},e2=document.getElementById("cntIG");
-  gsap.to(o2,{v:170,duration:1.2,delay:.4,ease:"power2.out",onUpdate:function(){if(e2)e2.textContent=Math.round(o2.v);}});
-}});
-ScrollTrigger.create({trigger:"#cap4",start:"top 65%",once:true,onEnter:function(){
-  gsap.fromTo("#visP4 .vp-card",{opacity:0,y:14},{opacity:1,y:0,duration:.6,stagger:.1,ease:"power3.out",delay:.1});
-  gsap.fromTo("#visP4 .vis-insight",{opacity:0,y:10},{opacity:1,y:0,duration:.6,delay:.55,ease:"power3.out"});
-}});
-ScrollTrigger.create({trigger:"#cap5",start:"top 65%",once:true,onEnter:function(){
-  document.querySelectorAll("#visC5 .vc-band").forEach(function(b,i){gsap.fromTo(b,{width:"0%"},{width:b.getAttribute("data-w")+"%",duration:1,delay:.2+i*.15,ease:"power3.out"});});
-  setTimeout(function(){document.getElementById("vcNow").classList.add("show");},900);
-}});
-ScrollTrigger.create({trigger:"#cap6",start:"top 65%",once:true,onEnter:function(){
-  gsap.fromTo("#visI6 .vi-item",{opacity:0,x:14},{opacity:1,x:0,duration:.5,stagger:.08,ease:"power3.out"});
-}});
-ScrollTrigger.create({trigger:"#cap7",start:"top 65%",once:true,onEnter:function(){
-  gsap.fromTo("#visN7 .vn-item",{opacity:0,x:-12},{opacity:1,x:0,duration:.5,stagger:.07,ease:"power3.out"});
-}});
-["#fLbl","#fH","#fS","#fC"].forEach(function(sel,i){
-  var el=document.querySelector(sel);if(!el)return;
-  gsap.fromTo(el,{opacity:0,y:18},{opacity:1,y:0,duration:.7,ease:"power3.out",delay:i*.12,scrollTrigger:{trigger:"#finale",start:"top 78%",once:true}});
-});
+gsap.fromTo("#hT",{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.2,ease:"power3.out"});
+gsap.fromTo("#hS",{opacity:0,y:18},{opacity:1,y:0,duration:.8,delay:.5,ease:"power3.out"});
+gsap.fromTo("#hCTA",{opacity:0,y:12},{opacity:1,y:0,duration:.7,delay:.8,ease:"power3.out"});
+gsap.fromTo(".mod-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.08,ease:"power3.out",scrollTrigger:{trigger:".mods-grid",start:"top 80%",once:true}});
 </script>
+
 <script>
 (function(){
 var M=[
-  {id:'m0',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'m0.html',color:'#D9730D'},
+  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},
   {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},
   {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
   {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
@@ -446,14 +148,14 @@ var M=[
   {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
   {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
 ];
-var pm=window.location.href.match(/\/(m\d+|index)(?:\.html)?/),path=pm?pm[1]:'index'; if(path==='index')path='m0_home';
+var path='index';
 var st=document.createElement('style');
-st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s;letter-spacing:-.01em}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden;cursor:pointer}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
+st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
 document.head.appendChild(st);
 var ov=document.createElement('div');ov.className='rbov';
 var ih='';
-for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
-ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'"><div class="rbi-bar" style="background:'+m.color+'"></div><a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">\u2192</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-tool-row"><span class="rbov-tool-sep">\u26a1 AI Tools</span><a href="tool.html" class="rbov-tool-link">\u2192 Calcolatore Risparmio Energetico</a></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia \u00d7 Ribrain</span><span class="rbov-fr">Maggio 2026 \u00b7 Confidenziale</span></div>';
 document.body.appendChild(ov);
 var mo=false,btn=document.getElementById('rbHamBtn');
 function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
@@ -466,76 +168,5 @@ for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" c
 nb.innerHTML=nbH;document.body.appendChild(nb);
 })();
 </script>
-
-<script>
-/* ── FONTI DRAWER · ORBIS ─────────────── */
-(function(){
-var FONTI_DATA = {"index": [], "m0": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "Analisi Mercato Energetico Italiano 2024-2025 · Gemini Deep Research", "url": "https://www.gse.it"}, {"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research", "url": "https://www.gewiss.com"}, {"label": "Creazione Personas Orbis Italia · Gemini Deep Research", "url": "https://www.motus-e.org"}, {"label": "Analisi Social Media Player Energetici B2B · Gemini Deep Research", "url": "https://www.schneider-electric.it"}], "m1": [{"label": "GSE · Rapporto Statistico Solare Fotovoltaico 2024", "url": "https://www.gse.it/dati-e-scenari/statistiche"}, {"label": "MOTUS-E · Osservatorio Mobilità Elettrica Italia 2025", "url": "https://www.motus-e.org/osservatorio/"}, {"label": "ANIE Rinnovabili · Dati FV Italia 2024", "url": "https://www.anie.it/settori/rinnovabili/"}, {"label": "PNIEC 2024 · Piano Nazionale Integrato Energia e Clima", "url": "https://www.mase.gov.it/energia/pniec"}, {"label": "FME · Federazione Materiale Elettrico, dati grossisti 2023", "url": "https://www.fmeitalia.it"}, {"label": "SVETIM/FME · Osservatorio Q1 2026", "url": "https://www.fmeitalia.it/osservatorio-svetim/"}, {"label": "Osservatorio IoT · Politecnico di Milano 2024", "url": "https://www.osservatori.net/it/ricerche/osservatori-attivi/internet-of-things"}, {"label": "Confartigianato Impianti · Rapporto imprese impiantistiche 2024", "url": "https://www.confartigianato.it"}, {"label": "Analisi Mercato Energetico Italiano 2024-2025 · Gemini Deep Research", "url": "https://www.gse.it"}], "m2": [{"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research, aprile 2026", "url": "https://www.gewiss.com"}, {"label": "M2 Competitor Map · ChatGPT Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "ABB Italia · Profilo LinkedIn e sito istituzionale", "url": "https://new.abb.com/it"}, {"label": "BTicino · Canali social e sito istituzionale", "url": "https://www.bticino.it"}, {"label": "K2 Systems · Sito, LinkedIn, YouTube ufficiali", "url": "https://www.k2-systems.com/it/"}, {"label": "Juice Technology · TikTok, Instagram, YouTube ufficiali", "url": "https://www.juice-world.com"}, {"label": "Mennekes Italia · LinkedIn, YouTube, sito ufficiale", "url": "https://www.mennekes.it"}, {"label": "Carel Industries · Case study employee advocacy LinkedIn", "url": "https://www.carel.com"}, {"label": "Ariston Group · Strategia digitale e app Ariston Net", "url": "https://www.ariston.com/it-it/"}, {"label": "Würth Italia · Canali social e video B2B", "url": "https://www.wurth.it"}], "m3": [{"label": "LinkedIn Analytics Export · Orbis Italia S.p.A., maggio 2025 – aprile 2026", "url": "https://www.linkedin.com/company/orbis-italia-s-p-a/"}, {"label": "Facebook Insights · Orbis Italia, maggio 2025 – maggio 2026 (screenshot)", "url": "https://www.facebook.com/orbisitalia/"}, {"label": "Instagram Insights · Orbis Italia, maggio 2025 – maggio 2026 (screenshot)", "url": "https://www.instagram.com/orbisitalia/"}, {"label": "orbisitalias.p.a._content_1777877805114.xls · Export contenuti LinkedIn ufficiale", "url": "https://www.linkedin.com/analytics/"}, {"label": "Brief Strategico Orbis Italia · sezione dati social, Ribrain Studio", "url": "https://www.orbisitalia.it"}], "m4": [{"label": "Creazione Personas per Orbis Italia S.p.A. · Gemini Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "M4 Persona 1 · ChatGPT Deep Research, aprile 2026", "url": "https://www.orbisitalia.it"}, {"label": "Scheda Profilo ORBIS 2025 · documento interno Orbis Italia", "url": "https://www.orbisitalia.it"}, {"label": "FME · Profilo grossisti materiale elettrico Italia 2023", "url": "https://www.fmeitalia.it"}, {"label": "Confartigianato CNA · Profilo installatori elettrici italiani 2024", "url": "https://www.cna.it/cna-impianti/"}, {"label": "MOTUS-E · Comportamento d'acquisto wallbox residenziale 2024", "url": "https://www.motus-e.org"}], "m5": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "LinkedIn Analytics Export · Orbis Italia, dati distribuzione tematica 2025-2026", "url": "https://www.linkedin.com/company/orbis-italia-s-p-a/"}, {"label": "Analisi Competitiva Social Media B2B Elettrico · Gemini Deep Research", "url": "https://www.gewiss.com"}, {"label": "Creazione Personas Orbis Italia · Gemini Deep Research", "url": "https://www.orbisitalia.it"}, {"label": "ORBIS Catalogo Generale 2024 · documento ufficiale Orbis Italia", "url": "https://www.orbisitalia.it/download/"}, {"label": "ORBIS Catalogo VIARIS Mobilità Elettrica 2025 · documento ufficiale", "url": "https://www.orbisitalia.it/viaris/"}, {"label": "ORBIS Catalogo Energy Fotovoltaico 2025 · documento ufficiale", "url": "https://www.orbisitalia.it/energy/"}], "m6": [{"label": "Brief Strategico Orbis Italia · Ribrain Studio, maggio 2026", "url": "https://www.orbisitalia.it"}, {"label": "MOTUS-E · Dati mercato EV Italia 2025, stime 2030", "url": "https://www.motus-e.org"}, {"label": "Nielsen Research · Brand recall frequency 2024 (regola delle 5 esposizioni)", "url": "https://www.nielsen.com"}, {"label": "LinkedIn Marketing Solutions · B2B Italy Benchmark Report 2025", "url": "https://business.linkedin.com/it-it/marketing-solutions"}, {"label": "Meta Business · CPM benchmark Italia B2B 2025", "url": "https://www.facebook.com/business/"}, {"label": "Google Ads · CPC long-tail EV charging Italy 2025", "url": "https://ads.google.com"}], "m7": [{"label": "Analisi Social Media Player Energetici B2B · Gemini Deep Research, maggio 2026", "url": "https://www.gewiss.com"}, {"label": "Gewiss · Sito istituzionale, GW Mag, canali social ufficiali", "url": "https://www.gewiss.com/ww/it/"}, {"label": "Gewiss · Bilancio di Sostenibilità 2024", "url": "https://www.gewiss.com/it/it/gw-mag/corporate-news/pubblicato-il-bilancio-di-sostenibilita-2024"}, {"label": "Schneider Electric Italia · Canali social, blog e campagne B2B 2025-2026", "url": "https://www.se.com/it/it/"}, {"label": "ABB Italia · \"Everyday Heroes\" – Best B2B Branded Content Campaign 2025", "url": "https://new.abb.com/it"}, {"label": "ABB · Content Marketing Awards 2025 – risultati campagna (49M impression, 4,38% CTR)", "url": "https://new.abb.com/it/electrification"}, {"label": "Schneider Electric · Sustainability Impact Score 2024 (7,55/10)", "url": "https://www.se.com/it/it/about-us/sustainability/"}, {"label": "JOINON by Gewiss · Sub-brand EV charging, modello \"Powered by GEWISS\"", "url": "https://www.joinon.it"}]};
-var _pm=window.location.href.match(/\/(m\d+|index)(?:\.html)?(?:[?#].*)?$/);
-var currentPath=_pm?_pm[1]:'index';
-var srcs=FONTI_DATA[currentPath]||[];
-if(!srcs.length)return;
-
-var fdStyle=document.createElement('style');
-fdStyle.textContent=[
-  '.src-toggle{position:fixed;bottom:60px;right:14px;z-index:7900;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.97);border:1px solid #D8E0EE;backdrop-filter:blur(16px);padding:5px 12px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#5A7090;transition:all .25s;border-radius:99px;box-shadow:0 2px 12px rgba(0,80,160,.1)}',
-  '.src-toggle:hover{border-color:#1A72C8;color:#0050A0;box-shadow:0 4px 16px rgba(0,80,160,.15)}',
-  '.src-toggle .st-dot{width:5px;height:5px;border-radius:50%;background:#D9730D;flex-shrink:0}',
-  '.src-toggle .st-n{background:#E8F1FB;color:#0050A0;padding:1px 6px;border-radius:10px;font-size:8px;font-weight:500}',
-  '.src-drawer{position:fixed;bottom:48px;left:0;right:0;z-index:7800;background:rgba(255,255,255,.98);backdrop-filter:blur(24px);border-top:1px solid #D8E0EE;box-shadow:0 -4px 32px rgba(0,80,160,.08);max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(0.16,1,0.3,1),opacity .35s;opacity:0;pointer-events:none}',
-  '.src-drawer.open{max-height:320px;opacity:1;pointer-events:auto}',
-  '.src-drawer-inner{padding:16px 40px 20px;overflow-y:auto;max-height:280px}',
-  '.src-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}',
-  '.src-drawer-title{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#8FA4BC}',
-  '.src-close-btn{background:none;border:none;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;transition:color .2s;padding:0}',
-  '.src-close-btn:hover{color:#0050A0}',
-  '.src-list{display:grid;grid-template-columns:1fr 1fr;gap:6px}',
-  '.src-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid #EBF0F8;border-radius:8px;background:#F8FAFD;transition:border-color .2s}',
-  '.src-item:hover{border-color:#D8E0EE}',
-  '.src-item-num{font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.1em;color:#8FA4BC;flex-shrink:0;min-width:18px;padding-top:1px}',
-  '.src-item-label{font-size:11.5px;color:#2E4060;line-height:1.45;margin-bottom:2px;font-family:"DM Sans",sans-serif}',
-  '.src-item-url{font-family:"DM Sans",sans-serif;font-size:8px;color:#1A72C8;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.7}',
-  '.src-item-url:hover{opacity:1}',
-  '@media(max-width:640px){.src-drawer-inner{padding:12px 16px}.src-list{grid-template-columns:1fr}}'
-].join('');
-document.head.appendChild(fdStyle);
-
-var ih='';
-for(var i=0;i<srcs.length;i++){
-  ih+='<div class="src-item">'
-    +'<span class="src-item-num">'+String(i+1).padStart(2,'0')+'</span>'
-    +'<div><div class="src-item-label">'+srcs[i].label+'</div>'
-    +'<a href="'+srcs[i].url+'" target="_blank" rel="noopener noreferrer" class="src-item-url">'+srcs[i].url+'</a>'
-    +'</div></div>';
-}
-
-var drawer=document.createElement('div');
-drawer.className='src-drawer';
-drawer.innerHTML='<div class="src-drawer-inner">'
-  +'<div class="src-drawer-head">'
-  +'<span class="src-drawer-title">Fonti &middot; '+srcs.length+' riferimenti &middot; '+currentPath.toUpperCase()+'</span>'
-  +'<button class="src-close-btn" id="srcCloseBtn">Chiudi &times;</button>'
-  +'</div><div class="src-list">'+ih+'</div></div>';
-document.body.appendChild(drawer);
-
-var toggle=document.createElement('button');
-toggle.className='src-toggle';
-toggle.innerHTML='<span class="st-dot"></span>Fonti <span class="st-n">'+srcs.length+'</span>';
-document.body.appendChild(toggle);
-
-var fdOpen=false;
-function toggleDrawer(){
-  fdOpen=!fdOpen;
-  drawer.classList.toggle('open',fdOpen);
-  toggle.style.borderColor=fdOpen?'#1A72C8':'';
-  toggle.style.color=fdOpen?'#0050A0':'';
-}
-toggle.addEventListener('click',toggleDrawer);
-var cb=document.getElementById('srcCloseBtn');
-if(cb)cb.addEventListener('click',function(){if(fdOpen)toggleDrawer();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&fdOpen)toggleDrawer();});
-})();
-</script>
-
 </body>
 </html>

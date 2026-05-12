@@ -191,6 +191,58 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 .arch-tag{font-size:10px;padding:4px 10px;border-radius:99px;background:var(--surface2);color:var(--ink3)}
 .arch-tag.primary{background:var(--blue-light);color:var(--blue)}
 
+
+/* ─── CAMPAGNE CREATIVE ─── */
+.camp-interlude{padding:5rem 1.5rem;background:var(--ink);position:relative;overflow:hidden}
+.camp-interlude-bg{position:absolute;right:-2%;top:-10%;font-family:"Afacad Flux",sans-serif;font-size:clamp(12rem,38vw,42rem);font-weight:700;line-height:.85;letter-spacing:-.08em;color:rgba(255,255,255,.025);pointer-events:none;user-select:none}
+.camp-interlude-inner{position:relative;z-index:1;max-width:1000px;margin:0 auto}
+.camp-int-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.5rem}
+.camp-int-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:300;line-height:1.1;color:rgba(255,255,255,.75);margin-bottom:1.5rem}
+.camp-int-title strong{font-weight:500;color:#fff}
+.camp-int-title em{font-style:italic;color:var(--energy)}
+.camp-int-split{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media(max-width:700px){.camp-int-split{grid-template-columns:1fr}}
+.camp-int-col{padding:1.25rem;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.camp-int-col-tag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.65rem;font-weight:600}
+.camp-int-col-tag.ped{color:var(--blue-mid)}
+.camp-int-col-tag.brand{color:var(--energy)}
+.camp-int-col-title{font-family:"Afacad Flux",sans-serif;font-size:1.15rem;font-weight:400;color:#fff;margin-bottom:.5rem;line-height:1.2}
+.camp-int-col-body{font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.75}
+
+.camp-section{padding:5rem 1.5rem;background:var(--bg);border-top:1px solid var(--border)}
+.camp-inner{max-width:1100px;margin:0 auto}
+.camp-header{margin-bottom:3rem}
+.camp-sec-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.camp-sec-tag::before{content:"";width:14px;height:1px;background:var(--energy)}
+.camp-sec-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink)}
+.camp-sec-title em{font-style:italic;font-weight:300;color:var(--energy)}
+
+.camp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:860px){.camp-grid{grid-template-columns:1fr}}
+.camp-card{border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--border);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.camp-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
+.camp-card.full{grid-column:1/-1}
+.camp-img-wrap{position:relative;overflow:hidden}
+.camp-img-wrap.sq{aspect-ratio:1}
+.camp-img-wrap.l43{aspect-ratio:4/3}
+.camp-img-wrap.p45{aspect-ratio:4/5}
+.camp-img-wrap.p916{aspect-ratio:9/16;max-height:520px}
+.camp-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s cubic-bezier(0.16,1,0.3,1)}
+.camp-card:hover .camp-img-wrap img{transform:scale(1.03)}
+.camp-card-body{padding:1.35rem 1.4rem 1.5rem;flex:1;display:flex;flex-direction:column}
+.camp-num{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink4);margin-bottom:.3rem;font-weight:600}
+.camp-name{font-family:"Afacad Flux",sans-serif;font-size:1.2rem;font-weight:500;color:var(--ink);line-height:1.15;margin-bottom:.4rem}
+.camp-headline{font-family:"Afacad Flux",sans-serif;font-size:.95rem;font-weight:300;font-style:italic;color:var(--blue-mid);margin-bottom:.75rem;line-height:1.35}
+.camp-desc{font-size:12.5px;color:var(--ink3);line-height:1.75;flex:1}
+.camp-desc strong{color:var(--ink2);font-weight:500}
+.camp-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.85rem;padding-top:.75rem;border-top:1px solid var(--border)}
+.camp-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+.camp-tag.brand{background:var(--energy-light);color:var(--energy)}
+.camp-tag.awareness{background:var(--blue-light);color:var(--blue)}
+.camp-tag.serie{background:var(--green-light);color:var(--green)}
+.camp-tag.virale{background:rgba(120,100,140,.12);color:#6a5580}
+.camp-tag.editoriale{background:var(--surface2);color:var(--ink2)}
+
 /* ─── PED SECTION ─── */
 .ped-section{padding:5rem 1.5rem;border-top:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden}
 .ped-section::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue) 30%,var(--energy) 70%,transparent);opacity:.35}
@@ -285,6 +337,17 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 .mnav-next{gap:.5rem}
 .mnav-next:hover{gap:.75rem}
 .mnav-next span{color:var(--energy)}
+
+/* ── TOOL BUTTON ── */
+.tb-tool-btn{display:inline-flex;align-items:center;gap:5px;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#0891B2;background:rgba(8,145,178,.08);padding:4px 11px;border-radius:99px;text-decoration:none;border:1px solid rgba(8,145,178,.22);transition:all .2s;white-space:nowrap;font-weight:600}
+.tb-tool-btn:hover{background:rgba(8,145,178,.16);border-color:rgba(8,145,178,.4)}
+.tb-tool-btn::before{content:"⚡";font-size:10px}
+.rbov-tool-row{padding:12px 40px;border-top:1px solid #EBF0F8;display:flex;align-items:center;gap:12px}
+.rbov-tool-link{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-family:"DM Sans",sans-serif;font-size:12px;color:#0891B2;font-weight:500;transition:opacity .2s}
+.rbov-tool-link:hover{opacity:.75}
+.rbov-tool-sep{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8FA4BC}
+@media(max-width:640px){.rbov-tool-row{padding:10px 20px}}
+
 </style>
 </head>
 <body>
@@ -315,7 +378,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
   <div class="hero-top">
     <div class="hero-eyebrow" id="hE">07 · Strategia Creativa · Maggio 2026</div>
     <h1 class="hero-title" id="hT">Il tono di voce<br><em>che manca.</em><br>E come trovarlo.</h1>
-    <p class="hero-sub" id="hS">Deep research su Gewiss, Schneider e ABB — i tre benchmark del settore elettrico italiano. Sei lezioni strategiche, quattro white space non presidiati, il tono di voce Orbis. Da qui nasce la creatività.</p>
+    <p class="hero-sub" id="hS">Abbiamo analizzato i tre benchmark del settore — Gewiss, Schneider e ABB. Da qui emergono sei lezioni operative, quattro territori narrativi liberi e il tono di voce Orbis.</p>
   </div>
   <div class="bench-grid" id="benchGrid">
     <div class="bench-card top">
@@ -383,48 +446,48 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
         <div class="lesson-num">01</div>
         <div>
           <div class="lesson-title">Il paradigma B2H sostituisce il prodotto</div>
-          <div class="lesson-body">Il decisore B2B non risponde più alle specifiche tecniche. "Everyday Heroes" di ABB e "Impact Makers" di Schneider spostano l'inquadratura dall'hardware all'uomo che lo installa o ne beneficia.</div>
-          <div class="lesson-per"><strong>Per Orbis:</strong> Glorificare il lavoro dell'installatore. Il prodotto è un facilitatore silente del suo successo — non il protagonista.</div>
+          <div class="lesson-body">ABB con "Everyday Heroes" e Schneider con "Impact Makers" spostano il racconto dall'hardware all'uomo. Il decisore B2B non compra specifiche — compra fiducia.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Marco è il protagonista. Il prodotto è il suo alleato silenzioso.</div>
         </div>
       </div>
       <div class="lesson-card">
         <div class="lesson-num">02</div>
         <div>
           <div class="lesson-title">L'ESG è leva commerciale, non "appendice verde"</div>
-          <div class="lesson-body">Schneider certifica l'ESG su blockchain. Gewiss parcellizza il bilancio in decine di micro-contenuti. La sostenibilità è strumento di qualificazione fornitore nel B2B.</div>
-          <div class="lesson-per"><strong>Per Orbis:</strong> Il Bilancio di Sostenibilità 2024 va decostruito in 24 micro-contenuti — uno al mese per due anni. Non un post, una serie.</div>
+          <div class="lesson-body">Schneider e Gewiss trasformano il bilancio di sostenibilità in contenuti editoriali mensili. La sostenibilità non è "appendice verde": è leva di qualificazione fornitore.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Il Bilancio di Sostenibilità 2024 di Orbis diventa una serie da 24 episodi — un dato al mese, per due anni.</div>
         </div>
       </div>
       <div class="lesson-card">
         <div class="lesson-num">03</div>
         <div>
           <div class="lesson-title">Formazione = premium lead generation</div>
-          <div class="lesson-body">GEWISS Academy e ABB Experience Center dimostrano che il training tecnico è il più potente strumento di marketing. Chi ottiene un attestato Gewiss lo condivide su LinkedIn.</div>
-          <div class="lesson-per"><strong>Per Orbis:</strong> Webinar VIARIS e tutorial FV brandizzati come "format televisivi" con certificato digitale condivisibile su LinkedIn.</div>
+          <div class="lesson-body">Chi ottiene un attestato Gewiss lo condivide su LinkedIn: ogni certificazione è marketing organico gratuito.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Webinar mensili VIARIS + tutorial FV con attestato digitale condivisibile. Costo quasi zero, lead generation qualificata.</div>
         </div>
       </div>
       <div class="lesson-card">
         <div class="lesson-num">04</div>
         <div>
           <div class="lesson-title">Il modello "Powered By" per le nicchie</div>
-          <div class="lesson-body">JOINON opera in autonomia comunicativa ma è sempre "JOINON | Powered by GEWISS". Sub-brand verticale + credibilità del brand madre. Il risultato: reach giovane + fiducia istituzionale.</div>
-          <div class="lesson-per"><strong>Per Orbis:</strong> VIARIS e Orbis Energy come palinsesti autonomi, sempre affiancati da "Powered by ORBIS". Due pubblici, un'unica reputazione.</div>
+          <div class="lesson-body">"JOINON | Powered by GEWISS": sub-brand verticale con comunicazione autonoma, credibilità del brand madre. Reach nuova senza perdere la reputazione consolidata.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> VIARIS e Orbis Energy come canali autonomi — sempre con "Powered by ORBIS". Due pubblici, una reputazione.</div>
         </div>
       </div>
       <div class="lesson-card">
         <div class="lesson-num">05</div>
         <div>
           <div class="lesson-title">Digital Syndication amplifica il canale indiretto</div>
-          <div class="lesson-body">ABB e Schneider consegnano ai grossisti "Digital Toolkit" completi: immagini lifestyle, BIM, video pillole, testi per Facebook. Il distributore diventa un media channel co-branded.</div>
-          <div class="lesson-per"><strong>Per Orbis:</strong> Kit creativo mensile per Alessandro: 5 post pronti da pubblicare, coerenti con il piano editoriale Orbis.</div>
+          <div class="lesson-body">ABB e Schneider consegnano ogni mese ai distributori kit pronti: post, video, immagini. Il grossista diventa un canale editoriale co-branded senza sforzo.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Kit mensile per Alessandro: 5 post pronti da pubblicare. Orbis parla anche attraverso di lui.</div>
         </div>
       </div>
       <div class="lesson-card">
         <div class="lesson-num">06</div>
         <div>
           <div class="lesson-title">Il presidio territoriale genera notiziabilità</div>
-          <div class="lesson-body">GEWISS in Campania con progetto INSITE (Federico II di Napoli). Schneider a Casavatore. ABB a Frosinone. Il locale scatena risonanza nazionale e l'apprezzamento delle istituzioni.</div>
-          <div class="lesson-per"><strong>Per Orbis:</strong> Documentare ogni installazione VIARIS o Orbis Energy significativa: la villa con fotovoltaico+wallbox in Campania è un caso studio social pronto.</div>
+          <div class="lesson-body">Gewiss al Federico II di Napoli. Schneider a Casavatore. ABB a Frosinone. Ogni radicamento locale genera risonanza nazionale.</div>
+          <div class="lesson-per"><strong>Per Orbis:</strong> Ogni installazione VIARIS in una villa o struttura rilevante è un caso studio pronto. Il cantiere reale è il contenuto più credibile.</div>
         </div>
       </div>
     </div>
@@ -443,26 +506,26 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
       <div class="gw-card" style="grid-column:1/-1">
         <div class="gw-card-title">★ La lezione più importante</div>
         <div class="gw-card-sub">JOINON "Powered by GEWISS"</div>
-        <div class="gw-body">Sub-brand verticale per EV charging con comunicazione autonoma. L'endorsement esplicito trasferisce l'affidabilità del brand madre senza appesantire la comunicazione di nicchia. JOINON attrae un pubblico giovane e dinamico; GEWISS garantisce 50 anni di storia.</div>
+        <div class="gw-body">Sub-brand EV charging con comunicazione autonoma, ma sempre con il sigillo del brand madre. JOINON porta un pubblico nuovo — GEWISS porta credibilità storica.</div>
         <div class="gw-per"><strong>Trasposizione VIARIS:</strong> "VIARIS · Powered by ORBIS" — identità visiva dedicata, palinsesto autonomo su Instagram, ma sempre con il sigillo istituzionale del brand madre.</div>
       </div>
       <div class="gw-card">
         <div class="gw-card-title">Architettura editoriale</div>
         <div class="gw-card-sub">GW Mag + 4 pillar verticali</div>
-        <div class="gw-body">Installation, Energy, Building, Mobility. Il magazine digitale proprietario aggrega case study complessi, poi li parcellizza sui social. LinkedIn per il B2B corporate; Facebook per gli installatori; Instagram per design e estetica.</div>
+        <div class="gw-body">GW Mag aggrega i case study, poi li parcellizza sui canali: LinkedIn per il B2B, Facebook per gli installatori, Instagram per il design. Un'architettura che Orbis può replicare con tre linee prodotto.</div>
         <div class="gw-per"><strong>Per Orbis:</strong> La struttura a 4 pillar è già in M5. Manca il "long form anchor" da cui derivare i contenuti social. Da pianificare al Q2.</div>
       </div>
       <div class="gw-card">
         <div class="gw-card-title">Formazione e filiera</div>
         <div class="gw-card-sub">GEWISS Academy come leva premium</div>
-        <div class="gw-body">Oltre 40 "Training Day Live Experience" all'anno. Chi ottiene la certificazione KNX Partner la condivide sui social — ogni attestato è marketing organico.</div>
+        <div class="gw-body">Oltre 40 eventi formativi all'anno. La certificazione KNX viene condivisa su LinkedIn dagli installatori: ogni attestato è pubblicità gratuita per Gewiss.</div>
         <div class="gw-per"><strong>Per Orbis:</strong> Webinar mensili VIARIS e Orbis Energy con attestato digitale condivisibile su LinkedIn. Costo quasi zero, lead generation qualificata.</div>
       </div>
       <div class="gw-card">
         <div class="gw-card-title">ESG · certificazione UNI PdR 125</div>
         <div class="gw-card-sub">Dati ESG come asset editoriale</div>
-        <div class="gw-body">Il Bilancio di Sostenibilità viene parcellizzato: risparmio di 1.410 MWh, 40% produzione da rinnovabili, 96% rifiuti non pericolosi. Ogni dato è un contenuto. La certificazione parità di genere diventa employer branding su Instagram.</div>
-        <div class="gw-per"><strong>Per Orbis:</strong> Orbis ha già il Bilancio di Sostenibilità (2° anno). Non è un documento: è una serie da 12 episodi. Un dato ESG al mese per tutto il 2026.</div>
+        <div class="gw-body">Il Bilancio di Sostenibilità non è un PDF annuale — è una serie editoriale. Ogni dato diventa un post. La parità di genere certificata diventa employer branding su Instagram.</div>
+        <div class="gw-per"><strong>Per Orbis:</strong> Orbis ha già il Bilancio di Sostenibilità. Non è un documento: è una serie da 12 episodi.</div>
       </div>
     </div>
   </div>
@@ -493,10 +556,10 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
           <h3 class="ws-title">"L'Anatomia della Qualità"</h3>
           <div class="ws-tag">European Design &amp; Manufacture</div>
         </div>
-        <div class="ws-void">Gewiss fa leva sul "Made in Italy". Schneider e ABB comunicano da colossi globali. <strong>Nessuno presidia la trasparenza della filiera corta europea</strong> in contrapposizione all'invasione asiatica. La Direttiva EU sulla due diligence è imminente.</div>
+        <div class="ws-void"><strong>Nessun competitor racconta la filiera corta europea contro i prodotti asiatici.</strong> E la Direttiva EU sulla due diligence è imminente: chi arriva prima vince il territorio.</div>
         <div class="ws-action">
           <div class="ws-action-title">L'azione Orbis</div>
-          <div class="ws-action-body">Docu-serie social: apertura degli stabilimenti, condizioni etiche, qualità dei materiali, test di laboratorio. <strong>Ogni episodio racconta un pezzo del prodotto dall'interno</strong>. Titolo: "L'Anatomia della Qualità". 2 episodi/mese. Posizionamento inattaccabile.</div>
+          <div class="ws-action-body">Docu-serie: stabilimento aperto, materiali, test. <strong>"L'Anatomia della Qualità"</strong> — 2 episodi al mese. Posizionamento inattaccabile contro chiunque importi dall'Asia.</div>
         </div>
       </div>
       <div class="ws-card">
@@ -506,10 +569,10 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
           <h3 class="ws-title">"Le Voci di Orbis"</h3>
           <div class="ws-tag">UNI PdR 125 · Parità di Genere</div>
         </div>
-        <div class="ws-void">Gewiss e Schneider citano la certificazione UNI PdR 125 con un comunicato stampa e un logo. <strong>La comunicazione si ferma all'istituzionale</strong>, manca di empatia e continuità. In un settore profondamente maschile, la parità di genere rimane facciata.</div>
+        <div class="ws-void">Gewiss e Schneider hanno la certificazione UNI PdR 125, ma la comunicano con un comunicato stampa. <strong>La narrazione empatica delle persone reali in fabbrica non è di nessuno.</strong></div>
         <div class="ws-action">
           <div class="ws-action-title">L'azione Orbis</div>
-          <div class="ws-action-body">Rubrica mensile: <strong>micro-interviste e reel che raccontano la quotidianità delle dipendenti Orbis</strong>, dagli uffici manageriali alle linee di montaggio. Non solo employer branding: è differenziazione culturale che genera engagement organico altissimo su LinkedIn.</div>
+          <div class="ws-action-body">Rubrica mensile: <strong>micro-interviste alle persone di Orbis</strong>, dagli uffici alla linea di montaggio. Differenziazione culturale reale — non solo un logo sul comunicato stampa.</div>
         </div>
       </div>
       <div class="ws-card">
@@ -519,10 +582,10 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
           <h3 class="ws-title">"Energia Intelligente B2B2C"</h3>
           <div class="ws-tag">Trasformare l'Installatore in Educatore</div>
         </div>
-        <div class="ws-void">Tutta la comunicazione dei tre benchmark è "da azienda B2B a professionista B2B". <strong>Mancano strumenti per facilitare la comunicazione tra l'installatore e il consumatore finale</strong>. L'installatore non ha contenuti pronti da condividere con i clienti.</div>
+        <div class="ws-void"><strong>Nessuno crea contenuti che l'installatore possa girare direttamente al cliente finale.</strong> Marco risponde alle stesse domande ogni settimana — senza avere una risposta pronta da mandare.</div>
         <div class="ws-action">
           <div class="ws-action-title">L'azione Orbis</div>
-          <div class="ws-action-body">Pillole visive con linguaggio semplice: <strong>"Come funziona VIARIS Solar con il tuo fotovoltaico"</strong>. Formati ottimizzati per essere condivisi dall'installatore via WhatsApp al proprio cliente. Orbis eleva Marco a consulente agli occhi di Lorenzo.</div>
+          <div class="ws-action-body">Infografiche semplici che Marco invia al cliente via WhatsApp. <strong>Orbis viaggia gratis nella conversazione installatore-cliente</strong> — e Marco diventa il consulente di fiducia.</div>
         </div>
       </div>
       <div class="ws-card">
@@ -532,10 +595,10 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
           <h3 class="ws-title">VIARIS Boutique Residenziale</h3>
           <div class="ws-tag">L'EV Charging come oggetto di design</div>
         </div>
-        <div class="ws-void">JOINON e Terra (ABB) sono fortemente dominati dall'immaginario infrastrutturale: parcheggi pubblici, flotte aziendali. <strong>L'EV charging domestico è trattato come appendice tecnica minore</strong>. Nessuno ha ancora fatto dell'EV charging residenziale un lifestyle premium.</div>
+        <div class="ws-void">JOINON e ABB presidiano parcheggi e flotte aziendali. <strong>L'EV charging residenziale premium non è di nessuno.</strong></div>
         <div class="ws-action">
           <div class="ws-action-title">L'azione Orbis</div>
-          <div class="ws-action-body"><strong>VIARIS come pezzo di design tecnologico europeo</strong> che impreziosisce la domotica della villa moderna. Target: architetti, interior designer, sviluppatori immobiliari. VIARIS non è uno "scatolo elettrico da nascondere" — è un oggetto del desiderio. Zero rivali.</div>
+          <div class="ws-action-body"><strong>VIARIS come oggetto di design</strong>, non come apparecchiatura da nascondere. Target: architetti, interior designer. Zero rivali in questo posizionamento.</div>
         </div>
       </div>
     </div>
@@ -548,7 +611,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
     <div class="sec-header">
       <div class="sec-tag">Il tono di voce Orbis</div>
       <h2 class="sec-title">Esperto ma umano.<br><em>Tecnico ma accessibile.</em></h2>
-      <p class="sec-sub">Orbis conosce i prodotti meglio di chiunque. Ma la voce giusta non è quella del catalogo tecnico né quella del brand premium freddo. È la voce dell'esperto di fiducia: precisa, diretta, italiana.</p>
+      <p class="sec-sub">Non un catalogo tecnico, non un brand freddo. La voce di chi sa — e lo spiega in modo che tutti capiscano.</p>
     </div>
     <div class="voice-grid" id="voiceGrid">
       <div class="voice-col yes">
@@ -585,7 +648,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
     <div class="sec-header">
       <div class="sec-tag">I format creativi</div>
       <h2 class="sec-title">Il contenuto giusto<br><em>alla persona giusta.</em></h2>
-      <p class="sec-sub">Ogni formato è pensato per il momento esatto in cui il target è ricettivo. Marco il venerdì a pranzo in furgone. Alessandro il martedì mattina su LinkedIn. Lorenzo la domenica sera sul divano.</p>
+      <p class="sec-sub">Ogni formato è calibrato sul momento in cui il target è ricettivo — Marco in furgone, Alessandro su LinkedIn, Lorenzo sul divano.</p>
     </div>
     <div class="fmt-grid" id="fmtGrid">
       <div class="fmt-card c1">
@@ -654,16 +717,458 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
           <div class="fmt-kpi"><strong>KPI atteso:</strong> Lead gen qualificata · fidelizzazione</div>
         </div>
       </div>
+      <div class="fmt-card c1" style="border-top-color:#EE1D52">
+        <div class="fmt-icon">♪</div>
+        <div class="fmt-persona">Marco · Lorenzo · In crescita</div>
+        <div class="fmt-title">Short Video TikTok</div>
+        <div class="fmt-body">15–30 sec di cantiere reale, unboxing prodotto, problema risolto. Niente produzione — il telefono basta. Il contenuto più autentico è quello che funziona di più.</div>
+        <div class="fmt-meta">
+          <div class="fmt-stat"><span>Durata</span><span class="fmt-stat-v">15–30 sec · 9:16</span></div>
+          <div class="fmt-stat"><span>Canale</span><span class="fmt-stat-v">TikTok → cross su Reels IG</span></div>
+          <div class="fmt-kpi"><strong>KPI atteso:</strong> Reach organica · nuova audience 25–38</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+
+<!-- INFLUENCER ──────────────────────────── -->
+<section class="section grey" id="secInfluencer">
+  <div class="max-w">
+    <div class="sec-header">
+      <div class="sec-tag" style="--stc:var(--green)">Canale di acquisizione · YouTube</div>
+      <h2 class="sec-title">Intercettare Lorenzo<br><em>prima che cerchi Orbis.</em></h2>
+      <p class="sec-sub">Lorenzo non sta aspettando una pubblicità — sta guardando un video su YouTube. È lì che si forma la sua opinione prima dell'acquisto.</p>
+    </div>
+    <div class="gw-grid">
+      <div class="gw-card" style="grid-column:1/-1">
+        <div class="gw-card-title">Il funnel che non stiamo usando</div>
+        <div class="gw-card-sub">YouTube Influencer Marketing · B2C residenziale</div>
+        <div class="gw-body">Su YouTube esistono canali italiani con 50K–300K iscritti dedicati a domotica, fotovoltaico, wallbox, casa intelligente. Lorenzo li segue. <strong>Una partnership con 2–3 creator selezionati genera awareness qualificata</strong> molto prima che Lorenzo inizi a confrontare prezzi su Google.</div>
+        <div class="gw-per"><strong>Tipologie di partnership:</strong> video sponsorizzato con installazione VIARIS reale · product review in casa del creator · case study "fotovoltaico + wallbox: i numeri reali" · apparizione in canali come "Casa Green Italia", "Domotica e dintorni", canali EV review.</div>
+      </div>
+      <div class="gw-card">
+        <div class="gw-card-title">Perché funziona su Lorenzo</div>
+        <div class="gw-card-sub">Early adopter · cerca conferme prima di comprare</div>
+        <div class="gw-body">Lorenzo ha già deciso di comprare un wallbox — sta cercando solo qual è il migliore. Una video review autentica da un creator di cui si fida vale più di 10 annunci Google. <strong>Il creator è un proxy di fiducia.</strong></div>
+      </div>
+      <div class="gw-card">
+        <div class="gw-card-title">TikTok: il territorio giovane</div>
+        <div class="gw-card-sub">Marco · nuova generazione installatori · 25–38</div>
+        <div class="gw-body">Su TikTok esistono già creator che mostrano lavori elettrici, cantieri, installazioni. <strong>Sponsored content + challenge "#cantierevero" possono generare contenuto organico.</strong> Investimento basso, reach potenzialmente virale tra la nuova generazione di installatori.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAPPA SINAPTICA — Target × Canali × Contenuti
+     Posizione: tra #secFormats e #secPED in m7.html
+     ══════════════════════════════════════════════════════════════ -->
+
+<style>
+/* ── MAPPA SINAPTICA ── */
+.syn-section{padding:5rem 1.5rem;background:var(--surface);border-top:1px solid var(--border);position:relative}
+.syn-section::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,80,160,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,80,160,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.syn-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.syn-header{margin-bottom:2.5rem}
+.syn-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.syn-tag::before{content:"";width:14px;height:1px;background:var(--energy)}
+.syn-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;color:var(--ink)}
+.syn-title em{font-style:italic;font-weight:300;color:var(--energy)}
+.syn-sub{font-size:13.5px;color:var(--ink3);line-height:1.8;max-width:520px;margin-top:.6rem}
+.syn-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:.5rem}
+#synapticMap{width:100%;max-width:960px;height:auto;display:block;margin:0 auto;cursor:default;touch-action:pan-x pan-y}
+/* Lines */
+.syn-line{fill:none;stroke-width:2;opacity:.18;transition:opacity .35s,stroke-width .35s}
+.syn-line.syn-active{opacity:1;stroke-width:3}
+.syn-line.syn-dimmed{opacity:.04}
+/* Persona nodes */
+.syn-persona-g{cursor:pointer}
+.syn-persona-g .syn-node{transition:opacity .3s,filter .3s}
+.syn-persona-g.syn-dimmed .syn-node{opacity:.25;filter:grayscale(.5)}
+/* Channel nodes */
+.syn-channel-g{cursor:pointer}
+.syn-channel-g .syn-cnode{transition:opacity .3s,filter .3s}
+.syn-channel-g.syn-dimmed .syn-cnode{opacity:.2;filter:grayscale(.6)}
+.syn-channel-g.syn-cactive .syn-cnode{filter:drop-shadow(0 0 8px currentColor)}
+/* Labels */
+.syn-label{opacity:0;pointer-events:none;transition:opacity .25s}
+.syn-label.syn-visible{opacity:1}
+/* Legend */
+.syn-legend{display:flex;gap:2rem;flex-wrap:wrap;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.syn-leg-item{display:flex;align-items:center;gap:.5rem;font-size:11.5px;color:var(--ink3)}
+.syn-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.syn-hint{font-size:11px;color:var(--ink4);margin-top:1rem;font-style:italic;text-align:center}
+@media(max-width:640px){.syn-legend{gap:1rem}.syn-leg-item{font-size:10.5px}}
+</style>
+
+<section class="syn-section" id="secMappa">
+  <div class="syn-inner">
+    <div class="syn-header">
+      <div class="syn-tag">Mappa sinaptica · Orbis</div>
+      <h2 class="syn-title">Chi, dove, <em>con cosa.</em></h2>
+      <p class="syn-sub">Dove intercettare ogni persona — e con che contenuto. TikTok è il canale emergente per Marco e Lorenzo. Passa sopra un nodo per vedere le connessioni.</p>
+    </div>
+
+    <div class="syn-wrap">
+    <svg id="synapticMap" viewBox="-30 0 1020 650" style="overflow:visible" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Persona gradients -->
+        <radialGradient id="gMarco" cx="40%" cy="35%">
+          <stop offset="0%" stop-color="#FDF0E4"/>
+          <stop offset="100%" stop-color="#F5CFA0"/>
+        </radialGradient>
+        <radialGradient id="gAlessandro" cx="40%" cy="35%">
+          <stop offset="0%" stop-color="#E8F1FB"/>
+          <stop offset="100%" stop-color="#AECDF4"/>
+        </radialGradient>
+        <radialGradient id="gLorenzo" cx="40%" cy="35%">
+          <stop offset="0%" stop-color="#E4F5EE"/>
+          <stop offset="100%" stop-color="#9EDEC1"/>
+        </radialGradient>
+        <!-- Line gradients -->
+        <linearGradient id="lgMarco" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#D9730D"/>
+          <stop offset="100%" stop-color="#D9730D" stop-opacity=".6"/>
+        </linearGradient>
+        <linearGradient id="lgAlessandro" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0050A0"/>
+          <stop offset="100%" stop-color="#1A72C8" stop-opacity=".6"/>
+        </linearGradient>
+        <linearGradient id="lgLorenzo" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1A9462"/>
+          <stop offset="100%" stop-color="#3DB87E" stop-opacity=".6"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- ═══ LINES (behind nodes) ═══ -->
+      <!-- Marco → Instagram -->
+      <path class="syn-line" data-persona="marco" data-channel="instagram"
+        stroke="url(#lgMarco)"
+        d="M 258,115 C 490,115 490,155 714,155"/>
+      <!-- Marco → Facebook -->
+      <path class="syn-line" data-persona="marco" data-channel="facebook"
+        stroke="url(#lgMarco)"
+        d="M 258,115 C 490,115 490,250 714,250"/>
+      <!-- Marco → YouTube -->
+      <path class="syn-line" data-persona="marco" data-channel="youtube"
+        stroke="url(#lgMarco)"
+        d="M 258,115 C 490,115 490,345 714,345"/>
+      <!-- Marco → WhatsApp -->
+      <path class="syn-line" data-persona="marco" data-channel="whatsapp"
+        stroke="url(#lgMarco)"
+        d="M 258,115 C 490,115 490,440 714,440"/>
+
+      <!-- Alessandro → LinkedIn -->
+      <path class="syn-line" data-persona="alessandro" data-channel="linkedin"
+        stroke="url(#lgAlessandro)"
+        d="M 258,285 C 490,285 490,62 714,62"/>
+      <!-- Alessandro → Facebook -->
+      <path class="syn-line" data-persona="alessandro" data-channel="facebook"
+        stroke="url(#lgAlessandro)"
+        d="M 258,285 C 490,285 490,250 714,250"/>
+      <!-- Alessandro → YouTube -->
+      <path class="syn-line" data-persona="alessandro" data-channel="youtube"
+        stroke="url(#lgAlessandro)"
+        d="M 258,285 C 490,285 490,345 714,345"/>
+
+      <!-- Lorenzo → Instagram -->
+      <path class="syn-line" data-persona="lorenzo" data-channel="instagram"
+        stroke="url(#lgLorenzo)"
+        d="M 258,455 C 490,455 490,155 714,155"/>
+      <!-- Lorenzo → YouTube -->
+      <path class="syn-line" data-persona="lorenzo" data-channel="youtube"
+        stroke="url(#lgLorenzo)"
+        d="M 258,455 C 490,455 490,345 714,345"/>
+      <!-- Lorenzo → Google -->
+      <path class="syn-line" data-persona="lorenzo" data-channel="google"
+        stroke="url(#lgLorenzo)"
+        d="M 258,455 C 490,455 490,515 714,515"/>
+
+      <!-- ═══ CONTENT LABELS (shown on hover) ═══ -->
+      <!-- Marco labels -->
+      <g class="syn-label" data-persona="marco" data-channel="instagram" transform="translate(430,104)">
+        <rect rx="5" ry="5" x="-68" y="-13" width="136" height="22" fill="var(--energy)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Reel · Cantiere Vero</text>
+      </g>
+      <g class="syn-label" data-persona="marco" data-channel="facebook" transform="translate(430,176)">
+        <rect rx="5" ry="5" x="-68" y="-13" width="136" height="22" fill="var(--energy)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Infografica B2B2C</text>
+      </g>
+      <g class="syn-label" data-persona="marco" data-channel="youtube" transform="translate(430,222)">
+        <rect rx="5" ry="5" x="-68" y="-13" width="136" height="22" fill="var(--energy)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Tutorial + Attestato</text>
+      </g>
+      <g class="syn-label" data-persona="marco" data-channel="whatsapp" transform="translate(430,270)">
+        <rect rx="5" ry="5" x="-72" y="-13" width="144" height="22" fill="var(--energy)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Asset condivisibili al cliente</text>
+      </g>
+
+      <!-- Alessandro labels -->
+      <g class="syn-label" data-persona="alessandro" data-channel="linkedin" transform="translate(430,158)">
+        <rect rx="5" ry="5" x="-80" y="-13" width="160" height="22" fill="var(--blue)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Carousel Mercato · ESG · Advocacy</text>
+      </g>
+      <g class="syn-label" data-persona="alessandro" data-channel="facebook" transform="translate(430,268)">
+        <rect rx="5" ry="5" x="-58" y="-13" width="116" height="22" fill="var(--blue)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Digital Toolkit mensile</text>
+      </g>
+      <g class="syn-label" data-persona="alessandro" data-channel="youtube" transform="translate(430,318)">
+        <rect rx="5" ry="5" x="-62" y="-13" width="124" height="22" fill="var(--blue)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Webinar formativo</text>
+      </g>
+
+      <!-- Lorenzo labels -->
+      <g class="syn-label" data-persona="lorenzo" data-channel="instagram" transform="translate(430,396)">
+        <rect rx="5" ry="5" x="-76" y="-13" width="152" height="22" fill="var(--green)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">VIARIS Boutique · Notturno</text>
+      </g>
+      <g class="syn-label" data-persona="lorenzo" data-channel="youtube" transform="translate(430,432)">
+        <rect rx="5" ry="5" x="-52" y="-13" width="104" height="22" fill="var(--green)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Guida ROI long-form</text>
+      </g>
+      <g class="syn-label" data-persona="lorenzo" data-channel="google" transform="translate(430,488)">
+        <rect rx="5" ry="5" x="-52" y="-13" width="104" height="22" fill="var(--green)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">SEO long-tail ricerca</text>
+      </g>
+
+      <!-- Marco → TikTok -->
+      <path class="syn-line" data-persona="marco" data-channel="tiktok"
+        stroke="url(#lgMarco)"
+        d="M 258,115 C 490,115 490,590 714,590"/>
+      <!-- Lorenzo → TikTok -->
+      <path class="syn-line" data-persona="lorenzo" data-channel="tiktok"
+        stroke="url(#lgLorenzo)"
+        d="M 258,455 C 490,455 490,590 714,590"/>
+
+      <!-- TikTok labels -->
+      <g class="syn-label" data-persona="marco" data-channel="tiktok" transform="translate(430,344)">
+        <rect rx="5" ry="5" x="-68" y="-13" width="136" height="22" fill="var(--energy)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">Short video 15 sec · cantiere</text>
+      </g>
+      <g class="syn-label" data-persona="lorenzo" data-channel="tiktok" transform="translate(430,524)">
+        <rect rx="5" ry="5" x="-72" y="-13" width="144" height="22" fill="var(--green)" opacity=".92"/>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#fff" text-anchor="middle" y="2" font-weight="500">VIARIS lifestyle (in crescita)</text>
+      </g>
+
+            <!-- ═══ CHANNEL NODES (right) ═══ -->
+      <!-- LinkedIn -->
+      <g class="syn-channel-g" data-id="linkedin">
+        <circle class="syn-cnode" cx="750" cy="62" r="36" fill="#E8F0FC" stroke="#0A66C2" stroke-width="1.5"/>
+        <text x="750" y="55" font-family="'DM Sans',sans-serif" font-size="9" font-weight="700" fill="#0A66C2" text-anchor="middle">in</text>
+        <text x="750" y="68" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#0A66C2" text-anchor="middle" font-weight="500">LinkedIn</text>
+        <!-- dot count -->
+        <circle cx="785" cy="42" r="10" fill="#0A66C2"/>
+        <text x="785" y="46" font-size="7.5" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700">×1</text>
+      </g>
+      <!-- Instagram -->
+      <g class="syn-channel-g" data-id="instagram">
+        <circle class="syn-cnode" cx="750" cy="155" r="36" fill="#FCE8F3" stroke="#C13584" stroke-width="1.5"/>
+        <text x="750" y="149" font-family="'DM Sans',sans-serif" font-size="9" fill="#C13584" text-anchor="middle">✦</text>
+        <text x="750" y="163" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#C13584" text-anchor="middle" font-weight="500">Instagram</text>
+        <circle cx="785" cy="135" r="10" fill="#C13584"/>
+        <text x="785" y="139" font-size="7.5" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700">×2</text>
+      </g>
+      <!-- Facebook -->
+      <g class="syn-channel-g" data-id="facebook">
+        <circle class="syn-cnode" cx="750" cy="250" r="36" fill="#E8F0FC" stroke="#1877F2" stroke-width="1.5"/>
+        <text x="750" y="244" font-family="'DM Sans',sans-serif" font-size="9" font-weight="700" fill="#1877F2" text-anchor="middle">f</text>
+        <text x="750" y="258" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#1877F2" text-anchor="middle" font-weight="500">Facebook</text>
+        <circle cx="785" cy="230" r="10" fill="#1877F2"/>
+        <text x="785" y="234" font-size="7.5" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700">×2</text>
+      </g>
+      <!-- YouTube -->
+      <g class="syn-channel-g" data-id="youtube">
+        <circle class="syn-cnode" cx="750" cy="345" r="36" fill="#FDEAEA" stroke="#CC0000" stroke-width="1.5"/>
+        <text x="750" y="338" font-family="'DM Sans',sans-serif" font-size="9" fill="#CC0000" text-anchor="middle">▶</text>
+        <text x="750" y="353" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#CC0000" text-anchor="middle" font-weight="500">YouTube</text>
+        <circle cx="785" cy="325" r="10" fill="#CC0000"/>
+        <text x="785" y="329" font-size="7.5" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700">×3</text>
+      </g>
+      <!-- WhatsApp -->
+      <g class="syn-channel-g" data-id="whatsapp">
+        <circle class="syn-cnode" cx="750" cy="440" r="36" fill="#E8FAF0" stroke="#25D366" stroke-width="1.5"/>
+        <text x="750" y="434" font-family="'DM Sans',sans-serif" font-size="9" fill="#128C7E" text-anchor="middle">✉</text>
+        <text x="750" y="448" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#128C7E" text-anchor="middle" font-weight="500">WhatsApp</text>
+        <circle cx="785" cy="420" r="10" fill="#25D366"/>
+        <text x="785" y="424" font-size="7.5" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700">×1</text>
+      </g>
+      <!-- Google/SEO -->
+      <g class="syn-channel-g" data-id="google">
+        <circle class="syn-cnode" cx="750" cy="515" r="36" fill="#FFF3E8" stroke="#EA8600" stroke-width="1.5"/>
+        <text x="750" y="509" font-family="'DM Sans',sans-serif" font-size="9" fill="#EA8600" text-anchor="middle">G</text>
+        <text x="750" y="523" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#EA8600" text-anchor="middle" font-weight="500">SEO / Google</text>
+        <circle cx="785" cy="495" r="10" fill="#EA8600"/>
+        <text x="785" y="499" font-size="7.5" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700">×1</text>
+      </g>
+
+      <!-- TikTok -->
+      <g class="syn-channel-g" data-id="tiktok">
+        <circle class="syn-cnode" cx="750" cy="590" r="36" fill="#F0E8F8" stroke="#EE1D52" stroke-width="1.5"/>
+        <text x="750" y="584" font-family="'DM Sans',sans-serif" font-size="9" fill="#EE1D52" text-anchor="middle" font-weight="700">♪</text>
+        <text x="750" y="598" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#EE1D52" text-anchor="middle" font-weight="500">TikTok</text>
+        <circle cx="785" cy="570" r="10" fill="#EE1D52"/>
+        <text x="785" y="574" font-size="7.5" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700">×2</text>
+      </g>
+
+            <!-- ═══ PERSONA NODES (left) ═══ -->
+      <!-- Marco -->
+      <g class="syn-persona-g" data-id="marco" transform="translate(210,115)">
+        <circle class="syn-node" r="50" fill="url(#gMarco)" stroke="#D9730D" stroke-width="2"/>
+        <circle r="50" fill="none" stroke="#D9730D" stroke-width="0" opacity="0" class="syn-halo"/>
+        <text font-family="'Afacad Flux',sans-serif" font-size="15" font-weight="500" fill="#7A3B00" text-anchor="middle" y="-6">Marco</text>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#D9730D" text-anchor="middle" y="9" font-weight="600" letter-spacing=".06em" text-transform="uppercase">INSTALLATORE</text>
+        <text font-family="'DM Sans',sans-serif" font-size="8" fill="#B35B00" text-anchor="middle" y="22">35–45 · artigiano</text>
+      </g>
+      <!-- Alessandro -->
+      <g class="syn-persona-g" data-id="alessandro" transform="translate(210,285)">
+        <circle class="syn-node" r="50" fill="url(#gAlessandro)" stroke="#0050A0" stroke-width="2"/>
+        <text font-family="'Afacad Flux',sans-serif" font-size="15" font-weight="500" fill="#002060" text-anchor="middle" y="-6">Alessandro</text>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#0050A0" text-anchor="middle" y="9" font-weight="600" letter-spacing=".06em">GROSSISTA</text>
+        <text font-family="'DM Sans',sans-serif" font-size="8" fill="#003580" text-anchor="middle" y="22">45–55 · B2B</text>
+      </g>
+      <!-- Lorenzo -->
+      <g class="syn-persona-g" data-id="lorenzo" transform="translate(210,455)">
+        <circle class="syn-node" r="50" fill="url(#gLorenzo)" stroke="#1A9462" stroke-width="2"/>
+        <text font-family="'Afacad Flux',sans-serif" font-size="15" font-weight="500" fill="#0A4530" text-anchor="middle" y="-6">Lorenzo</text>
+        <text font-family="'DM Sans',sans-serif" font-size="9" fill="#1A9462" text-anchor="middle" y="9" font-weight="600" letter-spacing=".06em">EARLY ADOPTER</text>
+        <text font-family="'DM Sans',sans-serif" font-size="8" fill="#0D6040" text-anchor="middle" y="22">38–55 · residenziale</text>
+      </g>
+
+      <!-- ═══ AXIS LABELS ═══ -->
+      <text x="210" y="28" font-family="'DM Sans',sans-serif" font-size="9" letter-spacing=".18em" fill="#8FA4BC" text-anchor="middle" text-transform="uppercase">TARGET</text>
+      <text x="750" y="24" font-family="'DM Sans',sans-serif" font-size="9" letter-spacing=".18em" fill="#8FA4BC" text-anchor="middle">CANALI</text>
+      <line x1="480" y1="18" x2="480" y2="560" stroke="#D8E0EE" stroke-width="1" stroke-dasharray="4,6"/>
+      <text x="480" y="14" font-family="'DM Sans',sans-serif" font-size="8" letter-spacing=".16em" fill="#8FA4BC" text-anchor="middle">CONTENUTI</text>
+
+      <!-- ×N legend -->
+      <text x="820" y="24" font-family="'DM Sans',sans-serif" font-size="8" fill="#8FA4BC">×N = target che usano il canale</text>
+    </svg>
+    </div>
+
+    <p class="syn-hint">Passa sopra un nodo persona per evidenziare le sue connessioni — o su un canale per vedere chi lo usa.</p>
+
+    <div class="syn-legend">
+      <div class="syn-leg-item"><div class="syn-leg-dot" style="background:#D9730D"></div>Marco · Installatore</div>
+      <div class="syn-leg-item"><div class="syn-leg-dot" style="background:#0050A0"></div>Alessandro · Grossista</div>
+      <div class="syn-leg-item"><div class="syn-leg-dot" style="background:#1A9462"></div>Lorenzo · Early Adopter</div>
+      <div class="syn-leg-item"><div class="syn-leg-dot" style="background:#EE1D52"></div>TikTok · in crescita per installatori e early adopter</div><div class="syn-leg-item" style="margin-left:auto"><div class="syn-leg-dot" style="background:var(--border);border:1px solid var(--ink4)"></div>Linea = connessione target → canale</div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var map = document.getElementById('synapticMap');
+  if(!map) return;
+  var lines    = map.querySelectorAll('.syn-line');
+  var labels   = map.querySelectorAll('.syn-label');
+  var personas = map.querySelectorAll('.syn-persona-g');
+  var channels = map.querySelectorAll('.syn-channel-g');
+
+  function resetAll(){
+    lines.forEach(function(l){ l.classList.remove('syn-active','syn-dimmed'); });
+    labels.forEach(function(l){ l.classList.remove('syn-visible'); });
+    personas.forEach(function(p){ p.classList.remove('syn-dimmed'); });
+    channels.forEach(function(c){ c.classList.remove('syn-dimmed','syn-cactive'); });
+  }
+
+  function activatePersona(id){
+    resetAll();
+    var activeChannels = [];
+    lines.forEach(function(l){
+      if(l.dataset.persona === id){
+        l.classList.add('syn-active');
+        activeChannels.push(l.dataset.channel);
+      } else {
+        l.classList.add('syn-dimmed');
+      }
+    });
+    labels.forEach(function(l){
+      if(l.dataset.persona === id) l.classList.add('syn-visible');
+    });
+    personas.forEach(function(p){
+      if(p.dataset.id !== id) p.classList.add('syn-dimmed');
+    });
+    channels.forEach(function(c){
+      if(activeChannels.indexOf(c.dataset.id) === -1) c.classList.add('syn-dimmed');
+      else c.classList.add('syn-cactive');
+    });
+  }
+
+  function activateChannel(id){
+    resetAll();
+    var activePersonas = [];
+    lines.forEach(function(l){
+      if(l.dataset.channel === id){
+        l.classList.add('syn-active');
+        activePersonas.push(l.dataset.persona);
+      } else {
+        l.classList.add('syn-dimmed');
+      }
+    });
+    labels.forEach(function(l){
+      if(l.dataset.channel === id) l.classList.add('syn-visible');
+    });
+    channels.forEach(function(c){
+      if(c.dataset.id !== id) c.classList.add('syn-dimmed');
+      else c.classList.add('syn-cactive');
+    });
+    personas.forEach(function(p){
+      if(activePersonas.indexOf(p.dataset.id) === -1) p.classList.add('syn-dimmed');
+    });
+  }
+
+  personas.forEach(function(p){
+    p.addEventListener('mouseenter', function(){ activatePersona(p.dataset.id); });
+    p.addEventListener('mouseleave', resetAll);
+    // Touch
+    p.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      activatePersona(p.dataset.id);
+    }, {passive:false});
+  });
+
+  channels.forEach(function(c){
+    c.addEventListener('mouseenter', function(){ activateChannel(c.dataset.id); });
+    c.addEventListener('mouseleave', resetAll);
+    c.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      activateChannel(c.dataset.id);
+    }, {passive:false});
+  });
+
+  // GSAP entrance animation on scroll
+  if(typeof ScrollTrigger !== 'undefined'){
+    gsap.fromTo('#synapticMap .syn-persona-g',
+      {opacity:0, x:-20},
+      {opacity:1, x:0, duration:.7, stagger:.2, ease:'power3.out',
+       scrollTrigger:{trigger:'#secMappa', start:'top 75%', once:true}});
+    gsap.fromTo('#synapticMap .syn-channel-g',
+      {opacity:0, x:20},
+      {opacity:1, x:0, duration:.7, stagger:.15, ease:'power3.out',
+       scrollTrigger:{trigger:'#secMappa', start:'top 75%', once:true}, delay:.3});
+    gsap.fromTo('#synapticMap .syn-line',
+      {opacity:0},
+      {opacity:.18, duration:.8, stagger:.06, ease:'power2.out',
+       scrollTrigger:{trigger:'#secMappa', start:'top 75%', once:true}, delay:.6});
+  }
+})();
+</script>
+
 
 <!-- ═══════════ PED SECTION ═══════════ -->
 <section class="ped-section" id="secPED">
   <div class="ped-inner">
     <div class="ped-tag">Spunti creativi · Ribrain × Orbis</div>
     <h2 class="ped-h">Quattro spunti.<br>Per i <em>quattro white space.</em></h2>
-    <p class="ped-lead">Per mostrarvi concretamente come la strategia diventa post pubblicato, abbiamo già abbozzato <strong>quattro spunti PED dallo studio Ribrain</strong> — uno per ciascuno dei territori narrativi non presidiati. Non sono mockup di esempio: sono il <em>punto di partenza creativo</em> della nostra proposta editoriale. Ogni spunto risponde a un white space e parla a una persona target precisa.</p>
+    <p class="ped-lead">Quattro spunti concreti di Ribrain — uno per ciascun white space identificato. Ogni esempio risponde a un territorio narrativo libero e parla a una persona target precisa.</p>
 
     <div class="ped-grid" id="pedGrid">
 
@@ -677,31 +1182,18 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
               <svg width="14" height="7" viewBox="0 0 14 7" fill="none"><rect x=".3" y=".3" width="12" height="6.4" rx="1.8" stroke="#111" stroke-width=".7"/><rect x="1" y="1" width="9.5" height="5" rx="1.2" fill="#111"/></svg>
             </div>
           </div>
-          <div class="ped-img-wrap st">
-            <div class="ped-img-placeholder viz1">
-              <div class="ped-img-pattern"></div>
-              <div class="ped-st-ui">
-                <div class="ped-pb-row">
-                  <div class="ped-pb done"><div class="ped-pb-fill"></div></div>
-                  <div class="ped-pb"><div class="ped-pb-fill"></div></div>
-                  <div class="ped-pb empty"><div class="ped-pb-fill"></div></div>
-                </div>
-                <div class="ped-st-hdr">
-                  <div class="ped-st-av">O</div>
-                  <span class="ped-st-name">orbisitalia &middot; 2h</span>
-                </div>
+          <div class="ped-img-wrap st" style="background:#000">
+            <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/01_PED1_anatomia.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;">
+            <div class="ped-st-ui" style="position:absolute;top:0;left:0;right:0;z-index:3;padding:.45rem .55rem .3rem">
+              <div class="ped-pb-row">
+                <div class="ped-pb done"><div class="ped-pb-fill"></div></div>
+                <div class="ped-pb"><div class="ped-pb-fill"></div></div>
+                <div class="ped-pb empty"><div class="ped-pb-fill"></div></div>
               </div>
-              <div class="ped-img-meta" style="margin-top:1.5rem">
-                <span class="ped-img-format">Reel · 9:16</span>
-                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
+              <div class="ped-st-hdr">
+                <div class="ped-st-av">O</div>
+                <span class="ped-st-name">orbisitalia &middot; 2h</span>
               </div>
-              <div class="ped-img-center">
-                <div class="ped-img-icon">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                </div>
-                <div class="ped-img-concept">Interno stabilimento · mani che assemblano · macro su componente ignifugo · luce industriale calda</div>
-              </div>
-              <div class="ped-img-foot">L'Anatomia della Qualit&agrave; · Ep. 01</div>
             </div>
           </div>
           <div class="ped-pact-dk">
@@ -746,20 +1238,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
             <div><div class="ped-uname">orbisitalia</div><div class="ped-uname-sub">Le Voci di Orbis · Ep. 02</div></div>
           </div>
           <div class="ped-img-wrap sq">
-            <div class="ped-img-placeholder viz2">
-              <div class="ped-img-pattern"></div>
-              <div class="ped-img-meta">
-                <span class="ped-img-format">Carousel · 1:1</span>
-                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
-              </div>
-              <div class="ped-img-center">
-                <div class="ped-img-icon">
-                  <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div class="ped-img-concept">Ritratto Maria · catena di montaggio · luce naturale · quote sovrimpresso</div>
-              </div>
-              <div class="ped-img-foot">Le Voci di Orbis · 1 di 5</div>
-            </div>
+            <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/02_PED2_voci_orbis.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
           </div>
           <div class="ped-pact">
             <svg class="ped-ai" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -809,20 +1288,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
             <div><div class="ped-uname">VIARIS by Orbis</div><div class="ped-uname-sub">Sponsorizzato · Energia Intelligente</div></div>
           </div>
           <div class="ped-img-wrap p45">
-            <div class="ped-img-placeholder viz3">
-              <div class="ped-img-pattern"></div>
-              <div class="ped-img-meta">
-                <span class="ped-img-format">Post · 4:5</span>
-                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
-              </div>
-              <div class="ped-img-center">
-                <div class="ped-img-icon">
-                  <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                </div>
-                <div class="ped-img-concept">Infografica clean · diagramma 3 step "Sole → Pannello → Auto" · palette verde+bianco · zero brand pesante</div>
-              </div>
-              <div class="ped-img-foot">Energia Intelligente B2B2C</div>
-            </div>
+            <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/03_PED3_energia_b2b2c.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff;">
           </div>
           <div class="ped-pact">
             <svg class="ped-ai" viewBox="0 0 24 24"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/></svg>
@@ -871,20 +1337,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
             <div><div class="ped-uname">viaris.boutique</div><div class="ped-uname-sub">Powered by ORBIS</div></div>
           </div>
           <div class="ped-img-wrap sq">
-            <div class="ped-img-placeholder viz4">
-              <div class="ped-img-pattern"></div>
-              <div class="ped-img-meta">
-                <span class="ped-img-format">Post · 1:1</span>
-                <span class="ped-img-badge">Placeholder · GPT Image 2.0</span>
-              </div>
-              <div class="ped-img-center">
-                <div class="ped-img-icon">
-                  <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                </div>
-                <div class="ped-img-concept">VIARIS in garage di villa moderna · palette beige+travertino · luce naturale dorata · auto premium sfocata</div>
-              </div>
-              <div class="ped-img-foot">VIARIS Boutique Residenziale</div>
-            </div>
+            <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/04_PED4_viaris_boutique.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
           </div>
           <div class="ped-pact">
             <svg class="ped-ai" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -916,14 +1369,139 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
       </div>
 
     </div><!-- /ped-grid -->
+    </div>
+</section>
+<!-- ═══════════ FINE PED ═══════════ -->
 
-    <div class="ped-caveat" id="pedCaveat">
-      <span class="ped-caveat-icon">◆</span>
-      <span><strong>Nota di lettura.</strong> I visual qui sono placeholder gradient — verranno sostituiti con immagini fotografiche generate ad alta fedeltà nel passaggio successivo (GPT Image 2.0 + approvazione). Copy, caption, commenti e architettura del post sono invece <strong>la proposta creativa definitiva</strong> di Ribrain per il primo trimestre di pubblicazione.</span>
+<!-- ═══════════ INTERLUDE CAMPAGNE ═══════════ -->
+<section class="camp-interlude">
+  <div class="camp-interlude-bg">5</div>
+  <div class="camp-interlude-inner">
+    <div class="camp-int-tag">Oltre il piano editoriale</div>
+    <h2 class="camp-int-title">Il PED coltiva i target.<br>Le campagne <em>costruiscono</em><br><strong>il posizionamento.</strong></h2>
+    <div class="camp-int-split" id="campSplit">
+      <div class="camp-int-col">
+        <div class="camp-int-col-tag ped">Piano Editoriale Digitale (PED)</div>
+        <div class="camp-int-col-title">Contenuti ricorrenti per i target</div>
+        <div class="camp-int-col-body">Contenuti settimanali e mensili che parlano a Marco, Alessandro e Lorenzo sui loro dubbi quotidiani. Misurano engagement e fidelizzazione. I risultati si vedono in settimane.</div>
+      </div>
+      <div class="camp-int-col">
+        <div class="camp-int-col-tag brand">Campagne di Brand Positioning</div>
+        <div class="camp-int-col-title">Serie creative a lungo termine</div>
+        <div class="camp-int-col-body">Le campagne costruiscono reputazione nel tempo, parlando a tutti con un'unica voce. Non misurano engagement — misurano memoria di marca. I risultati si vedono in 6–12 mesi.</div>
+      </div>
     </div>
   </div>
 </section>
-<!-- ═══════════ FINE PED ═══════════ -->
+<!-- ═══════════ SEZIONE CAMPAGNE ═══════════ -->
+<section class="camp-section" id="secCampagne">
+  <div class="camp-inner">
+    <div class="camp-header">
+      <div class="camp-sec-tag">Campagne creative · Ribrain × Orbis</div>
+      <h2 class="camp-sec-title">Cinque campagne.<br><em>Un solo posizionamento.</em></h2>
+    </div>
+    <div class="camp-grid" id="campGrid">
+
+      <!-- C1: Il Grado in Più -->
+      <div class="camp-card" style="order:1">
+        <div class="camp-img-wrap sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/05_C1_grado_in_piu.jpg" alt="Il Grado in Più" loading="lazy">
+        </div>
+        <div class="camp-card-body">
+          <div class="camp-num">Campagna 01 · Serie</div>
+          <div class="camp-name">"Il Grado in Più"</div>
+          <div class="camp-headline">"Un grado in più costa il 7% in più. Ogni anno."</div>
+          <div class="camp-desc">Termostato sulla parete bianca. Solo la sua ombra. Nessun testo, nessuna spiegazione. <strong>Il risparmio non si spiega — si mostra.</strong></div>
+          <div class="camp-tags">
+            <span class="camp-tag brand">Brand</span>
+            <span class="camp-tag awareness">Awareness</span>
+            <span class="camp-tag serie">Serie</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- C2: Fatto da Noi -->
+      <div class="camp-card" style="order:2">
+        <div class="camp-img-wrap sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/06_C2_rame.jpg" alt="Fatto da Noi — Il Rame" loading="lazy">
+        </div>
+        <div class="camp-card-body">
+          <div class="camp-num">Campagna 02 · Serie macro</div>
+          <div class="camp-name">"Fatto da Noi. Niente altro."</div>
+          <div class="camp-headline">"Dentro ogni nostro prodotto. Visto da nessuno. Fino a oggi."</div>
+          <div class="camp-desc">Macro-fotografia: ogni episodio mostra un componente interno dei prodotti Orbis. <strong>Come Cartier fotografa l'oro, Orbis fotografa il rame.</strong> Noi mostriamo ciò che i competitor nascondono.</div>
+          <div class="camp-tags">
+            <span class="camp-tag brand">Brand</span>
+            <span class="camp-tag serie">Serie · 6 ep.</span>
+            <span class="camp-tag editoriale">LinkedIn</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- C3: Cantiere Vero — portrait -->
+      <div class="camp-card" style="order:4">
+        <div style="height:400px;overflow:hidden;border-radius:14px 14px 0 0;position:relative">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/07_C3_cantiere_vero.jpg" alt="Cantiere Vero" loading="lazy"
+            style="width:100%;height:100%;object-fit:cover;object-position:center 28%;display:block">
+        </div>
+        <div class="camp-card-body">
+          <div class="camp-num">Campagna 03 · UGC premium</div>
+          <div class="camp-name">"Cantiere Vero"</div>
+          <div class="camp-headline">"Marco. 7:23 di mattina. Ha già finito."</div>
+          <div class="camp-desc">Reportage autentico: sembra girato con uno smartphone da un collega, ha la qualità editoriale di un Magnum. <strong>Territorio libero — nessun competitor glorifica l'installatore italiano.</strong> Il lavoro reale, la villa reale, il risultato reale.</div>
+          <div class="camp-tags">
+            <span class="camp-tag brand">Brand</span>
+            <span class="camp-tag virale">Virale</span>
+            <span class="camp-tag editoriale">Reel · 9:16</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- C4: L'Assenza — full width orizzontale -->
+      <div class="camp-card full" style="order:3">
+        <div style="display:grid;grid-template-columns:1fr 1.6fr;max-height:280px">
+          <div style="overflow:hidden;border-radius:14px 0 0 14px">
+            <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/08_C4_bolletta.jpg" alt="L'Assenza" loading="lazy"
+              style="width:100%;height:280px;object-fit:cover;object-position:center 35%;display:block">
+          </div>
+          <div class="camp-card-body" style="justify-content:center;padding:1.75rem 2rem">
+            <div class="camp-num">Campagna 04 · Conceptual</div>
+            <div class="camp-name">"L'Assenza"</div>
+            <div class="camp-headline">"€43. Bolletta di febbraio. Con il cronotermostato Orbis."</div>
+            <div class="camp-desc">Il prodotto non compare mai — appare solo la sua conseguenza: una bolletta bassa sul marmo. <strong>Il brand più potente è quello che non ha bisogno di mostrarsi.</strong></div>
+            <div class="camp-tags">
+              <span class="camp-tag brand">Brand</span>
+              <span class="camp-tag awareness">Conceptual</span>
+              <span class="camp-tag editoriale">LinkedIn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C5: Notturno — portrait, in chiusura -->
+      <div class="camp-card" style="order:5">
+        <div style="height:400px;overflow:hidden;border-radius:14px 14px 0 0;position:relative">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/creativita/09_C5_notturno.jpg" alt="Notturno" loading="lazy"
+            style="width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block">
+        </div>
+        <div class="camp-card-body">
+          <div class="camp-num">Campagna 05 · Firma di brand</div>
+          <div class="camp-name">"Notturno"</div>
+          <div class="camp-headline">"Mentre dormi, lavora per te."</div>
+          <div class="camp-desc">Case italiane di notte, tutto silenzioso. Solo un LED verde dalla persiana — il cronotermostato Orbis che non si ferma mai. <strong>La firma di brand definitiva: silenziosa, certa, italiana.</strong></div>
+          <div class="camp-tags">
+            <span class="camp-tag brand">Brand</span>
+            <span class="camp-tag awareness">Firma di brand</span>
+            <span class="camp-tag serie">Serie · 12 ep.</span>
+          </div>
+        </div>
+      </div>
+
+        </div><!-- /camp-grid -->
+  </div>
+</section>
+<!-- ═══════════ FINE CAMPAGNE ═══════════ -->
+
 
 <!-- SEZIONE: MODELLO ARCHITETTURALE -->
 <section class="section grey" id="secArch">
@@ -998,6 +1576,8 @@ ScrollTrigger.create({trigger:"#wsGrid",start:"top 78%",once:true,onEnter:functi
 ScrollTrigger.create({trigger:"#voiceGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#voiceGrid .voice-item",{opacity:0,x:-12},{opacity:1,x:0,duration:.4,stagger:.05,ease:"power3.out"});gsap.fromTo("#voiceEx",{opacity:0,y:16},{opacity:1,y:0,duration:.6,delay:.4,ease:"power3.out"});}});
 ScrollTrigger.create({trigger:"#fmtGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#fmtGrid .fmt-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.1,ease:"power3.out"});}});
 ScrollTrigger.create({trigger:"#pedGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#pedGrid .ped-card",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.12,ease:"power3.out"});gsap.fromTo("#pedCaveat",{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:.6,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#campSplit",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#campSplit .camp-int-col",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.15,ease:"power3.out"});}});
+ScrollTrigger.create({trigger:"#campGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#campGrid .camp-card",{opacity:0,y:24},{opacity:1,y:0,duration:.7,stagger:.12,ease:"power3.out"});}});
 ScrollTrigger.create({trigger:"#archGrid",start:"top 78%",once:true,onEnter:function(){gsap.fromTo("#archGrid .arch-card",{opacity:0,y:20},{opacity:1,y:0,duration:.6,stagger:.15,ease:"power3.out"});}});
 </script>
 
@@ -1009,7 +1589,7 @@ var M=[
   {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
   {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
   {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
-  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilit\u00e0',url:'m5.html',color:'#0050A0'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
   {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
   {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'}
 ];

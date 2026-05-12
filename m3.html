@@ -196,6 +196,17 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 .delta{font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:.2rem}
 .delta.up{background:var(--green-light);color:var(--green)}
 .delta.down{background:var(--red-light);color:var(--red)}
+
+/* ── TOOL BUTTON ── */
+.tb-tool-btn{display:inline-flex;align-items:center;gap:5px;font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#0891B2;background:rgba(8,145,178,.08);padding:4px 11px;border-radius:99px;text-decoration:none;border:1px solid rgba(8,145,178,.22);transition:all .2s;white-space:nowrap;font-weight:600}
+.tb-tool-btn:hover{background:rgba(8,145,178,.16);border-color:rgba(8,145,178,.4)}
+.tb-tool-btn::before{content:"⚡";font-size:10px}
+.rbov-tool-row{padding:12px 40px;border-top:1px solid #EBF0F8;display:flex;align-items:center;gap:12px}
+.rbov-tool-link{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-family:"DM Sans",sans-serif;font-size:12px;color:#0891B2;font-weight:500;transition:opacity .2s}
+.rbov-tool-link:hover{opacity:.75}
+.rbov-tool-sep{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8FA4BC}
+@media(max-width:640px){.rbov-tool-row{padding:10px 20px}}
+
 </style>
 </head>
 <body>

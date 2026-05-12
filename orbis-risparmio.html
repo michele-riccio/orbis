@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbis — Calcola il Tuo Risparmio Energetico</title>
+<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blu: #0050A0;
+    --blu-mid: #1A72C8;
+    --blu-light: #E8F0FB;
+    --energy: #D9730D;
+    --energy-light: #FEF0E6;
+    --green: #1A9462;
+    --green-light: #E6F5EE;
+    --ink: #0A1628;
+    --grey: #6B7A8E;
+    --bg: #F2F5FA;
+    --white: #FFFFFF;
+    --border: #DDE4EF;
+    --shadow: 0 4px 24px rgba(0,80,160,0.10);
+    --shadow-lg: 0 12px 48px rgba(0,80,160,0.16);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,80,160,0.06);
+  }
+
+  .logo-wrap img { height: 36px; }
+
+  .header-badge {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blu);
+    background: var(--blu-light);
+    padding: 6px 14px;
+    border-radius: 100px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--blu) 0%, #0A2A5E 100%);
+    color: white;
+    text-align: center;
+    padding: 64px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .hero-icon {
+    width: 72px;
+    height: 72px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 32px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .hero h1 {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 span { color: #F9A84D; }
+
+  .hero p {
+    font-size: 17px;
+    opacity: 0.82;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    max-width: 680px;
+    margin: -28px auto 0;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .progress-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px 28px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .progress-steps {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .step-dot {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 100px;
+    transition: background 0.4s ease, transform 0.2s;
+  }
+
+  .step-dot.active { background: var(--blu); }
+  .step-dot.done { background: var(--green); }
+
+  .progress-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--grey);
+    white-space: nowrap;
+  }
+
+  .progress-label span { color: var(--blu); }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    max-width: 680px;
+    margin: 32px auto 64px;
+    padding: 0 24px;
+    width: 100%;
+  }
+
+  /* STEP CARD */
+  .step-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: none;
+    animation: fadeSlide 0.4s ease;
+  }
+
+  .step-card.active { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-number {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blu);
+    background: var(--blu-light);
+    padding: 4px 12px;
+    border-radius: 100px;
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  .step-card h2 {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .step-card p.subtitle {
+    font-size: 15px;
+    color: var(--grey);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  /* INPUTS */
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    background: var(--bg);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+
+  input:focus {
+    border-color: var(--blu);
+    box-shadow: 0 0 0 4px rgba(0,80,160,0.08);
+    background: var(--white);
+  }
+
+  /* OPTION GRID */
+  .option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .option-btn {
+    border: 2px solid var(--border);
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 18px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .option-btn:hover {
+    border-color: var(--blu-mid);
+    background: var(--blu-light);
+    transform: translateY(-1px);
+  }
+
+  .option-btn.selected {
+    border-color: var(--blu);
+    background: var(--blu-light);
+    box-shadow: 0 0 0 4px rgba(0,80,160,0.08);
+  }
+
+  .option-icon { font-size: 26px; line-height: 1; }
+
+  .option-label {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .option-sub {
+    font-size: 12px;
+    color: var(--grey);
+    line-height: 1.3;
+  }
+
+  /* SLIDER */
+  .slider-wrap {
+    padding: 8px 0;
+  }
+
+  .slider-val {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--blu);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .slider-val span {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--grey);
+    margin-left: 6px;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    background: var(--border);
+    border-radius: 100px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: var(--blu);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,80,160,0.3);
+    transition: transform 0.2s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 8px;
+  }
+
+  /* NAV BUTTONS */
+  .btn-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    align-items: center;
+  }
+
+  .btn-back {
+    padding: 14px 24px;
+    border: 2px solid var(--border);
+    background: transparent;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--grey);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-back:hover { border-color: var(--blu); color: var(--blu); }
+
+  .btn-next {
+    flex: 1;
+    padding: 16px 28px;
+    background: var(--blu);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-next:hover { background: var(--blu-mid); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,80,160,0.25); }
+  .btn-next:disabled { background: var(--border); color: var(--grey); cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .btn-cta {
+    flex: 1;
+    padding: 18px 28px;
+    background: linear-gradient(135deg, var(--energy), #E8850F);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,115,13,0.35); }
+
+  /* LOADING */
+  #loading-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 60px 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    text-align: center;
+    display: none;
+  }
+
+  .loader-ring {
+    width: 64px;
+    height: 64px;
+    border: 4px solid var(--border);
+    border-top-color: var(--blu);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .loading-sub {
+    font-size: 14px;
+    color: var(--grey);
+  }
+
+  /* RESULT CARD */
+  #result-card {
+    display: none;
+    animation: fadeSlide 0.5s ease;
+  }
+
+  .result-hero {
+    background: linear-gradient(135deg, var(--green) 0%, #0D6644 100%);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-hero::before {
+    content: '⚡';
+    position: absolute;
+    font-size: 160px;
+    opacity: 0.06;
+    top: -20px;
+    right: -20px;
+    line-height: 1;
+  }
+
+  .result-hero .greeting {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .result-hero h2 {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .savings-big {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: clamp(52px, 10vw, 80px);
+    font-weight: 900;
+    line-height: 1;
+    color: #F9A84D;
+  }
+
+  .savings-big span {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    margin-left: 8px;
+  }
+
+  .savings-label {
+    font-size: 14px;
+    opacity: 0.75;
+    margin-top: 8px;
+  }
+
+  .result-body {
+    background: var(--white);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .result-section {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .result-section:last-child { border-bottom: none; }
+
+  .result-section-title {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .result-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .result-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #2D3748;
+  }
+
+  /* PRODUCT CHIPS */
+  .product-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .product-chip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--bg);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .product-chip:hover { border-color: var(--blu); background: var(--blu-light); }
+
+  .product-chip-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--blu);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .product-chip-name {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .product-chip-desc {
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 2px;
+  }
+
+  .product-chip-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    background: var(--green-light);
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .stat-box {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .stat-val {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--blu);
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--grey);
+    line-height: 1.3;
+  }
+
+  /* CTA FOOTER */
+  .result-cta {
+    background: linear-gradient(135deg, var(--blu) 0%, #0A2A5E 100%);
+    border-radius: 20px;
+    padding: 36px 32px;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .result-cta h3 {
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .result-cta p {
+    font-size: 14px;
+    opacity: 0.75;
+    margin-bottom: 24px;
+  }
+
+  .btn-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: var(--blu);
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+  .btn-restart {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.7);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 14px;
+    display: block;
+    width: fit-content;
+    margin: 14px auto 0;
+    transition: all 0.2s;
+  }
+
+  .btn-restart:hover { border-color: white; color: white; }
+
+  /* API KEY INFO */
+  .api-notice {
+    background: #FFF8E1;
+    border: 1px solid #FFE082;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #8B6914;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: var(--grey);
+    border-top: 1px solid var(--border);
+  }
+
+  footer strong { color: var(--blu); }
+
+  /* ERROR */
+  .error-box {
+    background: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    color: #DC2626;
+    font-size: 15px;
+  }
+
+  @media (max-width: 560px) {
+    .option-grid { grid-template-columns: 1fr 1fr; }
+    .step-card { padding: 28px 22px; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .result-section { padding: 22px 20px; }
+    .result-cta { padding: 28px 20px; }
+    header { padding: 14px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="ORBIS Logo">
+  </div>
+  <div class="header-badge">🔋 Risparmio Energetico AI</div>
+</header>
+
+<div class="hero">
+  <div class="hero-icon">⚡</div>
+  <h1>Scopri quanto puoi<br><span>risparmiare in bolletta</span></h1>
+  <p>L'intelligenza artificiale analizza il tuo caso specifico e ti dice esattamente dove stai sprecando energia — e come fermarla.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="progress-steps" id="progress-steps">
+      <div class="step-dot active" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+      <div class="step-dot" id="dot-4"></div>
+      <div class="step-dot" id="dot-5"></div>
+    </div>
+    <div class="progress-label">Passo <span id="current-step">1</span> di 5</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- STEP 1 -->
+  <div class="step-card active" id="step-1">
+    <div class="step-number">Passo 01</div>
+    <h2>Chi sei?</h2>
+    <p class="subtitle">Iniziamo dal tuo nome e dal tipo di spazio che vuoi ottimizzare.</p>
+    <div class="form-group">
+      <label>Il tuo nome</label>
+      <input type="text" id="nome" placeholder="Es. Marco Rossi" />
+    </div>
+    <div class="form-group">
+      <label>Tipo di immobile</label>
+      <div class="option-grid">
+        <button class="option-btn" data-group="tipo" data-val="appartamento">
+          <span class="option-icon">🏠</span>
+          <span class="option-label">Appartamento</span>
+          <span class="option-sub">Residenziale privato</span>
+        </button>
+        <button class="option-btn" data-group="tipo" data-val="ufficio">
+          <span class="option-icon">🏢</span>
+          <span class="option-label">Ufficio / Studio</span>
+          <span class="option-sub">Spazio professionale</span>
+        </button>
+        <button class="option-btn" data-group="tipo" data-val="negozio">
+          <span class="option-icon">🏪</span>
+          <span class="option-label">Negozio / Locale</span>
+          <span class="option-sub">Attività commerciale</span>
+        </button>
+        <button class="option-btn" data-group="tipo" data-val="capannone">
+          <span class="option-icon">🏭</span>
+          <span class="option-label">Capannone</span>
+          <span class="option-sub">Industriale / magazzino</span>
+        </button>
+      </div>
+    </div>
+    <div class="btn-nav">
+      <button class="btn-next" id="next-1" onclick="goNext(1)">Avanti →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-number">Passo 02</div>
+    <h2>Quanto è grande?</h2>
+    <p class="subtitle">La superficie ci aiuta a stimare i consumi con precisione.</p>
+    <div class="slider-wrap">
+      <div class="slider-val"><span id="mq-val">80</span><span>m²</span></div>
+      <input type="range" id="mq-slider" min="20" max="2000" value="80" step="10" oninput="document.getElementById('mq-val').textContent=this.value">
+      <div class="slider-labels"><span>20 m²</span><span>2.000 m²</span></div>
+    </div>
+    <div class="btn-nav">
+      <button class="btn-back" onclick="goBack(2)">← Indietro</button>
+      <button class="btn-next" onclick="goNext(2)">Avanti →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-number">Passo 03</div>
+    <h2>Come usi gli spazi?</h2>
+    <p class="subtitle">Quante ore al giorno rimangono accesi luci, riscaldamento o condizionamento?</p>
+    <div class="form-group">
+      <label>Ore medie di utilizzo al giorno</label>
+      <div class="slider-wrap">
+        <div class="slider-val"><span id="ore-val">8</span><span>h/g</span></div>
+        <input type="range" id="ore-slider" min="1" max="24" value="8" step="1" oninput="document.getElementById('ore-val').textContent=this.value">
+        <div class="slider-labels"><span>1 ora</span><span>24 ore</span></div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:28px">
+      <label>Fascia oraria principale</label>
+      <div class="option-grid">
+        <button class="option-btn" data-group="fascia" data-val="mattina">
+          <span class="option-icon">🌅</span>
+          <span class="option-label">Mattina</span>
+          <span class="option-sub">6:00 – 13:00</span>
+        </button>
+        <button class="option-btn" data-group="fascia" data-val="pomeriggio">
+          <span class="option-icon">☀️</span>
+          <span class="option-label">Pomeriggio</span>
+          <span class="option-sub">13:00 – 20:00</span>
+        </button>
+        <button class="option-btn" data-group="fascia" data-val="sera">
+          <span class="option-icon">🌙</span>
+          <span class="option-label">Sera / Notte</span>
+          <span class="option-sub">20:00 – 6:00</span>
+        </button>
+        <button class="option-btn" data-group="fascia" data-val="continuo">
+          <span class="option-icon">🔄</span>
+          <span class="option-label">Continuo</span>
+          <span class="option-sub">H24 o variabile</span>
+        </button>
+      </div>
+    </div>
+    <div class="btn-nav">
+      <button class="btn-back" onclick="goBack(3)">← Indietro</button>
+      <button class="btn-next" onclick="goNext(3)">Avanti →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-number">Passo 04</div>
+    <h2>Cosa hai già?</h2>
+    <p class="subtitle">Quali sistemi di controllo sono attualmente installati?</p>
+    <div class="option-grid">
+      <button class="option-btn" data-group="sistemi" data-val="nessuno">
+        <span class="option-icon">❌</span>
+        <span class="option-label">Nessuno</span>
+        <span class="option-sub">Interruttori manuali</span>
+      </button>
+      <button class="option-btn" data-group="sistemi" data-val="termostato_base">
+        <span class="option-icon">🌡️</span>
+        <span class="option-label">Termostato base</span>
+        <span class="option-sub">Vecchio / analogico</span>
+      </button>
+      <button class="option-btn" data-group="sistemi" data-val="timer_manuali">
+        <span class="option-icon">⏱️</span>
+        <span class="option-label">Timer manuali</span>
+        <span class="option-sub">Programmabili vecchia gen.</span>
+      </button>
+      <button class="option-btn" data-group="sistemi" data-val="smart_parziale">
+        <span class="option-icon">📱</span>
+        <span class="option-label">Qualcosa di smart</span>
+        <span class="option-sub">Parzialmente automatizzato</span>
+      </button>
+    </div>
+    <div class="btn-nav">
+      <button class="btn-back" onclick="goBack(4)">← Indietro</button>
+      <button class="btn-next" onclick="goNext(4)">Avanti →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card" id="step-5">
+    <div class="step-number">Passo 05</div>
+    <h2>Qual è il tuo obiettivo?</h2>
+    <p class="subtitle">Cosa ti sta a cuore di più? L'AI calibrerà la sua analisi su questo.</p>
+    <div class="option-grid">
+      <button class="option-btn" data-group="obiettivo" data-val="risparmio_bolletta">
+        <span class="option-icon">💶</span>
+        <span class="option-label">Risparmiare</span>
+        <span class="option-sub">Tagliare la bolletta il massimo</span>
+      </button>
+      <button class="option-btn" data-group="obiettivo" data-val="comfort">
+        <span class="option-icon">🌡️</span>
+        <span class="option-label">Comfort</span>
+        <span class="option-sub">Temperatura sempre perfetta</span>
+      </button>
+      <button class="option-btn" data-group="obiettivo" data-val="sostenibilita">
+        <span class="option-icon">🌱</span>
+        <span class="option-label">Sostenibilità</span>
+        <span class="option-sub">Ridurre l'impatto ambientale</span>
+      </button>
+      <button class="option-btn" data-group="obiettivo" data-val="ev_ricarica">
+        <span class="option-icon">🔌</span>
+        <span class="option-label">Ricarica EV</span>
+        <span class="option-sub">Ho o avrò un'auto elettrica</span>
+      </button>
+    </div>
+    <div class="btn-nav">
+      <button class="btn-back" onclick="goBack(5)">← Indietro</button>
+      <button class="btn-cta" onclick="calcolaRisparmio()">⚡ Calcola il mio risparmio</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading-card">
+    <div class="loader-ring"></div>
+    <div class="loading-text" id="loading-msg">L'AI sta analizzando il tuo profilo…</div>
+    <div class="loading-sub">Elaborazione personalizzata in corso</div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result-card">
+    <div class="result-hero">
+      <div class="greeting" id="result-greeting">Analisi per</div>
+      <h2 id="result-headline">Ecco il tuo potenziale risparmio</h2>
+      <div class="savings-big" id="savings-num">—</div>
+      <div class="savings-label">stima risparmio annuo in bolletta</div>
+    </div>
+
+    <div class="result-body">
+      <div class="result-section">
+        <div class="result-section-title">📊 La tua situazione attuale</div>
+        <div class="result-text" id="result-situazione">—</div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-title">💡 Cosa puoi fare subito</div>
+        <div class="result-text" id="result-consigli">—</div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-title">🔧 Prodotti Orbis consigliati per te</div>
+        <div class="product-grid" id="result-prodotti">—</div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-title">📈 Impatto stimato</div>
+        <div class="stats-row" id="result-stats"></div>
+      </div>
+    </div>
+
+    <div class="result-cta">
+      <h3>Vuoi un'analisi completa gratuita?</h3>
+      <p>Un nostro consulente ti contatta entro 24 ore per un sopralluogo senza impegno.</p>
+      <a href="mailto:info@orbisitalia.it" class="btn-contact">📩 Parla con un esperto</a>
+      <button class="btn-restart" onclick="restart()">↩ Ricomincia l'analisi</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Powered by <strong>Orbis Italia S.p.A.</strong> × AI Energy Advisor &nbsp;|&nbsp; MVP demo — <strong>Ribrain Studio</strong>
+</footer>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────
+const GEMINI_API_KEY = 'AIzaSyCXbl8U8TB2ZAcz206XSuIY8JCU6E5AxeA';
+let state = { nome:'', tipo:'', mq:80, ore:8, fascia:'', sistemi:'', obiettivo:'' };
+let currentStep = 1;
+
+// ─── NAVIGATION ──────────────────────────────────────────
+function goNext(from) {
+  if (from === 1) {
+    state.nome = document.getElementById('nome').value.trim();
+    state.tipo = getSelected('tipo');
+    if (!state.nome || !state.tipo) { shake('step-1'); return; }
+  }
+  if (from === 2) { state.mq = parseInt(document.getElementById('mq-slider').value); }
+  if (from === 3) {
+    state.ore = parseInt(document.getElementById('ore-slider').value);
+    state.fascia = getSelected('fascia');
+    if (!state.fascia) { shake('step-3'); return; }
+  }
+  if (from === 4) {
+    state.sistemi = getSelected('sistemi');
+    if (!state.sistemi) { shake('step-4'); return; }
+  }
+  showStep(from + 1);
+}
+
+function goBack(from) { showStep(from - 1); }
+
+function showStep(n) {
+  document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+  const card = document.getElementById('step-' + n);
+  if (card) { card.classList.add('active'); currentStep = n; updateProgress(n); }
+}
+
+function updateProgress(n) {
+  document.getElementById('current-step').textContent = n;
+  for (let i = 1; i <= 5; i++) {
+    const dot = document.getElementById('dot-' + i);
+    dot.className = 'step-dot' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+}
+
+function getSelected(group) {
+  const btn = document.querySelector(`.option-btn[data-group="${group}"].selected`);
+  return btn ? btn.dataset.val : '';
+}
+
+function shake(id) {
+  const el = document.getElementById(id);
+  el.style.animation = 'none';
+  el.style.border = '2px solid #F87171';
+  setTimeout(() => { el.style.border = '1px solid var(--border)'; }, 1200);
+}
+
+// ─── OPTION BUTTONS ──────────────────────────────────────
+document.querySelectorAll('.option-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const group = this.dataset.group;
+    document.querySelectorAll(`.option-btn[data-group="${group}"]`).forEach(b => b.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// ─── GEMINI API CALL ─────────────────────────────────────
+async function calcolaRisparmio() {
+  state.obiettivo = getSelected('obiettivo');
+  if (!state.obiettivo) { shake('step-5'); return; }
+
+  document.getElementById('step-5').classList.remove('active');
+  document.getElementById('loading-card').style.display = 'block';
+  
+  const msgs = [
+    "L'AI sta analizzando il tuo profilo…",
+    "Calcolo dei consumi energetici…",
+    "Selezione prodotti Orbis più adatti…",
+    "Elaborazione risparmio personalizzato…"
+  ];
+  let mi = 0;
+  const msgInterval = setInterval(() => {
+    mi = (mi + 1) % msgs.length;
+    document.getElementById('loading-msg').textContent = msgs[mi];
+  }, 1600);
+
+  const tipoLabel = {appartamento:'appartamento',ufficio:'ufficio/studio professionale',negozio:'negozio o locale commerciale',capannone:'capannone industriale o magazzino'};
+  const sistLabel = {nessuno:'nessun sistema di controllo (interruttori manuali)',termostato_base:'termostato analogico di vecchia generazione',timer_manuali:'timer manuali programmabili',smart_parziale:'qualche dispositivo smart già installato parzialmente'};
+  const obLabel = {risparmio_bolletta:'ridurre il più possibile la bolletta elettrica',comfort:'massimizzare il comfort termico',sostenibilita:'ridurre impatto ambientale e emissioni CO2',ev_ricarica:'integrare la ricarica di un veicolo elettrico'};
+
+  const prompt = `Sei un consulente energetico esperto di Orbis Italia S.p.A., azienda leader in dispositivi per efficienza energetica (termostati smart, timer digitali, rilevatori di presenza), colonnine di ricarica EV sotto il brand VIARIS, e strutture di supporto per impianti fotovoltaici.
+
+Un utente ha compilato il seguente profilo:
+- Nome: ${state.nome}
+- Tipo di immobile: ${tipoLabel[state.tipo]}
+- Superficie: ${state.mq} m²
+- Ore di utilizzo giornaliero: ${state.ore} ore/giorno
+- Fascia oraria principale: ${state.fascia}
+- Sistemi attualmente installati: ${sistLabel[state.sistemi]}
+- Obiettivo principale: ${obLabel[state.obiettivo]}
+
+Crea un'analisi energetica personalizzata per ${state.nome}. Rispondi SOLO in formato JSON valido con questa struttura esatta (nessun testo fuori dal JSON):
+
+{
+  "risparmio_min": numero intero in euro/anno (stima conservativa),
+  "risparmio_max": numero intero in euro/anno (stima ottimistica),
+  "risparmio_label": "es. €420 – €680 / anno",
+  "headline": "frase ad alto impatto di massimo 10 parole sul risparmio possibile",
+  "situazione": "2-3 frasi che descrivono la situazione attuale di ${state.nome} con i suoi dati specifici, problemi energetici tipici del suo profilo, sprechi probabili",
+  "consigli": "2-3 azioni concrete e prioritarie che può fare subito per ridurre i consumi, molto specifiche per il suo profilo",
+  "prodotti": [
+    {
+      "nome": "nome prodotto Orbis reale",
+      "categoria": "Efficienza Energetica o EV Charging o Fotovoltaico",
+      "descrizione": "come risolve il problema specifico di questo utente",
+      "impatto": "es. -25% sui consumi di riscaldamento",
+      "icona": "emoji rilevante"
+    }
+  ],
+  "stat_co2": "es. -320 kg CO₂/anno",
+  "stat_anni_rientro": "es. 2,5 anni",
+  "stat_kwh": "es. -1.200 kWh/anno"
+}
+
+Regole:
+- Consiglia 2-3 prodotti Orbis reali (termostati smart, timer digitali, rilevatori di presenza PIR, colonnine VIARIS se ha auto EV o lo vuole)
+- Sii specifico e numerico, usa i dati forniti dall'utente
+- Tono consulenziale e professionale ma accessibile
+- Stima credibile basata su dati reali del settore energetico italiano 2024-2025`;
+
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.7, maxOutputTokens: 1200 }
+      })
+    });
+
+    const data = await res.json();
+    clearInterval(msgInterval);
+    document.getElementById('loading-card').style.display = 'none';
+
+    let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    raw = raw.replace(/```json|```/g, '').trim();
+    const r = JSON.parse(raw);
+
+    renderResult(r);
+
+  } catch(e) {
+    clearInterval(msgInterval);
+    document.getElementById('loading-card').style.display = 'none';
+    document.getElementById('result-card').style.display = 'block';
+    document.getElementById('result-card').innerHTML = `<div class="error-box">⚠️ Errore nella chiamata API Gemini.<br><small>Verifica che la API key sia corretta e che il modello gemini-2.0-flash sia disponibile.</small><br><br><button class="btn-back" onclick="restart()">↩ Riprova</button></div>`;
+    console.error(e);
+  }
+}
+
+// ─── RENDER ──────────────────────────────────────────────
+function renderResult(r) {
+  document.getElementById('result-greeting').textContent = `Analisi per ${state.nome}`;
+  document.getElementById('result-headline').textContent = r.headline || 'Ecco il tuo potenziale risparmio';
+  document.getElementById('savings-num').innerHTML = `${r.risparmio_label || '—'}<span>/ anno</span>`;
+
+  document.getElementById('result-situazione').textContent = r.situazione;
+  document.getElementById('result-consigli').textContent = r.consigli;
+
+  // Prodotti
+  const grid = document.getElementById('result-prodotti');
+  grid.innerHTML = '';
+  (r.prodotti || []).forEach(p => {
+    grid.innerHTML += `
+      <div class="product-chip">
+        <div class="product-chip-icon">${p.icona || '⚡'}</div>
+        <div>
+          <div class="product-chip-name">${p.nome}</div>
+          <div class="product-chip-desc">${p.descrizione}</div>
+        </div>
+        <div class="product-chip-badge">${p.impatto}</div>
+      </div>`;
+  });
+
+  // Stats
+  document.getElementById('result-stats').innerHTML = `
+    <div class="stat-box"><div class="stat-val">${r.stat_co2 || '—'}</div><div class="stat-label">CO₂ risparmiata</div></div>
+    <div class="stat-box"><div class="stat-val">${r.stat_kwh || '—'}</div><div class="stat-label">kWh in meno / anno</div></div>
+    <div class="stat-box"><div class="stat-val">${r.stat_anni_rientro || '—'}</div><div class="stat-label">Rientro investimento</div></div>`;
+
+  document.getElementById('result-card').style.display = 'block';
+  document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── RESTART ─────────────────────────────────────────────
+function restart() {
+  state = { nome:'', tipo:'', mq:80, ore:8, fascia:'', sistemi:'', obiettivo:'' };
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('nome').value = '';
+  document.getElementById('mq-slider').value = 80;
+  document.getElementById('mq-val').textContent = '80';
+  document.getElementById('ore-slider').value = 8;
+  document.getElementById('ore-val').textContent = '8';
+  document.getElementById('result-card').style.display = 'none';
+  showStep(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
