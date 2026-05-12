@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 .tb-r{display:flex;align-items:center;gap:.75rem}
 .tb-badge{font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(217,115,13,.25);color:var(--energy);padding:3px 9px;border-radius:4px;background:var(--energy-light)}
 .tb-date{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
-.rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer}
+.rb-ham{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:32px;height:32px;padding:5px;background:none;border:none;cursor:pointer;position:relative;z-index:810}
 .rb-ham span{display:block;height:1.5px;background:var(--ink);border-radius:1px;transition:all .4s cubic-bezier(0.16,1,0.3,1);transform-origin:right center}
 .rb-ham .h1{width:20px}.rb-ham .h2{width:14px}.rb-ham .h3{width:20px}
 .rb-ham.open .h1{width:20px;transform:translateY(6.5px) rotate(-45deg)}
@@ -159,13 +159,36 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 </style>
 </head>
 <body>
-<div id="cur"></div>
-<div id="progress"><div id="progress-fill"></div></div>
-
 <header class="topbar">
   <div class="tb-l">
-    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis" class="tb-logo">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" alt="Orbis Italia" class="tb-logo">
     <div class="tb-sep"></div>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <span class="tb-badge">04 · Personas</span>
+  <div class="tb-r">
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
+
+
+
+
+
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <span class="tb-badge">04 · Personas</span>
+  <div class="tb-r">
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
+  </div>
+  <span class="tb-badge">04 · Personas</span>
+  <div class="tb-r">
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu"><span class="h1"></span><span class="h2"></span><span class="h3"></span></button>
+  </div>
+</header>
     <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" alt="Ribrain" class="tb-rlogo">
   </div>
   <div class="tb-r">
@@ -631,37 +654,39 @@ ScrollTrigger.create({trigger:"#sFiliera",start:"top 75%",once:true,onEnter:func
 }});
 </script>
 
+
+
+
+
+<!-- NAV -->
+
+
+
+
+
+
+
+
+
 <script>
 (function(){
-var M=[
-  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'}
-  {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'}
-  {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'}
-  {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'}
-  {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'}
-  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'}
-  {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'}
-  {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'},
-  {id:'come',code:'CL',label:'Come Lavoriamo',sub:'Team · Processo · Patto',url:'come.html',color:'#0A1628'}
-,{id:'tool',code:'AI',label:'AI Tool',sub:'Calcolatore Risparmio B2C',url:'tool.html',color:'#0891B2'}
-];
+var M=[{id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},{id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},{id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},{id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},{id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},{id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},{id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},{id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'},{id:'come',code:'CL',label:'Come Lavoriamo',sub:'Team · Processo · Patto',url:'come.html',color:'#0A1628'},{id:'tool',code:'AI',label:'AI Tool',sub:'Calcolatore Risparmio B2C',url:'tool.html',color:'#0891B2'}];
 var path='m4';
-var st=document.createElement('style');
-st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:"Afacad Flux",sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:"DM Sans",sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:"Afacad Flux",sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:"DM Sans",sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}.rbi[data-id="tool"]{background:rgba(8,145,178,.04)}.rbi[data-id="tool"] .rbi-code{color:#0891B2 !important;font-weight:600}.rbi[data-id="tool"]:not(.active) .rbi-label{color:rgba(8,145,178,.55) !important}.rnav-a.tool-item{background:rgba(8,145,178,.06);color:#0891B2}.rnav-a.tool-item.active{color:#0891B2;background:rgba(8,145,178,.12)}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';
-document.head.appendChild(st);
+var st=document.createElement('style');st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(0.16,1,0.3,1)}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #D8E0EE;flex-shrink:0}.rbov-brand{display:flex;align-items:center;gap:10px}.rbov-logo{height:20px;object-fit:contain}.rbov-sep{width:1px;height:14px;background:#D8E0EE}.rbov-rl{height:11px;opacity:.3}.rbov-lbl{font-family:DM Sans,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA4BC}.rbov-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 40px 32px;overflow-y:auto}.rbov-items{list-style:none}.rbi{border-top:1px solid #EBF0F8;opacity:0;transform:translateY(16px);position:relative}.rbi:last-child{border-bottom:1px solid #EBF0F8}.rbi a{display:grid;grid-template-columns:44px 1fr auto;gap:0 16px;align-items:center;padding:12px 0;text-decoration:none;color:inherit}.rbi-code{font-size:10px;letter-spacing:.1em;color:#8FA4BC;font-family:DM Sans,sans-serif}.rbi-left{display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:Afacad Flux,sans-serif;font-weight:300;font-size:clamp(22px,3vw,38px);line-height:1;color:rgba(10,22,40,.35);transition:color .25s}.rbi.active .rbi-label,.rbi a:hover .rbi-label{color:#0A1628}.rbi-sub{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC;font-family:DM Sans,sans-serif}.rbi-arr{font-size:14px;color:#D8E0EE;transition:transform .25s,color .25s}.rbi a:hover .rbi-arr{transform:translateX(4px);color:#1A72C8}.rbi.active .rbi-arr{color:#D9730D}.rbi-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:0}.rbi.active .rbi-bar{opacity:1}.rbov-foot{padding:14px 40px;border-top:1px solid #D8E0EE;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.rbov-fl{font-family:Afacad Flux,sans-serif;font-size:13px;color:#5A7090}.rbov-fr{font-family:DM Sans,sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA4BC}#rbnav{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-top:1px solid #D8E0EE;display:flex;height:48px}.rnav-a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:#8FA4BC;font-family:DM Sans,sans-serif;font-size:8px;letter-spacing:.08em;text-transform:uppercase;gap:2px;transition:color .2s;min-width:0;overflow:hidden}.rnav-a:hover{color:#1A72C8}.rnav-a.active{color:#D9730D}.rnav-dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:0}.rnav-a.active .rnav-dot{opacity:1}.rnav-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%}.rbi[data-id=tool]{background:rgba(8,145,178,.04)}.rbi[data-id=tool] .rbi-code{color:#0891B2!important;font-weight:600}.rbi[data-id=tool]:not(.active) .rbi-label{color:rgba(8,145,178,.55)!important}.rnav-a.tool-item{background:rgba(8,145,178,.06);color:#0891B2}.rnav-a.tool-item.active{color:#0891B2;background:rgba(8,145,178,.12)}@media(max-width:640px){.rbov-body,.rbov-top,.rbov-foot{padding-left:20px;padding-right:20px}}';document.head.appendChild(st);
 var ov=document.createElement('div');ov.className='rbov';
 var ih='';
-for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'" data-id="'+m.id+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+' data-id="'+m.id+'">'+'<div class="rbi-bar" style="background:'+m.color+'"></div>'+'<a href="'+m.url+'">'+'<span class="rbi-code">'+m.code+'</span>'+'<span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span>'+'<span class="rbi-arr">→</span></a></li>';}
 ov.innerHTML='<div class="rbov-top"><div class="rbov-brand"><img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis"><div class="rbov-sep"></div><img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain"><div class="rbov-sep"></div><span class="rbov-lbl">Cruscotto Strategico</span></div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div><div class="rbov-foot"><span class="rbov-fl">ORBIS Italia × Ribrain</span><span class="rbov-fr">Maggio 2026 · Confidenziale</span></div>';
 document.body.appendChild(ov);
-var mo=false,btn=document.getElementById('rbHamBtn');
-function open(){mo=true;btn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
-function close(){mo=false;btn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
-btn.addEventListener('click',function(){if(mo)close();else open();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mo)close();});
-ov.addEventListener('click',function(e){if(e.target===ov)close();});
+var navOpen=false;
+var hamBtn=document.getElementById('rbHamBtn');
+function openMenu(){navOpen=true;hamBtn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';var it=ov.querySelectorAll('.rbi');for(var j=0;j<it.length;j++){(function(el,n){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+n*.04)+'s,transform .35s '+(.05+n*.04)+'s cubic-bezier(0.16,1,0.3,1)';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);})(it[j],j);}}
+function closeMenu(){navOpen=false;hamBtn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+hamBtn.addEventListener('click',function(){if(navOpen)closeMenu();else openMenu();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&navOpen)closeMenu();});
+ov.addEventListener('click',function(e){if(e.target===ov)closeMenu();});
 var nb=document.createElement('nav');nb.id='rbnav';var nbH='';
-for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;nbH+='<a href="'+m.url+'" class="rnav-a'+(a?' active':'')+(m.id=='tool'?' tool-item':'')+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;var cls='rnav-a'+(a?' active':'')+(m.id==='tool'?' tool-item':'');nbH+='<a href="'+m.url+'" class="'+cls+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
 nb.innerHTML=nbH;document.body.appendChild(nb);
 })();
 </script>
