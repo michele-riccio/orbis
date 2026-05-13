@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio · ORBIS Italia × Ribrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --bg:#F2F5FA;--surface:#FFFFFF;--surface2:#F8FAFC;--border:#E5EAF0;
+  --ink:#0A1628;--ink2:#2E4060;--ink3:#5A6B82;--ink4:#8FA4BC;
+  --blue:#0050A0;--blue-mid:#1A72C8;--blue-light:#E6EEF8;
+  --energy:#D9730D;--green:#1A9462;--dark:#0A1628
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;-webkit-font-smoothing:antialiased}
+body{padding-top:52px}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:800;height:52px;background:rgba(242,245,250,.96);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border)}
+.tb-l{display:flex;align-items:center;gap:1rem}
+.tb-logo{height:22px}
+.tb-sep{width:1px;height:18px;background:var(--border)}
+.tb-rlogo{height:11px;opacity:.3}
+.tb-badge{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:500}
+.tb-r{display:flex;align-items:center;gap:1rem}
+.tb-date{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);font-weight:500}
+.rb-ham{background:none;border:none;padding:8px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:4px;width:32px;height:32px}
+.rb-ham span{display:block;width:18px;height:1.5px;background:var(--ink);transition:all .3s}
+.rb-ham.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.rb-ham.open span:nth-child(2){opacity:0}
+.rb-ham.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+#progress{position:fixed;top:52px;left:0;right:0;height:2px;background:transparent;z-index:799}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--energy));width:0%;transition:width .1s}
+
+/* HERO */
+.hero{min-height:80vh;padding:5rem 1.5rem 4rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,80,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,80,160,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-numeral{position:absolute;font-family:"Afacad Flux",sans-serif;font-size:clamp(20rem,55vw,45rem);font-weight:300;color:rgba(0,80,160,.05);line-height:.85;letter-spacing:-.05em;top:-3%;right:-5%;pointer-events:none;z-index:0}
+.hero-body{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%}
+.hero-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:1.5rem;font-weight:600;display:flex;align-items:center;gap:.75rem}
+.hero-tag::before{content:"";width:24px;height:1px;background:var(--energy)}
+.hero-h1{font-family:"Afacad Flux",sans-serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:300;line-height:1.02;letter-spacing:-.03em;color:var(--ink);margin-bottom:1.5rem}
+.hero-h1 em{font-style:italic;font-weight:300;color:var(--blue)}
+.hero-h1 strong{font-weight:500}
+.hero-sub{font-size:15px;color:var(--ink3);line-height:1.7;max-width:560px;margin-top:1rem}
+
+/* WALL / BENTO */
+.sec{padding:5rem 1.5rem;position:relative}
+.sec-inner{max-width:1400px;margin:0 auto}
+.s-marker{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem}
+.s-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:1.25rem;font-weight:600;display:flex;align-items:center;gap:.75rem}
+.s-tag::before{content:"";width:24px;height:1px;background:var(--energy)}
+.s-h{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;line-height:1.05;letter-spacing:-.025em;color:var(--ink);margin-bottom:.75rem}
+.s-h em{font-style:italic;font-weight:300;color:var(--blue)}
+.s-lead{font-size:14px;color:var(--ink3);line-height:1.75;max-width:620px;margin-bottom:2.5rem}
+
+/* BENTO */
+.bento{columns:4;column-gap:12px;margin-top:2rem}
+@media(max-width:1024px){.bento{columns:3;column-gap:10px}}
+@media(max-width:680px){.bento{columns:2;column-gap:8px}}
+.bento-tile{display:block;break-inside:avoid;margin-bottom:12px;position:relative;border-radius:12px;overflow:hidden;background:var(--surface);cursor:pointer;border:1px solid var(--border);transition:transform .25s,box-shadow .25s,opacity .4s}
+.bento-tile:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(10,22,40,.12)}
+.bt-img{position:relative;overflow:hidden;width:100%;background:var(--surface2)}
+.bt-img img,.bt-img video{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .5s cubic-bezier(0.16,1,0.3,1)}
+.bento-tile:hover .bt-img img,.bento-tile:hover .bt-img video{transform:scale(1.04)}
+.bt-img.r-sq{aspect-ratio:1}
+.bt-img.r-port{aspect-ratio:4/5}
+.bt-img.r-land{aspect-ratio:4/3}
+.bt-img.r-wide{aspect-ratio:16/9}
+.bt-brand-tag{position:absolute;top:.65rem;left:.65rem;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(10,22,40,.85);backdrop-filter:blur(6px);padding:.3rem .55rem;border-radius:6px;font-weight:600;z-index:3;letter-spacing:.06em}
+.bt-type-tag{position:absolute;top:.65rem;right:.65rem;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);background:rgba(0,80,160,.7);backdrop-filter:blur(6px);padding:.3rem .55rem;border-radius:6px;font-weight:500;z-index:3}
+
+/* Audio button per video */
+.bt-audio-btn{position:absolute;bottom:.7rem;right:.7rem;z-index:5;width:32px;height:32px;border-radius:50%;background:rgba(10,22,40,.75);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.bt-audio-btn:hover{background:rgba(10,22,40,.95);transform:scale(1.08)}
+.bt-audio-btn svg{width:14px;height:14px;fill:rgba(255,255,255,.75);pointer-events:none;transition:fill .2s}
+.bt-audio-btn.is-on{background:var(--blue);border-color:var(--blue-mid)}
+.bt-audio-btn.is-on svg{fill:#fff}
+
+/* CTA FINALE */
+.recap-fin{padding:8rem 1.5rem;background:linear-gradient(135deg,#0A1628 0%,#0F1E32 50%,#0A1628 100%);position:relative;overflow:hidden}
+.recap-fin::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(0,80,160,.18) 0%,transparent 55%),radial-gradient(ellipse at 70% 80%,rgba(217,115,13,.08) 0%,transparent 55%);pointer-events:none}
+.recap-fin .s-marker{color:rgba(255,255,255,.3);text-align:center;position:relative;z-index:1}
+.rf-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--energy);margin-bottom:1.5rem;font-weight:600;text-align:center;position:relative;z-index:1}
+.rf-h{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,3.75rem);font-weight:300;color:#fff;line-height:1.1;letter-spacing:-.025em;text-align:center;max-width:900px;margin:0 auto 1.5rem;position:relative;z-index:1}
+.rf-h em{font-style:italic;color:var(--energy);font-weight:300}
+.rf-text{font-size:15px;color:rgba(255,255,255,.55);line-height:1.8;max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:1}
+
+/* MODULE NAV */
+.mod-nav{padding:2rem 1.5rem;display:flex;justify-content:space-between;max-width:1200px;margin:0 auto;align-items:center}
+.mnav-back,.mnav-next{font-size:13px;color:var(--ink3);text-decoration:none;font-weight:500;transition:color .2s}
+.mnav-back:hover,.mnav-next:hover{color:var(--blue)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="tb-l">
+    <img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="tb-logo" alt="Orbis">
+    <div class="tb-sep"></div>
+    <img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="tb-rlogo" alt="Ribrain">
+  </div>
+  <span class="tb-badge">Portfolio</span>
+  <div class="tb-r">
+    <span class="tb-date">Maggio 2026</span>
+    <button class="rb-ham" id="rbHamBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div id="progress"><div id="progress-fill"></div></div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-numeral">P</div>
+  <div class="hero-body">
+    <div class="hero-tag">Portfolio · Lavori selezionati</div>
+    <h1 class="hero-h1">Ogni brand,<br><em>una voce diversa.</em></h1>
+    <p class="hero-sub">B2B industriale, energia, food, hospitality, design. Quello che segue è una selezione di contenuti prodotti dal team Ribrain — non template, non batch. Foto editoriali, reel, grafiche, campagne. Ogni cliente ha un linguaggio diverso perché ha una storia diversa.</p>
+  </div>
+</section>
+
+<!-- WALL -->
+<section class="sec" id="s-wall">
+  <div class="sec-inner">
+    <div class="s-marker">Selezione · Maggio 2026</div>
+    <div class="s-tag">Il lavoro</div>
+    <h2 class="s-h">Il muro dei progetti.<br><em>Formato, voce, identità visiva.</em></h2>
+    <p class="s-lead">Tocca le tile per esplorare. I video partono in autoplay; clicca sull'icona audio per attivare il sonoro. Disposizione casuale per riflettere la varietà del lavoro.</p>
+    <div class="bento" id="bento">
+
+      <div class="bento-tile bt-w2" data-brand="molino">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/molino1.png" alt="Molino" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Molino</div>
+        <div class="bt-type-tag">Brand visual</div>
+      </div>
+
+      <div class="bento-tile" data-brand="molino" data-video="true">
+        <div class="bt-img r-sq">
+          <video src="https://raw.githubusercontent.com/michele-riccio/bzarhotel/main/portfolio/molino1.mp4" muted loop playsinline preload="metadata"></video>
+          <button class="bt-audio-btn" aria-label="Audio">
+            <svg class="icon-muted" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.17v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+            <svg class="icon-on" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          </button>
+        </div>
+        <div class="bt-brand-tag">Molino</div>
+        <div class="bt-type-tag">Reel social</div>
+      </div>
+
+      <div class="bento-tile" data-brand="sygenta">
+        <div class="bt-img r-land">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/sygenta1.png" alt="Sygenta" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Sygenta</div>
+        <div class="bt-type-tag">B2B</div>
+      </div>
+
+      <div class="bento-tile" data-brand="cms-ribrain">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/5-PS_CMS_ribrain.png" alt="CMS Ribrain" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">CMS Ribrain</div>
+        <div class="bt-type-tag">Sistema editoriale</div>
+      </div>
+
+      <div class="bento-tile" data-brand="sygenta">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/sygenta3.png" alt="Sygenta" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Sygenta</div>
+        <div class="bt-type-tag">B2B</div>
+      </div>
+
+      <div class="bento-tile" data-brand="modimo">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/modimo.jpg" alt="Modimo" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Modimo</div>
+        <div class="bt-type-tag">Visual</div>
+      </div>
+
+      <div class="bento-tile bt-w2" data-brand="molino">
+        <div class="bt-img r-wide">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/molino2.png" alt="Molino" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Molino</div>
+        <div class="bt-type-tag">Brand visual</div>
+      </div>
+
+      <div class="bento-tile" data-brand="lemon" data-video="true">
+        <div class="bt-img r-sq">
+          <video src="https://raw.githubusercontent.com/michele-riccio/bzarhotel/main/portfolio/lemonpost.mp4" muted loop playsinline preload="metadata"></video>
+          <button class="bt-audio-btn" aria-label="Audio">
+            <svg class="icon-muted" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.17v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+            <svg class="icon-on" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          </button>
+        </div>
+        <div class="bt-brand-tag">Lemon</div>
+        <div class="bt-type-tag">Post video</div>
+      </div>
+
+      <div class="bento-tile" data-brand="alilauro">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/bzarhotel/main/portfolio/feed-pulpito-dizionario-alilauro.png" alt="Alilauro" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Alilauro</div>
+        <div class="bt-type-tag">Editoriale</div>
+      </div>
+
+      <div class="bento-tile" data-brand="gecodor">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/IMG4_Gecodor.png" alt="Gecodor" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Gecodor</div>
+        <div class="bt-type-tag">Brand identity</div>
+      </div>
+
+      <div class="bento-tile" data-brand="ener-italia">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/6-Prove_Social_Ener_Italia.png" alt="Ener Italia" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Ener Italia</div>
+        <div class="bt-type-tag">Prove social</div>
+      </div>
+
+      <div class="bento-tile" data-brand="vitigno-italia">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/bzarhotel/main/portfolio/Feste-Natalizie-2018_Vitigno.png" alt="Vitigno Italia" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Vitigno Italia</div>
+        <div class="bt-type-tag">Festival</div>
+      </div>
+
+      <div class="bento-tile" data-brand="sygenta">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/sygenta2.png" alt="Sygenta" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Sygenta</div>
+        <div class="bt-type-tag">B2B</div>
+      </div>
+
+      <div class="bento-tile" data-brand="lemon" data-video="true">
+        <div class="bt-img r-sq">
+          <video src="https://raw.githubusercontent.com/michele-riccio/bzarhotel/main/portfolio/lemon1.mp4" muted loop playsinline preload="metadata"></video>
+          <button class="bt-audio-btn" aria-label="Audio">
+            <svg class="icon-muted" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.17v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+            <svg class="icon-on" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          </button>
+        </div>
+        <div class="bt-brand-tag">Lemon</div>
+        <div class="bt-type-tag">Reel</div>
+      </div>
+
+      <div class="bento-tile bt-w2" data-brand="gecodor">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/IMG7_Gecodor.png" alt="Gecodor" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Gecodor</div>
+        <div class="bt-type-tag">Brand identity</div>
+      </div>
+
+      <div class="bento-tile bt-w2" data-brand="nuvola">
+        <div class="bt-img r-wide">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/nuvolastand.png" alt="Nuvola" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Nuvola</div>
+        <div class="bt-type-tag">Allestimento</div>
+      </div>
+
+      <div class="bento-tile" data-brand="berna">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/berna3.png" alt="Berna" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Berna</div>
+        <div class="bt-type-tag">Campagna</div>
+      </div>
+
+      <div class="bento-tile" data-brand="sygenta">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/sygenta4.png" alt="Sygenta" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Sygenta</div>
+        <div class="bt-type-tag">B2B</div>
+      </div>
+
+      <div class="bento-tile bt-w2" data-brand="domus">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/domus.png" alt="Domus" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Domus</div>
+        <div class="bt-type-tag">Editoriale</div>
+      </div>
+
+      <div class="bento-tile bt-w2" data-brand="ener-italia">
+        <div class="bt-img r-land">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/3-Prove_Social_Ener_Italia.png" alt="Ener Italia" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Ener Italia</div>
+        <div class="bt-type-tag">Prove social</div>
+      </div>
+
+      <div class="bento-tile bt-w2" data-brand="cms-ribrain">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/4-PS_CMS_ribrain%20(1).png" alt="CMS Ribrain" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">CMS Ribrain</div>
+        <div class="bt-type-tag">Sistema editoriale</div>
+      </div>
+
+      <div class="bento-tile bt-w2" data-brand="berna">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/berna.png" alt="Berna" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Berna</div>
+        <div class="bt-type-tag">Campagna</div>
+      </div>
+
+      <div class="bento-tile" data-brand="ener-italia">
+        <div class="bt-img r-sq">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/5-Prove_Social_Ener_Italia.png" alt="Ener Italia" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Ener Italia</div>
+        <div class="bt-type-tag">Prove social</div>
+      </div>
+
+      <div class="bento-tile" data-brand="ener-italia">
+        <div class="bt-img r-port">
+          <img src="https://raw.githubusercontent.com/michele-riccio/orbis/main/portfolio/4-Prove_Social_Ener_Italia.png" alt="Ener Italia" loading="lazy">
+        </div>
+        <div class="bt-brand-tag">Ener Italia</div>
+        <div class="bt-type-tag">Prove social</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA CASI STUDIO -->
+<section style="padding:4rem 1.5rem;background:var(--surface);text-align:center;border-top:1px solid var(--border)">
+  <div style="max-width:640px;margin:0 auto">
+    <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:1rem">Approfondisci</div>
+    <h3 style="font-family:'Afacad Flux',sans-serif;font-size:clamp(1.6rem,3.5vw,2.5rem);font-weight:300;color:var(--ink);line-height:1.1;margin-bottom:.75rem">Vuoi vedere i casi studio<br><em style="color:var(--blue);font-weight:300">nel dettaglio?</em></h3>
+    <p style="font-size:13.5px;color:var(--ink3);line-height:1.7;margin-bottom:2rem">Analisi strategiche, obiettivi, metriche e risultati reali. Tutto quello che sta dietro al muro di contenuti che hai appena visto.</p>
+    <a href="https://www.ribrainstudio.com/casi-studio/" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;gap:.65rem;background:var(--blue);color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.06em;padding:.9rem 2rem;border-radius:99px;transition:background .2s,transform .2s;font-family:'DM Sans',sans-serif"
+       onmouseover="this.style.background='#003D7A';this.style.transform='translateY(-2px)'"
+       onmouseout="this.style.background='#0050A0';this.style.transform='translateY(0)'">
+      Esplora i casi studio →
+    </a>
+    <div style="margin-top:1rem;font-size:11px;color:var(--ink4)">ribrainstudio.com</div>
+  </div>
+</section>
+
+<!-- CTA FINALE -->
+<section class="recap-fin" id="recap">
+  <div class="s-marker">Sintesi · Portfolio</div>
+  <div class="rf-tag">Insight chiave</div>
+  <h2 class="rf-h">Non vendiamo servizi.<br><em>Costruiamo voci.</em></h2>
+  <p class="rf-text">Lavoriamo con brand che hanno scelto di distinguersi. Non per quanto producono, ma per come si raccontano. Ogni cliente ha una storia diversa. Il nostro lavoro è trovarla e darle la forma giusta — per ogni canale, ogni pubblico, ogni momento. Orbis è il nostro prossimo capitolo.</p>
+</section>
+
+<!-- MODULE NAV -->
+<div style="background:var(--surface);border-top:1px solid var(--border)">
+  <nav class="mod-nav">
+    <a href="come.html" class="mnav-back">← Come Lavoriamo</a>
+    <a href="index.html" class="mnav-next">Torna alla Home →</a>
+  </nav>
+</div>
+
+<script>
+(function(){
+  // ── BENTO: shuffle random all'apertura ──────────────
+  var bento = document.getElementById('bento');
+  if(bento){
+    var tiles = Array.from(bento.children);
+    for(var i = tiles.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      bento.insertBefore(tiles[j], tiles[i].nextSibling);
+      var temp = tiles[i]; tiles[i] = tiles[j]; tiles[j] = temp;
+    }
+  }
+
+  // ── VIDEO AUTOPLAY on intersection ──────────────────
+  var videos = document.querySelectorAll('.bento-tile video');
+  if('IntersectionObserver' in window && videos.length){
+    var vObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var v = entry.target;
+        if(entry.isIntersecting){
+          v.play().catch(function(){});
+        } else {
+          v.pause();
+        }
+      });
+    }, {threshold:0.4});
+    videos.forEach(function(v){ vObs.observe(v); });
+  }
+
+  // ── AUDIO TOGGLE ────────────────────────────────────
+  var audioBtns = document.querySelectorAll('.bt-audio-btn');
+  audioBtns.forEach(function(btn){
+    var tile = btn.closest('.bento-tile');
+    var video = tile ? tile.querySelector('video') : null;
+    if(!video) return;
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var muted = !video.muted;
+      // Muta tutti
+      document.querySelectorAll('.bento-tile video').forEach(function(v){ v.muted = true; });
+      document.querySelectorAll('.bt-audio-btn').forEach(function(b){
+        b.classList.remove('is-on');
+        var iOn = b.querySelector('.icon-on'), iMuted = b.querySelector('.icon-muted');
+        if(iOn) iOn.style.display = 'none';
+        if(iMuted) iMuted.style.display = '';
+      });
+      if(!muted){
+        video.muted = false;
+        btn.classList.add('is-on');
+        var iOn = btn.querySelector('.icon-on'), iMuted = btn.querySelector('.icon-muted');
+        if(iOn) iOn.style.display = '';
+        if(iMuted) iMuted.style.display = 'none';
+      }
+    });
+  });
+
+  // ── PROGRESS BAR ────────────────────────────────────
+  window.addEventListener('scroll', function(){
+    var sc = window.scrollY;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progress-fill').style.width = (sc/max*100)+'%';
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+var M=[
+  {id:'index',code:'00',label:'Executive Summary',sub:'Il gap · La proposta',url:'index.html',color:'#D9730D'},
+  {id:'m1',code:'01',label:'Mercato',sub:'FV · EV · Efficienza · Grossisti',url:'m1.html',color:'#0050A0'},
+  {id:'m2',code:'02',label:'Competitor Map',sub:'ABB · BTicino · Vimar · Scame',url:'m2.html',color:'#1A72C8'},
+  {id:'m3',code:'03',label:'Social Audit',sub:'LinkedIn · Instagram · Facebook',url:'m3.html',color:'#1A9462'},
+  {id:'m4',code:'04',label:'Personas',sub:'Grossista · Installatore · Early Adopter',url:'m4.html',color:'#D9730D'},
+  {id:'m5',code:'05',label:'Architettura Editoriale',sub:'Pillar · VIARIS · Sostenibilità',url:'m5.html',color:'#0050A0'},
+  {id:'m6',code:'06',label:'Piano Media',sub:'Budget · KPI · Scenari',url:'m6.html',color:'#1A72C8'},
+  {id:'m7',code:'07',label:'Strategia Creativa',sub:'Tono · Format · Benchmark',url:'m7.html',color:'#D9730D'},
+  {id:'come',code:'CL',label:'Come Lavoriamo',sub:'Team · Processo · Patto',url:'come.html',color:'#0A1628'},
+  {id:'portfolio',code:'PF',label:'Portfolio',sub:'Lavori selezionati · Ribrain',url:'portfolio.html',color:'#1A9462'},
+  {id:'tool',code:'AI',label:'AI Tool',sub:'Calcolatore Risparmio B2C',url:'tool.html',color:'#0891B2'}
+];
+var path='portfolio';
+var st=document.createElement('style');
+st.textContent='.rbov{position:fixed;inset:0;z-index:9000;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s}.rbov.open{opacity:1;pointer-events:auto}.rbov-top{padding:14px 40px;border-bottom:1px solid #E5EAF0;display:flex;align-items:center;justify-content:space-between}.rbov-brand{display:flex;align-items:center;gap:14px}.rbov-logo{height:22px}.rbov-sep{width:1px;height:18px;background:#E5EAF0}.rbov-rl{height:11px;opacity:.35}.rbov-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#5A6B82;font-weight:500}.rbov-body{flex:1;overflow-y:auto;padding:30px 40px;display:flex;align-items:center}.rbov-items{list-style:none;width:100%;max-width:780px;margin:0 auto}.rbi{display:flex;align-items:center;gap:14px;border-bottom:1px solid #F0F3F8;opacity:0;transform:translateY(16px)}.rbi:last-child{border-bottom:none}.rbi-bar{width:3px;height:42px;border-radius:2px;flex-shrink:0}.rbi a{display:flex;align-items:center;gap:18px;text-decoration:none;color:#0A1628;flex:1;padding:18px 0;transition:padding .3s}.rbi a:hover{padding-left:8px}.rbi.active a{color:#0050A0}.rbi-code{font-size:10px;font-weight:600;color:#8FA4BC;width:32px;letter-spacing:.1em}.rbi-left{flex:1;display:flex;flex-direction:column;gap:2px}.rbi-label{font-family:Afacad Flux,sans-serif;font-size:1.35rem;font-weight:400}.rbi-sub{font-size:11px;color:#8FA4BC;letter-spacing:.04em}.rbi-arr{color:#8FA4BC;font-size:1.1rem;opacity:.5;transition:opacity .25s,transform .25s}.rbi:hover .rbi-arr{opacity:1;transform:translateX(4px)}.rbov-foot{padding:14px 40px;border-top:1px solid #E5EAF0;display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#8FA4BC;font-weight:500}#rbnav{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.65rem;z-index:700;pointer-events:auto}@media(max-width:860px){#rbnav{display:none}}.rnav-a{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:rgba(10,22,40,.4);font-size:10px;font-weight:500;letter-spacing:.05em;padding:.35rem 0;transition:color .25s}.rnav-a:hover,.rnav-a.active{color:#0A1628}.rnav-dot{width:7px;height:7px;border-radius:50%;background:rgba(10,22,40,.2);transition:background .25s,transform .25s}.rnav-a.active .rnav-dot{background:#0050A0;transform:scale(1.4)}.rnav-lbl{opacity:0;transform:translateX(8px);transition:opacity .25s,transform .25s}.rnav-a:hover .rnav-lbl,.rnav-a.active .rnav-lbl{opacity:1;transform:translateX(0)}.tool-item .rnav-dot{background:rgba(8,145,178,.4)}.tool-item.active .rnav-dot{background:#0891B2}';
+document.head.appendChild(st);
+var ov=document.createElement('div');ov.className='rbov';
+var ih='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;ih+='<li class="rbi'+(a?' active':'')+'" data-id="'+m.id+'"><div class="rbi-bar" style="background:'+m.color+'"></div><a href="'+m.url+'"><span class="rbi-code">'+m.code+'</span><span class="rbi-left"><span class="rbi-label">'+m.label+'</span><span class="rbi-sub">'+m.sub+'</span></span><span class="rbi-arr">→</span></a></li>';}
+ov.innerHTML='<div class="rbov-top"><div class="rbov-brand">'+
+  '<img src="https://cdn-baapl.nitrocdn.com/jCcLsbpycTOxfzOZkeccYaaZxiOcwjHF/assets/images/optimized/rev-8858899/www.orbisitalia.it/wp-content/uploads/2022/11/Orbis_logo_sito_2022.png" class="rbov-logo" alt="Orbis">'+
+  '<div class="rbov-sep"></div>'+
+  '<img src="https://www.ribrainstudio.com/wp-content/uploads/2025/01/Logo_ribrain_Nero.svg" class="rbov-rl" alt="Ribrain">'+
+  '<div class="rbov-sep"></div>'+
+  '<span class="rbov-lbl">Cruscotto Strategico</span>'+
+  '</div></div><div class="rbov-body"><ul class="rbov-items">'+ih+'</ul></div>'+
+  '<div class="rbov-foot"><span>ORBIS Italia × Ribrain</span><span>Maggio 2026 · Confidenziale</span></div>';
+document.body.appendChild(ov);
+var navOpen=false;
+var hamBtn=document.getElementById('rbHamBtn');
+function openMenu(){navOpen=true;hamBtn.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';ov.querySelectorAll('.rbi').forEach(function(el,i){el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .35s '+(.05+i*.04)+'s,transform .35s '+(.05+i*.04)+'s';setTimeout(function(){el.style.opacity='1';el.style.transform='translateY(0)';},10);});}
+function closeMenu(){navOpen=false;hamBtn.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+hamBtn.addEventListener('click',function(){if(navOpen)closeMenu();else openMenu();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&navOpen)closeMenu();});
+ov.addEventListener('click',function(e){if(e.target===ov)closeMenu();});
+var nb=document.createElement('nav');nb.id='rbnav';var nbH='';
+for(var i=0;i<M.length;i++){var m=M[i],a=m.id===path;var cls='rnav-a'+(a?' active':'')+(m.id==='tool'?' tool-item':'');nbH+='<a href="'+m.url+'" class="'+cls+'"><div class="rnav-dot"></div><span class="rnav-lbl">'+m.code+' '+m.label.split(' ')[0]+'</span></a>';}
+nb.innerHTML=nbH;document.body.appendChild(nb);
+})();
+</script>
+</body>
+</html>
