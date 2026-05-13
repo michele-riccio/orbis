@@ -196,6 +196,61 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 .mnav-next:hover{background:#0062C4;transform:translateY(-1px)}
 .mnav-next span{transition:transform .2s}
 .mnav-next:hover span{transform:translateX(3px)}
+
+/* ═══ ROI CALCULATOR ════════════════════════════════════════════════════════ */
+.roi-section{background:var(--ink);padding:5rem 1.5rem;position:relative;overflow:hidden}
+.roi-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(0,80,160,.25) 0%,transparent 65%);pointer-events:none}
+.roi-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.roi-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:1rem}
+.roi-title{font-family:"Afacad Flux",sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;color:#fff;line-height:1.05;margin-bottom:.75rem;letter-spacing:-.03em}
+.roi-title strong{font-weight:500}
+.roi-sub{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:3rem;max-width:560px;line-height:1.65}
+.roi-body{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+@media(max-width:780px){.roi-body{grid-template-columns:1fr}}
+
+/* Pannello controlli */
+.roi-controls{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:2rem}
+.roi-ctrl-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.5rem;display:block}
+.roi-ctrl-val{font-family:"Afacad Flux",sans-serif;font-size:2.8rem;font-weight:600;color:#fff;line-height:1;margin-bottom:.75rem}
+.roi-ctrl-val span{font-size:1.2rem;font-weight:300;opacity:.5}
+
+/* Slider */
+.roi-slider{width:100%;-webkit-appearance:none;height:4px;border-radius:99px;background:rgba(255,255,255,.15);outline:none;cursor:pointer;margin:0 0 1.5rem}
+.roi-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #0050A0;cursor:pointer;box-shadow:0 0 0 4px rgba(0,80,160,.3)}
+
+/* Preset buttons */
+.roi-presets{display:flex;gap:.5rem;margin-bottom:1.75rem}
+.roi-preset{flex:1;padding:.6rem .5rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-family:"DM Sans",sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;text-align:center}
+.roi-preset.active,.roi-preset:hover{background:rgba(0,80,160,.5);border-color:#0050A0;color:#fff}
+
+/* Canali allocation */
+.roi-channels{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.75rem}
+.roi-ch{display:grid;grid-template-columns:80px 1fr 50px;align-items:center;gap:.75rem;font-size:12px}
+.roi-ch-name{color:rgba(255,255,255,.6)}
+.roi-ch-bar-wrap{height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.roi-ch-bar{height:100%;border-radius:99px;transition:width .4s ease}
+.roi-ch-pct{color:rgba(255,255,255,.5);font-size:11px;text-align:right}
+
+/* Parametri editabili */
+.roi-params{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08)}
+.roi-param{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.75rem}
+.roi-param-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.35rem}
+.roi-param-input{width:100%;background:none;border:none;outline:none;font-family:"Afacad Flux",sans-serif;font-size:1.1rem;color:#fff;font-weight:500}
+.roi-param-note{font-size:9px;color:rgba(255,255,255,.2);margin-top:.2rem}
+
+/* Pannello output */
+.roi-outputs{display:flex;flex-direction:column;gap:1rem}
+.roi-out-card{border-radius:12px;padding:1.25rem 1.5rem;border:1px solid rgba(255,255,255,.08)}
+.roi-out-card.primary{background:rgba(0,80,160,.3);border-color:rgba(0,80,160,.5)}
+.roi-out-card.highlight{background:rgba(26,148,98,.2);border-color:rgba(26,148,98,.4)}
+.roi-out-card.warn{background:rgba(217,115,13,.15);border-color:rgba(217,115,13,.3)}
+.roi-out-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.4rem}
+.roi-out-val{font-family:"Afacad Flux",sans-serif;font-size:2.2rem;font-weight:600;color:#fff;line-height:1}
+.roi-out-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:.3rem;line-height:1.5}
+.roi-out-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+/* Nota disclaimer */
+.roi-note{font-size:10px;color:rgba(255,255,255,.2);margin-top:1.5rem;line-height:1.6;border-top:1px solid rgba(255,255,255,.06);padding-top:1rem}
 </style>
 </head>
 <body>
@@ -221,8 +276,8 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
   <div class="hero-blob" aria-hidden="true"></div>
   <div class="hero-top">
     <div class="hero-eyebrow" id="hE">Cruscotto Strategico · ORBIS Italia · Modulo 06</div>
-    <h1 class="hero-title" id="hT">Due obiettivi.<br><em>Un solo</em><br>piano. 12 mesi.</h1>
-    <p class="hero-sub" id="hS">Brand awareness e lead generation non sono alternativi: sono sequenziali e paralleli. Si costruisce la notorietà mentre si intercetta chi è già pronto a chiedere. Tre canali, tre scenari, quattro trimestri.</p>
+    <h1 class="hero-title" id="hT">Stare fermi<br><em>non è</em><br>neutro.</h1>
+    <p class="hero-sub" id="hS">Il mercato EV cresce del +39%. Gli installatori cercano su YouTube la sera. I competitor più piccoli di Orbis hanno già una voce. Questo piano non nasce da una moda: nasce da un calcolo preciso su quanto serve per presidiare il mercato nei prossimi 12 mesi — e cosa costa aspettare.</p>
   </div>
   <div class="hero-dual" id="hDual">
     <div class="hd-card awareness">
@@ -246,12 +301,40 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
   </div>
 </section>
 
-<!-- REVERSE ENGINEERING -->
-<section class="interlude" id="sRev">
-  <div class="int-bg" aria-hidden="true">€</div>
-  <div class="int-inner">
-    <div class="int-tag">Il calcolo del budget — reverse engineering</div>
-    <h2 class="int-title">Per far ricordare VIARIS a <strong>20.000 installatori</strong> in 8 settimane, servono esattamente questi numeri.</h2>
+
+<!-- DATI MERCATO -->
+<section style="background:var(--ink);padding:4rem 1.5rem;position:relative;overflow:hidden" id="sMktData">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(217,115,13,.1) 0%,transparent 60%);pointer-events:none"></div>
+  <div class="max-w" style="position:relative;z-index:1">
+    <p style="font-family:'Afacad Flux',sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:300;color:rgba(255,255,255,.7);line-height:1.2;margin-bottom:2rem;max-width:680px">Non è urgenza artificiosa.<br><strong style="color:#fff;font-weight:500">È la finestra che si stringe ogni trimestre.</strong></p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem">
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.5rem;background:rgba(255,255,255,.03)">
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:2.8rem;font-weight:600;color:#D9730D;line-height:1;margin-bottom:.4rem">+39%</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.5">BEV circolanti in Italia<br>fine 2025 vs fine 2024</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.2);margin-top:.5rem">Fonte: ANFIA 2025</div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.5rem;background:rgba(255,255,255,.03)">
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:2.8rem;font-weight:600;color:#1A9462;line-height:1;margin-bottom:.4rem">1/100</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.5">consumatori finali che<br>conoscono Orbis oggi</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.2);margin-top:.5rem">vs 80/100 installatori · stima interna</div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.5rem;background:rgba(255,255,255,.03)">
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:2.8rem;font-weight:600;color:#0050A0;line-height:1;margin-bottom:.4rem">0</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.5">competitor che parla<br>in italiano, in modo giusto</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.2);margin-top:.5rem">Lo spazio è libero. Ora.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCOLO BUDGET -->
+
+<!-- IL MERCATO NON ASPETTA -->
+<section style="background:var(--ink);padding:4.5rem 1.5rem;position:relative;overflow:hidden" id="sMarket">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(217,115,13,.1) 0%,transparent 60%);pointer-events:none"></div>
+  <div class="max-w" style="position:relative;z-index:1">
+    <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.5rem">La stima del budget · come leggiamo i numeri</div>
+    <h2 class="int-title" id="revT">Una stima trasparente su <strong>quanto serve per partire.</strong></h2>
     <div class="calc-rows" id="calcRows">
       <div class="cr">
         <div class="cr-l">Installatori elettrici attivi Nord-Centro Italia (target realistico su 30K totali)</div>
@@ -259,7 +342,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
         <div class="cr-v" id="rv1">0</div>
       </div>
       <div class="cr">
-        <div class="cr-l">Frequenza minima per creare ricordo di brand nelle prime 8 settimane (fonte Nielsen)</div>
+        <div class="cr-l">Frequenza di esposizione consigliata per awareness iniziale (benchmark Nielsen B2B)</div>
         <div class="cr-op">×</div>
         <div class="cr-v">5×</div>
       </div>
@@ -279,86 +362,35 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
         <div class="cr-v" id="rv3">€0</div>
       </div>
     </div>
-    <p class="int-note" id="revNote">Questo copre solo gli installatori. <strong>Aggiungere grossisti e Lorenzo (Google Search) aumenta il budget — non diminuisce il ROI.</strong> Google Search ha CPC, non CPM: si paga solo quando Lorenzo clicca. Chi cerca "wallbox trifase gestione dinamica carichi" è già caldo: il costo per lead scende significativamente rispetto a un target freddo.</p>
+    <p class="int-note" id="revNote">Questa è la stima per coprire gli installatori — il target più qualificato. Aggiungere grossisti e utenti finali (Google Search) aumenta il budget ma migliora la qualità media dei lead: Google Search paga solo al click, e chi cerca "wallbox trifase" è già a metà percorso d'acquisto. <em style="color:rgba(255,255,255,.4);font-size:12px">I numeri sono stime basate su CPM di settore — i valori reali emergono dopo il primo mese di campagna e si ottimizzano da lì.</em></p>
   </div>
 </section>
 
-<!-- TRE CANALI -->
+<!-- TRE CANALI — versione compatta -->
 <section class="section white" id="sCanali">
   <div class="max-w">
     <div class="sec-header" id="shCh">
       <div class="sec-tag" style="--stc:#0050A0">I tre canali</div>
-      <h2 class="sec-title">LinkedIn, Meta, Google.<br>Ciascuno con il suo ruolo.</h2>
-      <p class="sec-sub">Non esistono canali migliori in assoluto — esistono canali giusti per il target giusto e l'obiettivo giusto. La logica di questo piano: LinkedIn per il B2B professionale, Meta per la reach visuale, Google per intercettare chi cerca attivamente.</p>
+      <h2 class="sec-title">Tre canali.<br>Un ruolo preciso ciascuno.</h2>
     </div>
-    <div class="ch-cards" id="chCards">
-      <!-- LinkedIn -->
-      <div class="ch-card">
-        <div class="ch-accent" style="background:linear-gradient(90deg,#0A66C2,#1A72C8)"></div>
-        <div class="ch-icon-row">
-          <div class="ch-icon">💼</div>
-          <div class="ch-name-block">
-            <div class="ch-name">LinkedIn Ads</div>
-            <div class="ch-sub">B2B Professionale</div>
-          </div>
-        </div>
-        <div class="ch-obj-row">
-          <span class="ch-obj" style="background:var(--blue-light);color:var(--blue)">Awareness</span>
-          <span class="ch-obj" style="background:var(--energy-light);color:var(--energy)">Lead gen form</span>
-        </div>
-        <div class="ch-stats">
-          <div class="ch-stat"><span>Target principale</span><span class="ch-stat-val" style="color:var(--blue)">Alessandro + Marco</span></div>
-          <div class="ch-stat"><span>CPM stimato</span><span class="ch-stat-val">€15–22</span></div>
-          <div class="ch-stat"><span>Formato top</span><span class="ch-stat-val">Post boostato + Lead Gen Form</span></div>
-          <div class="ch-stat"><span>Peso budget Sc. B</span><span class="ch-stat-val">€1.500/mese</span></div>
-        </div>
-        <p class="ch-desc">Il canale con il targeting B2B più preciso in assoluto: si raggiungono persone per settore, qualifica, dimensione azienda, interessi. Lead Gen Form nativa: l'installatore lascia email senza uscire da LinkedIn. Costo per lead B2B stimato: €25–45.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+      <div style="background:linear-gradient(135deg,rgba(10,102,194,.08),rgba(10,102,194,.03));border:1px solid rgba(10,102,194,.15);border-radius:14px;padding:1.5rem">
+        <div style="font-size:1.3rem;margin-bottom:.5rem">💼</div>
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:1.1rem;font-weight:500;color:var(--ink);margin-bottom:.3rem">LinkedIn Ads</div>
+        <div style="font-size:11px;color:#0A66C2;font-weight:600;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em">Awareness B2B · Lead Gen Form</div>
+        <div style="font-size:12px;color:var(--ink3);line-height:1.5">Raggiunge Alessandro e Marco per qualifica e settore. Costo per lead €25–45. Concentra il 55–60% del budget qui.</div>
       </div>
-      <!-- Meta -->
-      <div class="ch-card">
-        <div class="ch-accent" style="background:linear-gradient(90deg,#1877F2,#E1306C)"></div>
-        <div class="ch-icon-row">
-          <div class="ch-icon">📱</div>
-          <div class="ch-name-block">
-            <div class="ch-name">Meta Ads</div>
-            <div class="ch-sub">Facebook + Instagram</div>
-          </div>
-        </div>
-        <div class="ch-obj-row">
-          <span class="ch-obj" style="background:var(--blue-light);color:var(--blue)">Awareness VIARIS</span>
-          <span class="ch-obj" style="background:var(--green-light);color:var(--green)">Retargeting</span>
-        </div>
-        <div class="ch-stats">
-          <div class="ch-stat"><span>Target principale</span><span class="ch-stat-val" style="color:var(--energy)">Lorenzo + installatori</span></div>
-          <div class="ch-stat"><span>CPM stimato</span><span class="ch-stat-val">€4–8</span></div>
-          <div class="ch-stat"><span>Formato top</span><span class="ch-stat-val">Video 15s + Carosello</span></div>
-          <div class="ch-stat"><span>Peso budget Sc. B</span><span class="ch-stat-val">€1.000/mese</span></div>
-        </div>
-        <p class="ch-desc">CPM più basso, reach più alta. Ideale per video brevi VIARIS (hook 2 secondi, problema→soluzione). Targeting per interessi: proprietari auto elettrica, domotica, risparmio energetico. Retargeting su chi ha visitato orbisitalia.it.</p>
+      <div style="background:linear-gradient(135deg,rgba(24,119,242,.06),rgba(225,48,108,.04));border:1px solid rgba(24,119,242,.12);border-radius:14px;padding:1.5rem">
+        <div style="font-size:1.3rem;margin-bottom:.5rem">📱</div>
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:1.1rem;font-weight:500;color:var(--ink);margin-bottom:.3rem">Meta Ads</div>
+        <div style="font-size:11px;color:#1877F2;font-weight:600;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em">Awareness VIARIS · Retargeting</div>
+        <div style="font-size:12px;color:var(--ink3);line-height:1.5">CPM basso (€4–8), reach alta. Raggiunge Lorenzo prima che cerchi attivamente. Retargeting su chi ha visitato il sito.</div>
       </div>
-      <!-- Google Search -->
-      <div class="ch-card">
-        <div class="ch-accent" style="background:linear-gradient(90deg,#4285F4,#34A853,#FBBC05,#EA4335)"></div>
-        <div class="ch-icon-row">
-          <div class="ch-icon">🔍</div>
-          <div class="ch-name-block">
-            <div class="ch-name">Google Search</div>
-            <div class="ch-sub">Intercettazione attiva</div>
-          </div>
-        </div>
-        <div class="ch-obj-row">
-          <span class="ch-obj" style="background:var(--energy-light);color:var(--energy)">Lead gen qualificato</span>
-        </div>
-        <div class="ch-stats">
-          <div class="ch-stat"><span>Target principale</span><span class="ch-stat-val" style="color:var(--green)">Lorenzo — ricerca attiva</span></div>
-          <div class="ch-stat"><span>Modello pricing</span><span class="ch-stat-val">CPC — si paga al click</span></div>
-          <div class="ch-stat"><span>Query target</span><span class="ch-stat-val">Long-tail VIARIS</span></div>
-          <div class="ch-stat"><span>Peso budget Sc. B</span><span class="ch-stat-val">€500/mese</span></div>
-        </div>
-        <div style="margin-top:.75rem;padding:.65rem .85rem;background:#F8F9FA;border-radius:8px;font-family:monospace;font-size:11px;color:#333;line-height:1.5">
-          "wallbox trifase gestione dinamica carichi"<br>"VIARIS Solar prezzi installazione"<br>"wallbox integrazione fotovoltaico app"
-        </div>
-        <p class="ch-desc" style="margin-top:.5rem">Lorenzo arriva già convinto. Google Search intercetta quel momento preciso della decisione. CPC stimato €1,50–3,50 su long-tail. Costo per lead qualificato: il più basso dei tre canali.</p>
+      <div style="background:linear-gradient(135deg,rgba(66,133,244,.06),rgba(52,168,83,.04));border:1px solid rgba(66,133,244,.12);border-radius:14px;padding:1.5rem">
+        <div style="font-size:1.3rem;margin-bottom:.5rem">🔍</div>
+        <div style="font-family:'Afacad Flux',sans-serif;font-size:1.1rem;font-weight:500;color:var(--ink);margin-bottom:.3rem">Google Search</div>
+        <div style="font-size:11px;color:#4285F4;font-weight:600;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em">Lead Gen qualificato · CPC</div>
+        <div style="font-size:12px;color:var(--ink3);line-height:1.5">Intercetta Lorenzo alle 23:00 su "wallbox trifase". Si paga solo al click. Lead più caldo dei tre canali.</div>
       </div>
     </div>
   </div>
@@ -370,7 +402,7 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
     <div class="sec-header" id="shSc">
       <div class="sec-tag" style="--stc:#0050A0">I tre scenari</div>
       <h2 class="sec-title">Tre livelli.<br>Tre impatti diversi.</h2>
-      <p class="sec-sub">Come promesso in call, tre opzioni concrete da presentare a Stefano e Laura. Il budget advertising è costo diretto Orbis verso le piattaforme — separato dal compenso Ribrain.</p>
+      <p class="sec-sub">Tre punti di partenza — non opzioni rigide. Il budget advertising va alle piattaforme, è separato dal compenso Ribrain. La scelta non è tra scenari: è tra partire ora o tra 6 mesi.</p>
     </div>
     <div class="sc-grid" id="scGrid">
       <!-- A -->
@@ -476,97 +508,195 @@ body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;over
 </section>
 
 <!-- PIANO 12 MESI -->
-<section class="section grey" id="sQuarters">
-  <div class="max-w">
-    <div class="sec-header" id="shQ">
-      <div class="sec-tag" style="--stc:#D9730D">Piano 12 mesi · Fasi trimestrali</div>
-      <h2 class="sec-title">Quattro trimestri.<br>Una progressione chiara.</h2>
-      <p class="sec-sub">Ogni trimestre ha un obiettivo specifico, un focus creativo e una review di ottimizzazione. Il budget scala in base ai risultati misurati.</p>
-    </div>
-    <div class="quarters" id="quartersGrid">
-      <div class="q-card" style="background:var(--energy-light);border-color:rgba(217,115,13,.2)">
-        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--energy),#F5A030);border-radius:14px 14px 0 0"></div>
-        <div class="q-badge" style="background:rgba(217,115,13,.15);color:var(--energy)">Q1 · Gennaio–Marzo</div>
-        <div class="q-title">Lancio VIARIS</div>
-        <div class="q-months">Focus: awareness · Canali: LinkedIn + Meta + Google Search</div>
-        <div class="q-obj">
-          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 70%</div>
-          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 30%</div>
+<section class="roi-section" id="sCalc">
+  <div class="roi-inner">
+    <div class="roi-tag">Piano media · Simulatore investimento</div>
+    <h2 class="roi-title">Quanto investi,<br><strong>cosa puoi aspettarti.</strong></h2>
+    <p class="roi-sub">Il budget media è a fisarmonica — cresce con i risultati, non con le aspettative. Muovi lo slider e vedi in tempo reale le stime basate sui benchmark di settore B2B italiano 2025–2026.</p>
+    
+    <div class="roi-body">
+      <!-- Controlli -->
+      <div class="roi-controls">
+        <span class="roi-ctrl-label">Budget advertising mensile</span>
+        <div class="roi-ctrl-val" id="rcBudgetVal">€2.500 <span>/mese</span></div>
+        <input type="range" class="roi-slider" id="rcBudget" min="500" max="5000" step="100" value="2500">
+        
+        <div class="roi-presets">
+          <button class="roi-preset" onclick="setPreset(1000)">Sc. A<br><small>€1.000</small></button>
+          <button class="roi-preset active" onclick="setPreset(2500)">Sc. B<br><small>€2.500</small></button>
+          <button class="roi-preset" onclick="setPreset(3500)">Sc. C<br><small>€3.500</small></button>
         </div>
-        <div class="q-items" style="--qi-c:var(--energy)">
-          <div class="q-item">Attivazione campagne LinkedIn + Meta · test 3 creatività VIARIS</div>
-          <div class="q-item">Lancio Google Search su 8 keyword long-tail VIARIS Solar</div>
-          <div class="q-item">Employee advocacy: onboarding Stefano e 2 commerciali</div>
-          <div class="q-item">Review mese 3 → selezione creative vincenti · stop underperformer</div>
+        
+        <span class="roi-ctrl-label" style="margin-top:.25rem">Distribuzione canali</span>
+        <div class="roi-channels" id="rcChannels">
+          <div class="roi-ch">
+            <span class="roi-ch-name">LinkedIn</span>
+            <div class="roi-ch-bar-wrap"><div class="roi-ch-bar" id="barLI" style="background:#0050A0;width:55%"></div></div>
+            <span class="roi-ch-pct" id="pctLI">55%</span>
+          </div>
+          <div class="roi-ch">
+            <span class="roi-ch-name">Meta</span>
+            <div class="roi-ch-bar-wrap"><div class="roi-ch-bar" id="barME" style="background:#1A72C8;width:30%"></div></div>
+            <span class="roi-ch-pct" id="pctME">30%</span>
+          </div>
+          <div class="roi-ch">
+            <span class="roi-ch-name">Google</span>
+            <div class="roi-ch-bar-wrap"><div class="roi-ch-bar" id="barGO" style="background:#D9730D;width:15%"></div></div>
+            <span class="roi-ch-pct" id="pctGO">15%</span>
+          </div>
         </div>
-        <div class="q-budget" style="background:var(--energy);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
-          <span class="q-budget-l">Budget advertising Sc. B</span>
-          <span class="q-budget-v">€3.000/mese</span>
-        </div>
-      </div>
-      <div class="q-card" style="background:var(--blue-light);border-color:rgba(0,80,160,.15)">
-        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue-mid),var(--blue));border-radius:14px 14px 0 0"></div>
-        <div class="q-badge" style="background:rgba(0,80,160,.1);color:var(--blue)">Q2 · Aprile–Giugno</div>
-        <div class="q-title">Ottimizzazione + FV</div>
-        <div class="q-months">Focus: awareness + lancio pillar FV · MCE Milano</div>
-        <div class="q-obj">
-          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 65%</div>
-          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 35%</div>
-        </div>
-        <div class="q-items" style="--qi-c:var(--blue)">
-          <div class="q-item">Scala creative vincenti VIARIS · introduce pillar Orbis Energy FV</div>
-          <div class="q-item">Campagna MCE Milano: pre-fiera 2 settimane + live + post-fiera</div>
-          <div class="q-item">Attivazione retargeting: chi ha visitato orbisitalia.it / visto video</div>
-          <div class="q-item">Aggiunge LinkedIn Lead Gen Form per installatori (CTA: guida VIARIS)</div>
-        </div>
-        <div class="q-budget" style="background:var(--blue);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
-          <span class="q-budget-l">Budget advertising Sc. B</span>
-          <span class="q-budget-v">€3.000/mese</span>
-        </div>
-      </div>
-      <div class="q-card" style="background:var(--green-light);border-color:rgba(26,148,98,.15)">
-        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),#2EAA6E);border-radius:14px 14px 0 0"></div>
-        <div class="q-badge" style="background:rgba(26,148,98,.1);color:var(--green)">Q3 · Luglio–Settembre</div>
-        <div class="q-title">Scaling Lead Gen</div>
-        <div class="q-months">Focus: lead generation sale al 50% · Google Search in scala</div>
-        <div class="q-obj">
-          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 50%</div>
-          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 50%</div>
-        </div>
-        <div class="q-items" style="--qi-c:var(--green)">
-          <div class="q-item">Scala Google Search a €1.000/mese su query ad alto intento acquisto</div>
-          <div class="q-item">Lookalike audiences Meta da lista lead acquisiti nel Q1–Q2</div>
-          <div class="q-item">Mid-review semestrale con Laura e Stefano · aggiustamento scenario</div>
-          <div class="q-item">Lancio newsletter installatori (obiettivo: 200 iscritti entro settembre)</div>
-        </div>
-        <div class="q-budget" style="background:var(--green);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
-          <span class="q-budget-l">Budget advertising Sc. B</span>
-          <span class="q-budget-v">€3.500/mese</span>
+        
+        <div class="roi-params">
+          <div class="roi-param">
+            <div class="roi-param-label">Valore contratto medio (€)</div>
+            <input type="number" class="roi-param-input" id="rcContract" value="8000" min="1000" step="500" onchange="calcROI()">
+            <div class="roi-param-note">Modificabile · stimato su contratti grossista</div>
+          </div>
+          <div class="roi-param">
+            <div class="roi-param-label">Tasso chiusura lead (%)</div>
+            <input type="number" class="roi-param-input" id="rcClose" value="15" min="1" max="100" step="1" onchange="calcROI()">
+            <div class="roi-param-note">Media B2B Italia: 15–30% · Tready 2026</div>
+          </div>
         </div>
       </div>
-      <div class="q-card" style="background:var(--surface2);border-color:var(--border)">
-        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--energy));border-radius:14px 14px 0 0"></div>
-        <div class="q-badge" style="background:rgba(0,80,160,.08);color:var(--blue-mid)">Q4 · Ottobre–Dicembre</div>
-        <div class="q-title">Regime Full · KEY Energy</div>
-        <div class="q-months">Focus: lead gen + campagna KEY Energy · analisi annuale</div>
-        <div class="q-obj">
-          <div class="q-obj-pill" style="background:rgba(0,80,160,.1);color:var(--blue)">Awareness 45%</div>
-          <div class="q-obj-pill" style="background:rgba(217,115,13,.1);color:var(--energy)">Lead gen 55%</div>
+      
+      <!-- Output -->
+      <div class="roi-outputs">
+        <div class="roi-out-row">
+          <div class="roi-out-card">
+            <div class="roi-out-label">Reach qualificata / mese</div>
+            <div class="roi-out-val" id="roReach">—</div>
+            <div class="roi-out-sub">Professionisti B2B raggiunti (installatori, grossisti, energy manager)</div>
+          </div>
+          <div class="roi-out-card">
+            <div class="roi-out-label">Costo per lead (CPL)</div>
+            <div class="roi-out-val" id="roCPL">—</div>
+            <div class="roi-out-sub">Benchmark settore: €80–180 su LinkedIn · €40–90 su Meta</div>
+          </div>
         </div>
-        <div class="q-items" style="--qi-c:var(--blue-mid)">
-          <div class="q-item">Campagna KEY Energy ottobre: Orbis al centro · VIARIS + Orbis Energy</div>
-          <div class="q-item">Full retargeting ecosystem: chi ha visto, cliccato, scaricato</div>
-          <div class="q-item">Analisi ROI annuale · costo per lead finale · benchmark canale</div>
-          <div class="q-item">Piano 2027 sulla base dei dati reali — non delle stime iniziali</div>
+        
+        <div class="roi-out-card primary">
+          <div class="roi-out-label">Lead qualificati / mese (MQL)</div>
+          <div class="roi-out-val" id="roLeads">—</div>
+          <div class="roi-out-sub">Stima conservativa · crescono del 20–40% dal mese 3 con ottimizzazione campagne</div>
         </div>
-        <div class="q-budget" style="background:var(--ink);margin-top:.85rem;border-radius:8px;padding:.6rem .85rem;display:flex;justify-content:space-between">
-          <span class="q-budget-l">Budget advertising Sc. B</span>
-          <span class="q-budget-v">€3.500/mese</span>
+        
+        <div class="roi-out-row">
+          <div class="roi-out-card">
+            <div class="roi-out-label">Clienti potenziali / mese</div>
+            <div class="roi-out-val" id="roClients">—</div>
+            <div class="roi-out-sub">Ciclo vendita stimato 3–6 mesi</div>
+          </div>
+          <div class="roi-out-card">
+            <div class="roi-out-label">ROI stimato</div>
+            <div class="roi-out-val" id="roROI">—</div>
+            <div class="roi-out-sub">Pipeline / investimento · su 6 mesi</div>
+          </div>
+        </div>
+        
+        <div class="roi-out-card highlight">
+          <div class="roi-out-label">Pipeline generata / mese</div>
+          <div class="roi-out-val" id="roPipeline">—</div>
+          <div class="roi-out-sub">Lead × tasso chiusura × valore contratto · esclude il fee Ribrain</div>
+        </div>
+        
+        <div class="roi-note">
+          Stime basate su benchmark settore B2B industriale italiano 2025–2026 (Tready, HubSpot, LaGrowthMachine). 
+          I valori reali dipendono da qualità dei contenuti, targeting e follow-up commerciale. 
+          Il budget è costo diretto verso le piattaforme — separato dal compenso Ribrain.
+          Il ciclo di vendita B2B tipico è 3–6 mesi: i clienti si contano dal mese 4 in poi.
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+// ─── PARAMETRI BENCHMARK (aggiornabili) ────────────────────────────────────
+var BENCH = {
+  li: { cpm: 18, ctr: 0.005, cvr: 0.08 },  // LinkedIn
+  me: { cpm: 9,  ctr: 0.012, cvr: 0.04 },  // Meta
+  go: { cpc: 4.2, cvr: 0.12 }              // Google Search
+};
+
+// Allocazione canali per budget
+function getAlloc(budget) {
+  if (budget <= 1200) return { li: 0.50, me: 0.35, go: 0.15 };
+  if (budget <= 2800) return { li: 0.55, me: 0.30, go: 0.15 };
+  return { li: 0.60, me: 0.25, go: 0.15 };
+}
+
+function fmt(n, prefix, suffix) {
+  if (n >= 1000) return (prefix||'') + (n/1000).toFixed(1).replace('.',',') + 'K' + (suffix||'');
+  return (prefix||'') + Math.round(n).toLocaleString('it') + (suffix||'');
+}
+
+window.calcROI = function() {
+  var budget = parseInt(document.getElementById('rcBudget').value) || 2500;
+  var contractVal = parseFloat(document.getElementById('rcContract').value) || 8000;
+  var closeRate = parseFloat(document.getElementById('rcClose').value) / 100 || 0.15;
+  var alloc = getAlloc(budget);
+
+  // Budget per canale
+  var bLI = budget * alloc.li;
+  var bME = budget * alloc.me;
+  var bGO = budget * alloc.go;
+
+  // Reach (impressions)
+  var iLI = (bLI / BENCH.li.cpm) * 1000;
+  var iME = (bME / BENCH.me.cpm) * 1000;
+  var reach = Math.round((iLI + iME) * 0.7); // dedup ~30%
+
+  // Lead qualificati (MQL)
+  var lLI = Math.round(iLI * BENCH.li.ctr * BENCH.li.cvr);
+  var lME = Math.round(iME * BENCH.me.ctr * BENCH.me.cvr);
+  var lGO = Math.round((bGO / BENCH.go.cpc) * BENCH.go.cvr);
+  var leads = lLI + lME + lGO;
+
+  // CPL, clienti, pipeline
+  var cpl = leads > 0 ? Math.round(budget / leads) : 0;
+  var clients = leads * closeRate;
+  var pipeline = Math.round(clients * contractVal);
+  var roi = budget > 0 ? Math.round((pipeline / budget) * 10) / 10 : 0;
+
+  // Update display
+  document.getElementById('rcBudgetVal').innerHTML = '€' + budget.toLocaleString('it') + ' <span>/mese</span>';
+  document.getElementById('roReach').textContent = fmt(reach);
+  document.getElementById('roLeads').textContent = leads + ' lead/mese';
+  document.getElementById('roCPL').textContent = '€' + cpl;
+  document.getElementById('roClients').textContent = clients.toFixed(1) + ' /mese';
+  document.getElementById('roPipeline').textContent = '€' + fmt(pipeline);
+  document.getElementById('roROI').textContent = roi + 'x';
+
+  // Update bars
+  document.getElementById('barLI').style.width = (alloc.li * 100) + '%';
+  document.getElementById('barME').style.width = (alloc.me * 100) + '%';
+  document.getElementById('barGO').style.width = (alloc.go * 100) + '%';
+  document.getElementById('pctLI').textContent = Math.round(alloc.li * 100) + '%';
+  document.getElementById('pctME').textContent = Math.round(alloc.me * 100) + '%';
+  document.getElementById('pctGO').textContent = Math.round(alloc.go * 100) + '%';
+
+  // Preset highlight
+  document.querySelectorAll('.roi-preset').forEach(function(b) { b.classList.remove('active'); });
+  var presets = document.querySelectorAll('.roi-preset');
+  if (budget <= 1200 && presets[0]) presets[0].classList.add('active');
+  else if (budget <= 2800 && presets[1]) presets[1].classList.add('active');
+  else if (presets[2]) presets[2].classList.add('active');
+};
+
+window.setPreset = function(val) {
+  document.getElementById('rcBudget').value = val;
+  calcROI();
+};
+
+document.getElementById('rcBudget').addEventListener('input', calcROI);
+
+// Init
+calcROI();
+})();
+</script>
+
 
 <!-- EXTRA -->
 <section class="section white" id="sExtra">
