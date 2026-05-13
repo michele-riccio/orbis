@@ -987,7 +987,6 @@
 
 <script>
 // ─── STATE ───────────────────────────────────────────────
-const GEMINI_API_KEY = 'AIzaSyCXbl8U8TB2ZAcz206XSuIY8JCU6E5AxeA';
 let state = { nome:'', tipo:'', mq:80, ore:8, fascia:'', sistemi:'', obiettivo:'' };
 let currentStep = 1;
 
@@ -1055,90 +1054,227 @@ async function calcolaRisparmio() {
 
   document.getElementById('step-5').classList.remove('active');
   document.getElementById('loading-card').style.display = 'block';
-  
+
   const msgs = [
-    "L'AI sta analizzando il tuo profilo…",
-    "Calcolo dei consumi energetici…",
-    "Selezione prodotti Orbis più adatti…",
-    "Elaborazione risparmio personalizzato…"
+    "Analizziamo i tuoi dati di consumo...",
+    "Confrontiamo con i benchmark del settore...",
+    "Stiamo calibrando la stima sulla tua situazione...",
+    "Selezioniamo i prodotti Orbis più adatti...",
+    "Pronto. Ecco la tua analisi personalizzata."
   ];
   let mi = 0;
+  document.getElementById('loading-msg').textContent = msgs[0];
   const msgInterval = setInterval(() => {
     mi = (mi + 1) % msgs.length;
     document.getElementById('loading-msg').textContent = msgs[mi];
-  }, 1600);
+  }, 1100);
 
-  const tipoLabel = {appartamento:'appartamento',ufficio:'ufficio/studio professionale',negozio:'negozio o locale commerciale',capannone:'capannone industriale o magazzino'};
-  const sistLabel = {nessuno:'nessun sistema di controllo (interruttori manuali)',termostato_base:'termostato analogico di vecchia generazione',timer_manuali:'timer manuali programmabili',smart_parziale:'qualche dispositivo smart già installato parzialmente'};
-  const obLabel = {risparmio_bolletta:'ridurre il più possibile la bolletta elettrica',comfort:'massimizzare il comfort termico',sostenibilita:'ridurre impatto ambientale e emissioni CO2',ev_ricarica:'integrare la ricarica di un veicolo elettrico'};
-
-  const prompt = `Sei un consulente energetico esperto di Orbis Italia S.p.A., azienda leader in dispositivi per efficienza energetica (termostati smart, timer digitali, rilevatori di presenza), colonnine di ricarica EV sotto il brand VIARIS, e strutture di supporto per impianti fotovoltaici.
-
-Un utente ha compilato il seguente profilo:
-- Nome: ${state.nome}
-- Tipo di immobile: ${tipoLabel[state.tipo]}
-- Superficie: ${state.mq} m²
-- Ore di utilizzo giornaliero: ${state.ore} ore/giorno
-- Fascia oraria principale: ${state.fascia}
-- Sistemi attualmente installati: ${sistLabel[state.sistemi]}
-- Obiettivo principale: ${obLabel[state.obiettivo]}
-
-Crea un'analisi energetica personalizzata per ${state.nome}. Rispondi SOLO in formato JSON valido con questa struttura esatta (nessun testo fuori dal JSON):
-
-{
-  "risparmio_min": numero intero in euro/anno (stima conservativa),
-  "risparmio_max": numero intero in euro/anno (stima ottimistica),
-  "risparmio_label": "es. €420 – €680 / anno",
-  "headline": "frase ad alto impatto di massimo 10 parole sul risparmio possibile",
-  "situazione": "2-3 frasi che descrivono la situazione attuale di ${state.nome} con i suoi dati specifici, problemi energetici tipici del suo profilo, sprechi probabili",
-  "consigli": "2-3 azioni concrete e prioritarie che può fare subito per ridurre i consumi, molto specifiche per il suo profilo",
-  "prodotti": [
-    {
-      "nome": "nome prodotto Orbis reale",
-      "categoria": "Efficienza Energetica o EV Charging o Fotovoltaico",
-      "descrizione": "come risolve il problema specifico di questo utente",
-      "impatto": "es. -25% sui consumi di riscaldamento",
-      "icona": "emoji rilevante"
-    }
-  ],
-  "stat_co2": "es. -320 kg CO₂/anno",
-  "stat_anni_rientro": "es. 2,5 anni",
-  "stat_kwh": "es. -1.200 kWh/anno"
-}
-
-Regole:
-- Consiglia 2-3 prodotti Orbis reali (termostati smart, timer digitali, rilevatori di presenza PIR, colonnine VIARIS se ha auto EV o lo vuole)
-- Sii specifico e numerico, usa i dati forniti dall'utente
-- Tono consulenziale e professionale ma accessibile
-- Stima credibile basata su dati reali del settore energetico italiano 2024-2025`;
+  // Simula latenza realistica (motore deterministico locale)
+  await new Promise(r => setTimeout(r, 3800));
+  clearInterval(msgInterval);
+  document.getElementById('loading-card').style.display = 'none';
 
   try {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 1200 }
-      })
-    });
-
-    const data = await res.json();
-    clearInterval(msgInterval);
-    document.getElementById('loading-card').style.display = 'none';
-
-    let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    raw = raw.replace(/```json|```/g, '').trim();
-    const r = JSON.parse(raw);
-
-    renderResult(r);
-
-  } catch(e) {
-    clearInterval(msgInterval);
-    document.getElementById('loading-card').style.display = 'none';
-    document.getElementById('result-card').style.display = 'block';
-    document.getElementById('result-card').innerHTML = `<div class="error-box">⚠️ Errore nella chiamata API Gemini.<br><small>Verifica che la API key sia corretta e che il modello gemini-2.0-flash sia disponibile.</small><br><br><button class="btn-back" onclick="restart()">↩ Riprova</button></div>`;
+    const result = computeSavings(state);
+    renderResult(result);
+  } catch (e) {
+    document.getElementById('error-card').style.display = 'block';
+    document.getElementById('error-card').innerHTML = `<div style="text-align:center;padding:2rem"><div style="font-size:2rem;margin-bottom:.5rem">⚠️</div><div>Si è verificato un errore.</div><br><button class="btn-back" onclick="restart()">↩ Riprova</button></div>`;
     console.error(e);
   }
+}
+
+// ─── MOTORE DI CALCOLO DETERMINISTICO ──────────────────────────
+function computeSavings(s) {
+  // Baseline €/mq/anno per tipo immobile (consumo elettrico medio)
+  const baseRate = {
+    appartamento: 11.5,
+    ufficio:      14.5,
+    negozio:      18.0,
+    capannone:    22.5
+  };
+
+  // Modifier ore d'uso giornaliere (slider mq * ore)
+  const oreMul = Math.max(0.6, Math.min(1.6, s.ore / 8));
+
+  // Modifier fascia oraria
+  const fasciaMul = {
+    mattina:    0.95,
+    pomeriggio: 1.05,
+    sera:       1.20,
+    continuo:   1.35
+  }[s.fascia] || 1.0;
+
+  // Modifier sistemi esistenti (più sono vecchi/assenti, maggiore margine)
+  const sistemiMul = {
+    nessuno:          1.0,
+    termostato_base:  0.78,
+    timer_manuali:    0.85,
+    smart_parziale:   0.55
+  }[s.sistemi] || 1.0;
+
+  // Modifier obiettivo (incentivo personalizzato)
+  const objBoost = {
+    risparmio_bolletta: 1.0,
+    comfort:            0.92,
+    sostenibilita:      1.05,
+    ev_ricarica:        1.18
+  }[s.obiettivo] || 1.0;
+
+  // Costo energia attuale stimato
+  const costoAnnoAttuale = baseRate[s.tipo] * s.mq * oreMul * fasciaMul;
+  // Risparmio potenziale con tecnologia Orbis (% efficienza)
+  const efficienzaOrbis = 0.18 + (sistemiMul - 0.5) * 0.25; // 18-30% range
+  let risparmio = costoAnnoAttuale * efficienzaOrbis * objBoost;
+  risparmio = Math.round(risparmio / 10) * 10; // arrotonda a 10€
+
+  // Investimento medio kit Orbis
+  const investimento = {
+    appartamento: 420,
+    ufficio:      680,
+    negozio:      950,
+    capannone:    1450
+  }[s.tipo];
+
+  // ROI in mesi
+  const roiMesi = Math.max(8, Math.round((investimento / risparmio) * 12));
+
+  // CO2 risparmiata (kgCO2/kWh ≈ 0.31, prezzo kWh ≈ 0.28€)
+  const kwhRisparmiati = risparmio / 0.28;
+  const co2Kg = Math.round(kwhRisparmiati * 0.31);
+
+  // Prodotti consigliati per obiettivo
+  const prodotti = selectProducts(s);
+
+  // Testo situazione
+  const situazione = generateSituazione(s, costoAnnoAttuale);
+
+  // Consigli
+  const consigli = generateConsigli(s);
+
+  return {
+    name: s.name,
+    risparmio,
+    investimento,
+    roiMesi,
+    co2Kg,
+    kwhRisparmiati: Math.round(kwhRisparmiati),
+    situazione,
+    consigli,
+    prodotti
+  };
+}
+
+function selectProducts(s) {
+  const all = {
+    crono: { name: "Cronotermostato Orbis", desc: "Gestione automatica del riscaldamento per fasce orarie. Risparmio fino al 12% sulla bolletta termica.", icon: "🌡️" },
+    timer: { name: "Timer Programmabile", desc: "Spegnimento automatico carichi notturni e standby. Ideale per illuminazione e elettrodomestici.", icon: "⏱️" },
+    presence: { name: "Rilevatore Presenza", desc: "Accensione luci automatica e spegnimento dopo inattività. Perfetto per ambienti commerciali.", icon: "👁️" },
+    viaris: { name: "VIARIS Wallbox EV", desc: "Stazione di ricarica intelligente per veicoli elettrici. Gestione dinamica dei carichi.", icon: "🔌" },
+    viarisSolar: { name: "VIARIS Solar", desc: "Wallbox con integrazione fotovoltaica. Ricarica gratuita con surplus solare.", icon: "☀️" },
+    fv: { name: "Orbis Energy · Strutture FV", desc: "Sistema di montaggio fotovoltaico europeo. Garanzia 25 anni, design ottimizzato.", icon: "⚡" }
+  };
+
+  let selected = [];
+  // In base a obiettivo
+  if (s.obiettivo === 'risparmio_bolletta') {
+    selected = [all.crono, all.timer, all.presence];
+  } else if (s.obiettivo === 'comfort') {
+    selected = [all.crono, all.presence, all.timer];
+  } else if (s.obiettivo === 'sostenibilita') {
+    selected = [all.fv, all.crono, all.viarisSolar];
+  } else if (s.obiettivo === 'ev_ricarica') {
+    selected = [all.viaris, all.viarisSolar, all.crono];
+  }
+
+  // Per capannoni/negozi sostituisce con presence (più rilevante)
+  if (s.tipo === 'capannone' || s.tipo === 'negozio') {
+    selected[2] = all.presence;
+  }
+
+  return selected;
+}
+
+function generateSituazione(s, costoAnno) {
+  const tipoLabel = {appartamento:'appartamento',ufficio:'ufficio',negozio:'negozio commerciale',capannone:'capannone'}[s.tipo];
+  const sistemiLabel = {
+    nessuno: "Senza sistemi di controllo automatico",
+    termostato_base: "Con un termostato base",
+    timer_manuali: "Con qualche timer manuale",
+    smart_parziale: "Con alcuni dispositivi smart"
+  }[s.sistemi];
+  const fasciaLabel = {
+    mattina: "soprattutto al mattino",
+    pomeriggio: "principalmente nel pomeriggio",
+    sera: "con picco serale",
+    continuo: "in modo continuativo durante la giornata"
+  }[s.fascia];
+
+  const costoMensile = Math.round(costoAnno / 12);
+  return `${sistemiLabel}, un ${tipoLabel} di ${s.mq} m² utilizzato ${s.ore}h al giorno ${fasciaLabel} ha un costo energetico stimato di circa <strong>€${costoMensile}/mese</strong> (€${Math.round(costoAnno).toLocaleString('it-IT')}/anno). Il margine di efficienza non sfruttato è significativo — soprattutto sulle fasce di consumo non controllate.`;
+}
+
+function generateConsigli(s) {
+  const baseConsigli = [
+    "<strong>Automatizza la gestione termica</strong>: un cronotermostato Orbis riduce il consumo del riscaldamento gestendo zone e fasce orarie senza intervento manuale.",
+    "<strong>Elimina i consumi fantasma</strong>: i timer Orbis spengono automaticamente carichi notturni e dispositivi in standby, che pesano fino al 10% della bolletta annua."
+  ];
+
+  if (s.tipo === 'capannone' || s.tipo === 'negozio') {
+    baseConsigli.push("<strong>Rilevatori di presenza</strong> per ambienti grandi e a uso intermittente: spegnimento automatico delle aree non occupate, soprattutto magazzini, depositi e zone tecniche.");
+  } else {
+    baseConsigli.push("<strong>Programmazione settimanale</strong>: imposta scenari diversi feriale/weekend per evitare consumi inutili nei giorni di basso utilizzo.");
+  }
+
+  if (s.obiettivo === 'ev_ricarica') {
+    baseConsigli.push("<strong>VIARIS Wallbox</strong> è progettata per non sovraccaricare il contatore: gestisce la potenza disponibile in modo dinamico anche quando hai lavatrice + pompa di calore attive contemporaneamente.");
+  }
+
+  if (s.obiettivo === 'sostenibilita') {
+    baseConsigli.push("<strong>Considera il fotovoltaico</strong>: con i sistemi di montaggio Orbis Energy puoi installare pannelli con garanzia 25 anni e design europeo. Il ROI medio è 6-8 anni.");
+  }
+
+  return baseConsigli.slice(0, 4);
+}
+
+function renderResult(r) {
+  document.getElementById('result-greeting').textContent = `Analisi per ${r.name}`;
+  document.getElementById('result-headline').textContent = "Il tuo potenziale risparmio energetico";
+  document.getElementById('savings-num').innerHTML = `€${r.risparmio.toLocaleString('it-IT')}<span style="font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.6)">/anno</span>`;
+
+  document.getElementById('result-situazione').innerHTML = r.situazione;
+
+  document.getElementById('result-consigli').innerHTML = r.consigli.map(c => `<div style="padding:.85rem 0;border-bottom:1px solid #eee">${c}</div>`).join('');
+
+  document.getElementById('result-prodotti').innerHTML = r.prodotti.map(p => `
+    <div style="display:flex;gap:1rem;padding:1rem;background:#F8FAFC;border-radius:10px;margin-bottom:.75rem">
+      <div style="font-size:1.6rem;flex-shrink:0">${p.icon}</div>
+      <div>
+        <div style="font-weight:600;color:#0A1628;margin-bottom:.2rem">${p.name}</div>
+        <div style="font-size:13px;color:#5A6B82;line-height:1.5">${p.desc}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('result-stats').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1rem">
+      <div style="text-align:center;padding:1rem;background:#F8FAFC;border-radius:10px">
+        <div style="font-size:1.5rem;font-weight:600;color:#0050A0">${r.roiMesi}</div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5A6B82;margin-top:.2rem">mesi ROI</div>
+      </div>
+      <div style="text-align:center;padding:1rem;background:#F8FAFC;border-radius:10px">
+        <div style="font-size:1.5rem;font-weight:600;color:#1A9462">-${r.co2Kg}<span style="font-size:.7rem;color:#5A6B82">kg</span></div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5A6B82;margin-top:.2rem">CO₂/anno</div>
+      </div>
+      <div style="text-align:center;padding:1rem;background:#F8FAFC;border-radius:10px">
+        <div style="font-size:1.5rem;font-weight:600;color:#D9730D">${r.kwhRisparmiati.toLocaleString('it-IT')}</div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5A6B82;margin-top:.2rem">kWh/anno</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('result-card').style.display = 'block';
+  document.getElementById('result-card').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 // ─── RENDER ──────────────────────────────────────────────
