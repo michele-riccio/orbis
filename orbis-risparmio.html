@@ -1153,7 +1153,7 @@ function computeSavings(s) {
   const consigli = generateConsigli(s);
 
   return {
-    name: s.name,
+    nome: s.nome,
     risparmio,
     investimento,
     roiMesi,
@@ -1238,39 +1238,54 @@ function generateConsigli(s) {
 }
 
 function renderResult(r) {
-  document.getElementById('result-greeting').textContent = `Analisi per ${r.name}`;
+  document.getElementById('result-greeting').textContent = r.nome ? `Analisi per ${r.nome}` : 'La tua analisi personalizzata';
   document.getElementById('result-headline').textContent = "Il tuo potenziale risparmio energetico";
-  document.getElementById('savings-num').innerHTML = `€${r.risparmio.toLocaleString('it-IT')}<span style="font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.6)">/anno</span>`;
+  
+  // Animazione count-up risparmio
+  const savEl = document.getElementById('savings-num');
+  let cur = 0;
+  const target = r.risparmio;
+  const dur = 1200; const step = 16;
+  const inc = target / (dur/step);
+  const tick = () => {
+    cur = Math.min(target, cur + inc);
+    savEl.innerHTML = `€${Math.round(cur).toLocaleString('it-IT')}<span style="font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.6)">/anno</span>`;
+    if (cur < target) requestAnimationFrame(tick);
+  };
+  tick();
 
   document.getElementById('result-situazione').innerHTML = r.situazione;
 
   document.getElementById('result-consigli').innerHTML = r.consigli.map(c => `<div style="padding:.85rem 0;border-bottom:1px solid #eee">${c}</div>`).join('');
 
   document.getElementById('result-prodotti').innerHTML = r.prodotti.map(p => `
-    <div style="display:flex;gap:1rem;padding:1rem;background:#F8FAFC;border-radius:10px;margin-bottom:.75rem">
-      <div style="font-size:1.6rem;flex-shrink:0">${p.icon}</div>
+    <div class="product-chip">
+      <div class="product-chip-icon">${p.icon}</div>
       <div>
-        <div style="font-weight:600;color:#0A1628;margin-bottom:.2rem">${p.name}</div>
-        <div style="font-size:13px;color:#5A6B82;line-height:1.5">${p.desc}</div>
+        <div class="product-chip-name">${p.name}</div>
+        <div class="product-chip-desc">${p.desc}</div>
       </div>
+      <div class="product-chip-badge">${p.badge || '↓ bolletta'}</div>
     </div>
   `).join('');
 
+  
+  // Grafico risparmio cumulato 5 anni
+  const annoVal = r.risparmio;
+  const cum = [annoVal, annoVal*2, annoVal*3, annoVal*4, annoVal*5];
+  const maxC = cum[4];
+  const barsHtml = cum.map((v,i)=>{
+    const h = (v/maxC*100);
+    return `<div style="display:flex;flex-direction:column;align-items:center;flex:1">
+      <div style="font-size:10.5px;color:#0050A0;font-weight:600;margin-bottom:.35rem">€${(v/1000).toFixed(1)}K</div>
+      <div style="width:100%;background:linear-gradient(to top,#0050A0,#1A72C8);border-radius:6px 6px 0 0;height:${h}%;min-height:30px;transition:height 1s cubic-bezier(0.16,1,0.3,1);transform-origin:bottom;animation:growBar 1s cubic-bezier(0.16,1,0.3,1) forwards"></div>
+      <div style="font-size:10px;color:#5A6B82;margin-top:.4rem;font-weight:500">Anno ${i+1}</div>
+    </div>`;
+  }).join('');
   document.getElementById('result-stats').innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1rem">
-      <div style="text-align:center;padding:1rem;background:#F8FAFC;border-radius:10px">
-        <div style="font-size:1.5rem;font-weight:600;color:#0050A0">${r.roiMesi}</div>
-        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5A6B82;margin-top:.2rem">mesi ROI</div>
-      </div>
-      <div style="text-align:center;padding:1rem;background:#F8FAFC;border-radius:10px">
-        <div style="font-size:1.5rem;font-weight:600;color:#1A9462">-${r.co2Kg}<span style="font-size:.7rem;color:#5A6B82">kg</span></div>
-        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5A6B82;margin-top:.2rem">CO₂/anno</div>
-      </div>
-      <div style="text-align:center;padding:1rem;background:#F8FAFC;border-radius:10px">
-        <div style="font-size:1.5rem;font-weight:600;color:#D9730D">${r.kwhRisparmiati.toLocaleString('it-IT')}</div>
-        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5A6B82;margin-top:.2rem">kWh/anno</div>
-      </div>
-    </div>
+    <div class="stat-box"><div class="stat-val">${r.co2Kg} kg</div><div class="stat-label">CO₂ risparmiata / anno</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#1A9462">${r.kwhRisparmiati.toLocaleString('it-IT')}</div><div class="stat-label">kWh in meno / anno</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#D9730D">${r.roiMesi} mesi</div><div class="stat-label">Rientro investimento</div></div>
   `;
 
   document.getElementById('result-card').style.display = 'block';
@@ -1278,38 +1293,7 @@ function renderResult(r) {
 }
 
 // ─── RENDER ──────────────────────────────────────────────
-function renderResult(r) {
-  document.getElementById('result-greeting').textContent = `Analisi per ${state.nome}`;
-  document.getElementById('result-headline').textContent = r.headline || 'Ecco il tuo potenziale risparmio';
-  document.getElementById('savings-num').innerHTML = `${r.risparmio_label || '—'}<span>/ anno</span>`;
 
-  document.getElementById('result-situazione').textContent = r.situazione;
-  document.getElementById('result-consigli').textContent = r.consigli;
-
-  // Prodotti
-  const grid = document.getElementById('result-prodotti');
-  grid.innerHTML = '';
-  (r.prodotti || []).forEach(p => {
-    grid.innerHTML += `
-      <div class="product-chip">
-        <div class="product-chip-icon">${p.icona || '⚡'}</div>
-        <div>
-          <div class="product-chip-name">${p.nome}</div>
-          <div class="product-chip-desc">${p.descrizione}</div>
-        </div>
-        <div class="product-chip-badge">${p.impatto}</div>
-      </div>`;
-  });
-
-  // Stats
-  document.getElementById('result-stats').innerHTML = `
-    <div class="stat-box"><div class="stat-val">${r.stat_co2 || '—'}</div><div class="stat-label">CO₂ risparmiata</div></div>
-    <div class="stat-box"><div class="stat-val">${r.stat_kwh || '—'}</div><div class="stat-label">kWh in meno / anno</div></div>
-    <div class="stat-box"><div class="stat-val">${r.stat_anni_rientro || '—'}</div><div class="stat-label">Rientro investimento</div></div>`;
-
-  document.getElementById('result-card').style.display = 'block';
-  document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
 
 // ─── RESTART ─────────────────────────────────────────────
 function restart() {
